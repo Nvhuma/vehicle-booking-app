@@ -61,7 +61,7 @@ builder.Services.AddDbContext<ApplicationDBContext>((serviceProvider, options) =
 {
     var envServices = serviceProvider.GetRequiredService<IENVServices>();
     options.UseSqlServer(envServices.GetConnectionString());
-    
+
     /*  This cors function was removed because its implemented below. but if things fail.
     Re-enable it
     builder.Services.AddCors();
@@ -83,15 +83,17 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<ApplicationDBContext>()
 .AddDefaultTokenProviders(); // Add this line to register default token providers
 
-builder.Services.AddAuthentication(options =>{
-    options.DefaultAuthenticateScheme = 
-    options.DefaultChallengeScheme = 
-    options.DefaultForbidScheme = 
-    options.DefaultScheme = 
-    options.DefaultSignInScheme = 
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme =
+    options.DefaultChallengeScheme =
+    options.DefaultForbidScheme =
+    options.DefaultScheme =
+    options.DefaultSignInScheme =
     options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
 
-}).AddJwtBearer((options) => {
+}).AddJwtBearer((options) =>
+{
 
     var envServices = builder.Services.BuildServiceProvider().GetRequiredService<IENVServices>();
 
@@ -110,10 +112,11 @@ builder.Services.AddAuthentication(options =>{
 });
 
 //dependency injection for the Interfaces, Services and Repositories
-builder.Services.AddScoped<ITokenService, TokenService>();
-
-//builder.Services.AddTransient<IEmailService, EmailService>();
+builder.Services.AddTransient<IEmailService, EmailService>();
+builder.Services.AddScoped<IIdService, IdService>();
 builder.Services.AddScoped<IPasswordHistoryService, PasswordHistoryService>();
+builder.Services.AddScoped<ITitleCaseService, TitleCaseService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 
 var app = builder.Build();

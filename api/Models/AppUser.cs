@@ -8,6 +8,8 @@ namespace api.Models
         public string Surname { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string IdentityNumber { get; set; }
+        public string Gender { get; set; }
+        public string CitizenshipStatus { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public List<UserPasswordHistory> UserPasswordHistories  { get; set; } = new List<UserPasswordHistory>();
         public List<CardDetails> Cards { get; set; } = new List<CardDetails>();

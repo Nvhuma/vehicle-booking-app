@@ -48,10 +48,5 @@ namespace api.Services
             }
             return false;
         }
-
-        Task<UserPasswordHistory> IPasswordHistoryService.AddPasswordAsync(string userID, string hashedPassword)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
