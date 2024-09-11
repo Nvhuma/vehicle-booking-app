@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore;
+using api.Extensions;
 
 
 namespace api.Controllers
@@ -192,7 +193,58 @@ namespace api.Controllers
         public IActionResult Logout() { return null; }
 
         [HttpPost("change-password")]
-        public IActionResult ChangePassword([FromBody] ChangePasswordDto model) { return Ok(); }
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordDto) 
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try 
+            {
+                var userEmail = User.GetUserEmail();
+                var user = await _userManager.FindByEmailAsync(userEmail);
+                if (user == null)
+                {
+                    return BadRequest("Invalid user.");
+                }
+
+                var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+                // checking if the current ACTIVE!!!! passwords match 
+                var passwordVerificationResult = _userManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, changePasswordDto.NewPassword);
+                if (passwordVerificationResult == PasswordVerificationResult.Success)
+                {
+                    return BadRequest(new {errors = new[] {"You cannot reuse your current password"}});
+                }
+
+                     var reusedPeriod = TimeSpan.FromDays(180);
+
+                     //checking reused password history 
+
+                     if (await _passwordHistoryService.IsPasswordReusedAsync(user.Id, changePasswordDto.NewPassword, reusedPeriod))
+                     {
+                        return BadRequest(new {errors = new[]{"You cannot reuse a previous password."}});
+                     }
+
+                     var result = await _userManager.ResetPasswordAsync(user, resetToken, changePasswordDto.NewPassword);
+
+                     await _userManager.ResetAccessFailedCountAsync(user);
+
+                     return Ok("Password has been changes successfully");
+
+            }
+
+                    //possible pitfall hance the logging  
+             catch (Exception ex)
+             {
+                    _logger.LogError(ex, "Error occurred during user registration.");
+                return StatusCode(500, "An error occurred while processing your request. Please try again later.");
+             }
+            
+
+            }
+        
 
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPasswordDto)
