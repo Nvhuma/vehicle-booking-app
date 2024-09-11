@@ -4,6 +4,7 @@ using api.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace api.Controllers
 {
     [ApiController]
@@ -15,6 +16,8 @@ namespace api.Controllers
         private readonly IEmailService _emailService;
         private readonly ITokenService _tokenService;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly IIdService _idService;
+        private readonly ITitleCaseService _titleCaseService;
 
         private readonly IPasswordHistoryService _passwordHistoryService;
 
@@ -23,21 +26,118 @@ namespace api.Controllers
             ITokenService tokenService,
             SignInManager<AppUser> signInManager,
             IEmailService emailService,
-            IPasswordHistoryService passwordHistoryService)
+            IPasswordHistoryService passwordHistoryService,
+            IIdService idService,
+            ITitleCaseService titleCaseService)
         {
             _userManager = userManager;
             _tokenService = tokenService;
             _signInManager = signInManager;
             _emailService = emailService;
             _passwordHistoryService = passwordHistoryService;
+            _idService = idService;
+            _titleCaseService = titleCaseService;
         }
-
-
 
 
         // Your methods
         [HttpPost("register")]
-        public IActionResult Register([FromBody] RegisterDto model) { return null; }
+        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto) 
+        { 
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var existingUser = await _userManager.FindByEmailAsync(registerDto.Email.ToLower());
+                if (existingUser != null)
+                {
+                    return BadRequest(new { errors = new[] { "Email already exists." } });
+                }
+
+                var idExtractions = await _idService.ExtractIdDetailsAsync(registerDto.IdentityNumber);
+
+                var appUser = new AppUser
+                {
+                    Name =  _titleCaseService.ToTitleCase(registerDto.Name).Trim(),
+                    Surname = _titleCaseService.ToTitleCase(registerDto.Surname).Trim(),
+                    DateOfBirth = idExtractions.DateOfBirth,
+                    IdentityNumber = registerDto.IdentityNumber,
+                    CreatedDate =  DateTime.Now,
+                    UserName = registerDto.UserName,
+                    Email = registerDto.Email.ToLower(),
+                    PhoneNumber = registerDto.PhoneNumber,
+                    CitizenshipStatus = idExtractions.CitizenshipStatus,
+                    Gender = idExtractions.Gender,
+                };
+
+                var createdUser = await _userManager.CreateAsync(appUser, registerDto.Password);
+
+                if (createdUser.Succeeded)
+                {
+                    // Save the password history
+                    var passwordHash = _userManager.PasswordHasher.HashPassword(appUser, registerDto.Password);
+                    await _passwordHistoryService.AddPasswordAsync(appUser.Id, passwordHash);
+
+                    var emailToken = await _userManager.GenerateEmailConfirmationTokenAsync(appUser);
+                    var confirmationLink = Url.Action("ConfirmEmail",
+                                                      "Account",
+                                                      new
+                                                      {
+                                                          userId = appUser.Id,
+                                                          token = emailToken
+                                                      },
+                                                      Request.Scheme);
+
+                    var recipientEmail = registerDto.Email.ToLower();
+                    var subject = "Confirm Your Email";
+                    var link = confirmationLink;
+                    var fullName = $"{_titleCaseService.ToTitleCase(registerDto.Name).Trim()} {_titleCaseService.ToTitleCase(registerDto.Surname).Trim()}";
+                    Console.WriteLine(emailToken);
+
+                    try
+                    {
+                        await _emailService.SendEmailAsync(recipientEmail, subject, fullName, link, "WelcomeEmail");
+                    }
+                    catch (Exception ex)
+                    {
+                        await _userManager.DeleteAsync(appUser); // Cleanup by deleting the created user
+                        return StatusCode(500, $"An error occurred while sending the confirmation email. Please try again.");
+                    }
+
+                    try
+                    {
+                        var roleResult = await _userManager.AddToRoleAsync(appUser, "SuperUser");
+
+                        if (roleResult.Succeeded)
+                        {
+                            return Ok(new { message = "User registered successfully. Please check your email to confirm your account." });
+                        }
+                        else
+                        {
+                            return StatusCode(500, new { errors = roleResult.Errors.Select(e => e.Description) });
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Correctly return a response with the proper IActionResult and correct exception reference
+                        return StatusCode(500, new { message = "An internal server error occurred.", exception = ex.Message });
+                    }
+
+                }
+                else
+                {
+                    return StatusCode(500, new { errors = createdUser.Errors.Select(e => e.Description) });
+                }
+            }
+            catch (Exception e) // Catch any exceptions that occur during the process
+            {
+                
+                return StatusCode(500, new { message = "An internal server error occurred. This", exception = e.Message });
+            } 
+        }
 
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginDto model) { return null; }
