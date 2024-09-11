@@ -1,8 +1,10 @@
+using System.Web;
 using api.DTOs.AccountDtos;
 using api.Interfaces;
 using api.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 
 namespace api.Controllers
@@ -21,6 +23,8 @@ namespace api.Controllers
 
         private readonly IPasswordHistoryService _passwordHistoryService;
 
+          private readonly ILogger<AccountController> _logger;
+
         public AccountController(
             UserManager<AppUser> userManager,
             ITokenService tokenService,
@@ -28,7 +32,8 @@ namespace api.Controllers
             IEmailService emailService,
             IPasswordHistoryService passwordHistoryService,
             IIdService idService,
-            ITitleCaseService titleCaseService)
+            ITitleCaseService titleCaseService, 
+            ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _tokenService = tokenService;
@@ -37,6 +42,7 @@ namespace api.Controllers
             _passwordHistoryService = passwordHistoryService;
             _idService = idService;
             _titleCaseService = titleCaseService;
+            _logger = logger;
         }
 
 
@@ -149,7 +155,45 @@ namespace api.Controllers
         public IActionResult ChangePassword([FromBody] ChangePasswordDto model) { return Ok(); }
 
         [HttpPost("forgot-password")]
-        public IActionResult ForgotPassword([FromBody] ForgotPasswordDto model) { return Ok(); }
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPasswordDto)
+         { 
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                 var user = await _userManager.FindByEmailAsync(forgotPasswordDto.Email);
+                 if (user == null)
+                 {
+                    return BadRequest("User not found");
+                 }
+
+
+                 var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+                 var encodedToken = HttpUtility.UrlEncode(resetToken);
+                 if (resetToken == null)
+                 {
+                     return StatusCode(500, "Reset link could not be generated, please try again.");
+                 }
+
+                 var resetLink =  $"http://localhost:5173/resetpassword?userId={user.Id}&token={encodedToken}";
+
+                 var recipient = forgotPasswordDto.Email;
+                 var subject = "Reset Password Request";
+                 var link = resetLink; 
+                  
+                await _emailService.SendEmailAsync(recipient, subject, user.Name, link, "forgotPassword");
+
+                return Ok("Password reset email sent successfully.Please check email");
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred during user registration.");
+                return StatusCode(500, "An error occurred while processing your request. Please try again later.");
+            }
+         }
 
 
         [HttpGet("confirm-email")]
