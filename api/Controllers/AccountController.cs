@@ -237,7 +237,30 @@ namespace api.Controllers
 
 
         [HttpGet("confirm-email")]
-        public IActionResult ConfirmEmail([FromQuery] string token) { return Ok(); }
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        { 
+             if (userId == null || token == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            if (result.Succeeded)
+            {
+                return Redirect(Environment.GetEnvironmentVariable("FRONT_END_LINK"));
+            }
+            else
+            {
+                // Handle failure
+                return BadRequest(result.Errors);
+            }
+        }
 
 
         [HttpPost("reset-password")]
