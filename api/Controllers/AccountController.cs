@@ -218,7 +218,7 @@ namespace api.Controllers
                      return StatusCode(500, "Reset link could not be generated, please try again.");
                  }
 
-                 var resetLink =  $"http://localhost:5173/resetpassword?userId={user.Id}&token={encodedToken}";
+                 var resetLink =  $"{Environment.GetEnvironmentVariable("FRONT_END_LINK")}/resetpassword?userId={user.Id}&token={encodedToken}";
 
                  var recipient = forgotPasswordDto.Email;
                  var subject = "Reset Password Request";
