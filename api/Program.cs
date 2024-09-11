@@ -17,9 +17,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 Env.Load();
-// Register the ENVServices for dependency injection
-builder.Services.AddScoped<IENVServices, ENVServices>();
-
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
@@ -59,13 +56,8 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 //this service is responisble for which DataBase is being used 
 builder.Services.AddDbContext<ApplicationDBContext>((serviceProvider, options) =>
 {
-    var envServices = serviceProvider.GetRequiredService<IENVServices>();
-    options.UseSqlServer(envServices.GetConnectionString());
-
-    /*  This cors function was removed because its implemented below. but if things fail.
-    Re-enable it
-    builder.Services.AddCors();
-    */
+    var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+    options.UseSqlServer(connectionString);
 });
 
 builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
@@ -94,8 +86,7 @@ builder.Services.AddAuthentication(options =>
 
 }).AddJwtBearer((options) =>
 {
-
-    var envServices = builder.Services.BuildServiceProvider().GetRequiredService<IENVServices>();
+    var signInKey = Environment.GetEnvironmentVariable("SIGN_IN_KEY");
 
     options.TokenValidationParameters = new TokenValidationParameters
     {
@@ -105,8 +96,7 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = builder.Configuration["JWT:Audience"],
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(
-            //System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigninKey"])
-            System.Text.Encoding.UTF8.GetBytes(envServices.GetSignInKey())
+            System.Text.Encoding.UTF8.GetBytes(signInKey)
         )
     };
 });

@@ -3,6 +3,7 @@ using api.Interfaces;
 using api.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace api.Controllers
@@ -18,7 +19,6 @@ namespace api.Controllers
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IIdService _idService;
         private readonly ITitleCaseService _titleCaseService;
-
         private readonly IPasswordHistoryService _passwordHistoryService;
 
         public AccountController(
@@ -42,8 +42,8 @@ namespace api.Controllers
 
         // Your methods
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto) 
-        { 
+        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
+        {
             try
             {
                 if (!ModelState.IsValid)
@@ -61,11 +61,11 @@ namespace api.Controllers
 
                 var appUser = new AppUser
                 {
-                    Name =  _titleCaseService.ToTitleCase(registerDto.Name).Trim(),
+                    Name = _titleCaseService.ToTitleCase(registerDto.Name).Trim(),
                     Surname = _titleCaseService.ToTitleCase(registerDto.Surname).Trim(),
                     DateOfBirth = idExtractions.DateOfBirth,
                     IdentityNumber = registerDto.IdentityNumber,
-                    CreatedDate =  DateTime.Now,
+                    CreatedDate = DateTime.Now,
                     UserName = registerDto.UserName,
                     Email = registerDto.Email.ToLower(),
                     PhoneNumber = registerDto.PhoneNumber,
@@ -134,13 +134,53 @@ namespace api.Controllers
             }
             catch (Exception e) // Catch any exceptions that occur during the process
             {
-                
+
                 return StatusCode(500, new { message = "An internal server error occurred. This", exception = e.Message });
-            } 
+            }
         }
 
         [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginDto model) { return null; }
+        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Email == loginDto.Email.ToLower());
+
+            if (user == null) return Unauthorized(new { message = "Invalid email or password." });
+
+            if (!user.EmailConfirmed) return Unauthorized(new { message = "Email is not confirmed." });
+
+            var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, lockoutOnFailure: true);
+
+            if (result.Succeeded)
+            {
+                await _userManager.ResetAccessFailedCountAsync(user);
+
+                return Ok(
+                    new
+                    {
+                        userName = user.UserName,
+                        email = user.Email,
+                        fullName = $"{_titleCaseService.ToTitleCase(user.Name).Trim()} {_titleCaseService.ToTitleCase(user.Surname).Trim()}",
+                        token = _tokenService.CreateToken(user)
+                    }
+                );
+            }
+            else if (result.IsLockedOut)
+            {
+                var lockedUntil = await _userManager.GetLockoutEndDateAsync(user);
+                var totalSeconds = Math.Ceiling((lockedUntil?.Subtract(DateTimeOffset.Now).TotalSeconds) ?? 0);
+                return Unauthorized(new { message = $"Your account is currently locked out please try again in {totalSeconds} seconds" });
+            }
+            else
+            {
+                var accessFailedCount = await _userManager.GetAccessFailedCountAsync(user);
+                var maxFailedAccessAttempts = _userManager.Options.Lockout.MaxFailedAccessAttempts;
+                var attemptsLeft = maxFailedAccessAttempts - accessFailedCount;
+
+                return Unauthorized(new { message = $"Invalid username or password. You have {attemptsLeft} attemps left" });
+            }
+        }
 
         [HttpPost("logout")]
         public IActionResult Logout() { return null; }
