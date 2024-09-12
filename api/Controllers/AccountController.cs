@@ -359,6 +359,17 @@ namespace api.Controllers
                 var passwordHash = _userManager.PasswordHasher.HashPassword(user, resetPasswordDto.NewPassword);
                 await _passwordHistoryService.AddPasswordAsync(user.Id, passwordHash);
 
+
+                 var recipient = user.Email;
+                 var subject = "Password Successfully Reset";
+                 var templateName = "ConfirmPassword";
+                
+                
+                  //reset link must be decoded first!!
+                await _emailService.SendEmailAsync(recipient, subject, user.Name, "ConfirmPassword", templateName);
+
+                
+                  
                 await _userManager.ResetAccessFailedCountAsync(user);
                 return Ok("Password reset successful, proceed to log in");
 
