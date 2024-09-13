@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using DotNetEnv;
 using Microsoft.Extensions.Hosting;
+using api.Repositories;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -107,6 +108,7 @@ builder.Services.AddScoped<IIdService, IdService>();
 builder.Services.AddScoped<IPasswordHistoryService, PasswordHistoryService>();
 builder.Services.AddScoped<ITitleCaseService, TitleCaseService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<ICardRepository, CardRepository>();
 
 
 var app = builder.Build();
@@ -126,7 +128,9 @@ app.UseCors(options => options.WithOrigins("http://localhost:5173")
     .AllowAnyHeader());
 
 app.UseAuthentication();
+
 app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();

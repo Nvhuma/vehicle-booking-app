@@ -6,7 +6,6 @@ namespace api.DTOs.AccountDtos
     {
         [Required]
         [EmailAddress]
-
         public string Email { get; set;}
     }
 }

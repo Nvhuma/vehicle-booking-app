@@ -13,18 +13,18 @@ namespace api.Data
         }
 
         public DbSet<UserPasswordHistory> PasswordHistories { get; set; }
-        public DbSet<CardDetails> CardDetails {get; set; }
+        public DbSet<CardDetails> CardDetails { get; set; }
 
-         protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-        
+
             // This Block of code renames the "Id" Column to UserID
             modelBuilder.Entity<AppUser>()
                 .Property(u => u.Id)
                 .HasColumnName("UserID");
-        
-             // This table keeps history records of the user's passwords
+
+            // This table keeps history records of the user's passwords
             modelBuilder.Entity<UserPasswordHistory>()
                 .HasOne(p => p.AppUser)
                 .WithMany(u => u.UserPasswordHistories)
@@ -33,11 +33,11 @@ namespace api.Data
             /*  This block of cade links card details to user 
                 If a user is deleted, then all their card details will also be deleted.
             */
-             modelBuilder.Entity<CardDetails>()
-                .HasOne(cd => cd.AppUser)
-                .WithMany(ua => ua.Cards)
-                .HasForeignKey(cd => cd.UserID)
-                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<CardDetails>()
+               .HasOne(cd => cd.AppUser)
+               .WithMany(ua => ua.Cards)
+               .HasForeignKey(cd => cd.UserID)
+               .OnDelete(DeleteBehavior.Cascade);
 
 
             List<IdentityRole> roles = new List<IdentityRole>

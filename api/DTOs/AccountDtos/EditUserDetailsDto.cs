@@ -2,11 +2,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace api.DTOs.AccountDtos
 {
-    public class RegisterDto
+    public class EditUserDetailsDto
     {
         [Required]
         public string Name { get; set; }
-
+        
         [Required]
         public string Surname { get; set; }
 
@@ -18,14 +18,5 @@ namespace api.DTOs.AccountDtos
 
         [Required]
         public string PhoneNumber { get; set; }
-
-        [Required]
-        public string Password { get; set; }
-
-        [Compare("Password", ErrorMessage = "Passwords do not match.")]
-        public string ConfirmPassword { get; set; }
-
-        [Required]
-        public string IdentityNumber { get; set; }
     }
 }

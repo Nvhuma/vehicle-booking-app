@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace api.DTOs.AccountDtos
 {
@@ -17,7 +13,7 @@ namespace api.DTOs.AccountDtos
         [Required(ErrorMessage ="The Password feild is required")]
         public string NewPassword {get; set;}
 
-        [Required(ErrorMessage ="The password feild is reqiured")] 
+        [Compare("Password", ErrorMessage = "Passwords do not match.")]
          public string ConfirmPassword { get; set; }
 
         

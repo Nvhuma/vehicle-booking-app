@@ -4,7 +4,6 @@ using api.Interfaces;
 using api.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore;
 using api.Extensions;
 
@@ -15,7 +14,6 @@ namespace api.Controllers
     [Route("api/[controller]")]
     public class AccountController : ControllerBase
     {
-
         private readonly UserManager<AppUser> _userManager;
         private readonly IEmailService _emailService;
         private readonly ITokenService _tokenService;
@@ -23,8 +21,7 @@ namespace api.Controllers
         private readonly IIdService _idService;
         private readonly ITitleCaseService _titleCaseService;
         private readonly IPasswordHistoryService _passwordHistoryService;
-
-          private readonly ILogger<AccountController> _logger;
+        private readonly ILogger<AccountController> _logger;
 
         public AccountController(
             UserManager<AppUser> userManager,
@@ -33,7 +30,7 @@ namespace api.Controllers
             IEmailService emailService,
             IPasswordHistoryService passwordHistoryService,
             IIdService idService,
-            ITitleCaseService titleCaseService, 
+            ITitleCaseService titleCaseService,
             ILogger<AccountController> logger)
         {
             _userManager = userManager;
@@ -45,7 +42,6 @@ namespace api.Controllers
             _titleCaseService = titleCaseService;
             _logger = logger;
         }
-
 
         // Your methods
         [HttpPost("register")]
@@ -193,14 +189,14 @@ namespace api.Controllers
         public IActionResult Logout() { return null; }
 
         [HttpPost("change-password")]
-        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordDto) 
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordDto)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            try 
+            try
             {
                 var userEmail = User.GetUserEmail();
                 var user = await _userManager.FindByEmailAsync(userEmail);
@@ -215,40 +211,37 @@ namespace api.Controllers
                 var passwordVerificationResult = _userManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, changePasswordDto.NewPassword);
                 if (passwordVerificationResult == PasswordVerificationResult.Success)
                 {
-                    return BadRequest(new {errors = new[] {"You cannot reuse your current password"}});
+                    return BadRequest(new { errors = new[] { "You cannot reuse your current password" } });
                 }
 
-                     var reusedPeriod = TimeSpan.FromDays(180);
+                var reusedPeriod = TimeSpan.FromDays(180);
 
-                     //checking reused password history 
+                //checking reused password history 
 
-                     if (await _passwordHistoryService.IsPasswordReusedAsync(user.Id, changePasswordDto.NewPassword, reusedPeriod))
-                     {
-                        return BadRequest(new {errors = new[]{"You cannot reuse a previous password."}});
-                     }
+                if (await _passwordHistoryService.IsPasswordReusedAsync(user.Id, changePasswordDto.NewPassword, reusedPeriod))
+                {
+                    return BadRequest(new { errors = new[] { "You cannot reuse a previous password." } });
+                }
 
-                     var result = await _userManager.ResetPasswordAsync(user, resetToken, changePasswordDto.NewPassword);
+                var result = await _userManager.ResetPasswordAsync(user, resetToken, changePasswordDto.NewPassword);
 
-                     await _userManager.ResetAccessFailedCountAsync(user);
+                await _userManager.ResetAccessFailedCountAsync(user);
 
-                     return Ok("Password has been changes successfully");
+                return Ok("Password has been changes successfully");
 
             }
 
-                    //possible pitfall hance the logging  
-             catch (Exception ex)
-             {
-                    _logger.LogError(ex, "Error occurred during user registration.");
+            //possible pitfall hance the logging  
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred.");
                 return StatusCode(500, "An error occurred while processing your request. Please try again later.");
-             }
-            
-
             }
-        
+        }
 
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPasswordDto)
-         { 
+        {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -256,42 +249,41 @@ namespace api.Controllers
 
             try
             {
-                 var user = await _userManager.FindByEmailAsync(forgotPasswordDto.Email);
-                 if (user == null)
-                 {
+                var user = await _userManager.FindByEmailAsync(forgotPasswordDto.Email);
+                if (user == null)
+                {
                     return BadRequest("User not found");
-                 }
+                }
 
 
-                 var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
-                 var encodedToken = HttpUtility.UrlEncode(resetToken);
-                 if (resetToken == null)
-                 {
-                     return StatusCode(500, "Reset link could not be generated, please try again.");
-                 }
+                var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var encodedToken = HttpUtility.UrlEncode(resetToken);
+                if (resetToken == null)
+                {
+                    return StatusCode(500, "Reset link could not be generated, please try again.");
+                }
 
-                 var resetLink =  $"{Environment.GetEnvironmentVariable("FRONT_END_LINK")}/resetpassword?userId={user.Id}&token={encodedToken}";
+                var resetLink = $"{Environment.GetEnvironmentVariable("FRONT_END_LINK")}/resetpassword?userId={user.Id}&token={encodedToken}";
 
-                 var recipient = forgotPasswordDto.Email;
-                 var subject = "Reset Password Request";
-                 var link = resetLink; 
-                  
+                var recipient = forgotPasswordDto.Email;
+                var subject = "Reset Password Request";
+                var link = resetLink;
+
                 await _emailService.SendEmailAsync(recipient, subject, user.Name, link, "forgotPassword");
 
                 return Ok("Password reset email sent successfully.Please check email");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred during user registration.");
                 return StatusCode(500, "An error occurred while processing your request. Please try again later.");
             }
-         }
-
+        }
 
         [HttpGet("confirm-email")]
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
-        { 
-             if (userId == null || token == null)
+        {
+            if (userId == null || token == null)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -313,7 +305,6 @@ namespace api.Controllers
                 return BadRequest(result.Errors);
             }
         }
-
 
         [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
@@ -360,16 +351,16 @@ namespace api.Controllers
                 await _passwordHistoryService.AddPasswordAsync(user.Id, passwordHash);
 
 
-                 var recipient = user.Email;
-                 var subject = "Password Successfully Reset";
-                 var templateName = "ConfirmPassword";
-                
-                
-                  //reset link must be decoded first!!
+                var recipient = user.Email;
+                var subject = "Password Successfully Reset";
+                var templateName = "ConfirmPassword";
+
+
+                //reset link must be decoded first!!
                 await _emailService.SendEmailAsync(recipient, subject, user.Name, "ConfirmPassword", templateName);
 
-                
-                  
+
+
                 await _userManager.ResetAccessFailedCountAsync(user);
                 return Ok("Password reset successful, proceed to log in");
 
@@ -377,6 +368,66 @@ namespace api.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, "An error occured while processing, try again later");
+            }
+        }
+
+        [HttpPatch("Edit-user-details")]
+        //Using Patch becouse certain feilds will remain the same 
+        public async Task<IActionResult> EditUserDetails([FromBody] EditUserDetailsDto editUserDetailsDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                // Getting the currently logged-in user
+                var userEmail = User.GetUserEmail();
+                var user = await _userManager.FindByEmailAsync(userEmail);
+                if (user == null)
+                {
+                    return Unauthorized("User not found");
+                }
+
+                // Apply updates only to fields that are provided (non-null)
+                if (!string.IsNullOrWhiteSpace(editUserDetailsDto.Name))
+                {
+                    user.Name = _titleCaseService.ToTitleCase(editUserDetailsDto.Name).Trim();
+                }
+
+                if (!string.IsNullOrWhiteSpace(editUserDetailsDto.Surname))
+                {
+                    user.Surname = _titleCaseService.ToTitleCase(editUserDetailsDto.Surname).Trim();
+                }
+
+                if (!string.IsNullOrWhiteSpace(editUserDetailsDto.UserName))
+                {
+                    user.UserName = editUserDetailsDto.UserName;
+                }
+
+                if (!string.IsNullOrWhiteSpace(editUserDetailsDto.Email))
+                {
+                    user.Email = editUserDetailsDto.Email.ToLower();
+                }
+
+                if (!string.IsNullOrWhiteSpace(editUserDetailsDto.PhoneNumber))
+                {
+                    user.PhoneNumber = editUserDetailsDto.PhoneNumber;
+                }
+
+                var updateUserResult = await _userManager.UpdateAsync(user);
+                if (!updateUserResult.Succeeded)
+                {
+                    return BadRequest(new { errors = updateUserResult.Errors.Select(e => e.Description) });
+                }
+
+                return Ok("User details updated successfully.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while editing user details.");
+                return StatusCode(500, "An error occurred while processing your request.");
             }
         }
     }
