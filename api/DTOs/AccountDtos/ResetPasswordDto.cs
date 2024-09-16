@@ -13,7 +13,7 @@ namespace api.DTOs.AccountDtos
         [Required(ErrorMessage ="The Password feild is required")]
         public string NewPassword {get; set;}
 
-        [Compare("Password", ErrorMessage = "Passwords do not match.")]
+        [Compare("NewPassword", ErrorMessage = "Passwords do not match.")]
          public string ConfirmPassword { get; set; }
 
         
