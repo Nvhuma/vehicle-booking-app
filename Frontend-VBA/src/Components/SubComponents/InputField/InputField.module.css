@@ -19,7 +19,7 @@
 	font-size: var(--font-size-normal);
 	outline: none;
 	transition: border-color 0.3s ease;
-	font-family: var(--UI-font-face);
+	font-family: var(--UI-font);
 	letter-spacing: var(--UI-letter-space);
 	caret-color: var(--primary);
   }

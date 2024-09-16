@@ -13,8 +13,9 @@ function App() {
       <InputField
         type="text"
         size="medium"
-        icon="search"
-        placeholder="Search..." />
+        icon="mail" // change this to change the icon
+        placeholder="Email..." //  change this to chane the placeholder of the field
+      />
     </>
   )
 }
