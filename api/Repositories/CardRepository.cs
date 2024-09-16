@@ -26,9 +26,11 @@ namespace api.Repositories
                 UserID = userId // Assign the logged-in user's ID
             };
 
-            // [SQL - Staging the changes on sql]
-            _context.CardDetails.Add(card);
 
+            // [SQL - Staging the changes on sql]
+
+
+            _context.CardDetails.Add(card);
             //now we save the card details 
             await _context.SaveChangesAsync();
             return card;

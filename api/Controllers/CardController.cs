@@ -70,11 +70,16 @@ namespace api.Controllers
                     return BadRequest("Failed to upload image. Please try again");
                 }
 
+
+                // Mask the card number to show only the last four digits
+                var maskedCardNumber = $"**** **** **** {createCardDto.CardNumber.Substring(createCardDto.CardNumber.Length - 4)}";
+
+
                 var recipient = User.GetUserEmail();
                 var subject = "Card creation";
                 var templateName = "CardCreate";
 
-                await _emailService.SendEmailAsync(recipient, subject, user.Name, "", templateName);
+                await _emailService.SendEmailCardAsync(recipient, subject, user.Name, maskedCardNumber, templateName);
 
                 return Ok("Card created successfully.");
             }
@@ -122,11 +127,18 @@ namespace api.Controllers
                     return BadRequest("Failed to delete card. Please try again");
                 }
 
+
+
+                // Mask the card number to show only the last four digits , we do not have a dto so we have to get CARD DETAILS 
+                var maskedCardNumber = $"**** **** **** {cardDetails.CardNumber.Substring(cardDetails.CardNumber.Length - 4)}";
+
+
+
                 var recipient = User.GetUserEmail();
                 var subject = "Card Deletion";
                 var templateName = "CardDeletion";
 
-                await _emailService.SendEmailAsync(recipient, subject, user.Name, "CardDeletion", templateName);
+                await _emailService.sendEmailDeleteAsync(recipient, subject, user.Name, maskedCardNumber, templateName);
 
                 return Ok("Card deleted successfully.");
             }
