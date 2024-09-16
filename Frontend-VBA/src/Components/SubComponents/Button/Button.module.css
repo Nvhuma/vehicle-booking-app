@@ -1,0 +1,60 @@
+
+
+/* General Button Styles */
+.button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 10px 20px; /* Padding for dynamic width */
+	border: none;
+	border-radius: 4px; /* Adjust as needed */
+	font-size: var(--font-size-normal);
+	font-family: var(--UI-font);
+	text-align: center;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+	letter-spacing: 0.1em;
+	
+  }
+  
+  /* Dynamic Width Button */
+  .button_dynamic {
+	width: auto; /* Button will hug its content */
+  }
+  
+
+  /* Full Width Button */
+  .button_full_width {
+	width: 100%; /* Button spans the full width of its container */
+  }
+  
+
+  /* Primary Button Types */
+  .button_primary {
+	background-color: var(--button-primary-default);
+	color: var(--text-on-primary);
+  }
+  
+  .button_primary:hover {
+	background-color: var(--button-primary-hover);
+  }
+  
+  .button_primary:focus {
+	background-color: var(--button-primary-focused);
+  }
+  
+
+  /* Secondary Button Types */
+  .button_secondary {
+	background-color: var(--button-secondary-default);
+	color: var(--text-on-secondary);
+  }
+  
+  .button_secondary:hover {
+	background-color: var(--button-secondary-hover);
+  }
+  
+  .button_secondary:focus {
+	background-color: var(--button-secondary-focused);
+  }
+  
