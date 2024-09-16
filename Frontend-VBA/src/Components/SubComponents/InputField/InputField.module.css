@@ -1,0 +1,64 @@
+/* General Input Styles */
+.input_container {
+	display: flex;
+	align-items: center;
+	position: relative;
+  }
+  
+  /* Apply styles when there is an icon */
+  .input_container_with_icon > :first-child {
+	position: absolute;
+	left: var(--spacing-xs); /* Adjust as needed */
+	color: var(--text-50);
+  }
+  
+  .input {
+	padding: var(--spacing-xs);
+	border: 1px solid var(--dark-grey);
+	border-radius: 4px;
+	font-size: var(--font-size-normal);
+	outline: none;
+	transition: border-color 0.3s ease;
+	font-family: var(--UI-font-face);
+	letter-spacing: var(--UI-letter-space);
+	caret-color: var(--primary);
+  }
+
+  .input_with_icon {
+	padding-left: var(--spacing-xl);
+  }
+  
+  /* Full Width Input */
+  .input_fullWidth {
+	width: 100%;
+  }
+  
+  /* Input States */
+  .input:focus {
+	border-color: var(--primary);
+  }
+  
+  /* Optional Styling for Placeholder */
+  .input::placeholder {
+	color: var(--text-50);
+  }
+  
+  /* Input Sizes */
+  .input_small {
+	font-size: 0.75rem; /* 12px */
+  }
+  
+  .input_medium {
+	font-size: 1rem; /* 16px */
+  }
+  
+  .input_large {
+	font-size: 1.25rem; /* 20px */
+  }
+  
+  /* Remove default search input clear button */
+  input[type="search"]::-webkit-search-cancel-button {
+	-webkit-appearance: none;
+	appearance: none;
+  }
+  

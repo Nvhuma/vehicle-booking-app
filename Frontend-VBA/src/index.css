@@ -1,0 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Roboto+Slab:wght@100..900&display=swap');
+
+:root {
+  /*  Light-Mode Main colours */
+  --light-primary: hsl(190, 100%, 23%);
+  --light-secondary: hsl(225, 73%, 71%);
+  --light-accent: hsl(87, 70%, 53%);
+
+  /*  Light-Mode Nutral colours*/
+  --light-white: hsl(0, 0%, 100%);
+  --light-grey: hsl(0, 0%, 83%);
+  --light-lite-grey: hsl(0, 0%, 98%);
+  --light-dark-grey: hsl(0, 0%, 50%);
+
+  /*  Light-Mode Background Colour*/
+  --light-background: hsl(87, 100%, 98%);
+
+  /*  Light-mode Shades of Text colour*/
+  --light-text-100: hsla(90, 33%, 2%, 1.00);
+  --light-text-75: hsla(90, 33%, 2%, 0.75);
+  --light-text-50: hsla(90, 33%, 2%, 0.50);
+  --light-text-25: hsla(90, 33%, 2%, 0.25);
+
+  --light-text-on-primary: var(--light-white);
+  --light-text-on-secondary: var(--light-white);
+
+  /*  Light-Mode Sahdes of Primary*/
+  --light-primary-90: hsla(190, 100%, 23%, 0.9);
+  --light-primary-80: hsla(190, 100%, 23%, 0.8);
+  --light-primary-70: hsla(190, 100%, 23%, 0.7);
+  --light-primary-60: hsla(190, 100%, 23%, 0.6);
+  --light-primary-50: hsla(190, 100%, 23%, 0.5);
+  --light-primary-40: hsla(190, 100%, 23%, 0.4);
+  --light-primary-30: hsla(190, 100%, 23%, 0.3);
+  --light-primary-20: hsla(190, 100%, 23%, 0.2);
+  --light-primary-10: hsla(190, 100%, 23%, 0.1);
+
+  /*  Light-Mode Shades of secondary*/
+  --light-secondary-90: hsl(225, 73%, 71%, 0.9);
+  --light-secondary-80: hsl(225, 73%, 71%, 0.8);
+  --light-secondary-70: hsl(225, 73%, 71%, 0.7);
+  --light-secondary-60: hsl(225, 73%, 71%, 0.6);
+  --light-secondary-40: hsl(225, 73%, 71%, 0.5);
+  --light-secondary-50: hsl(225, 73%, 71%, 0.4);
+  --light-secondary-30: hsl(225, 73%, 71%, 0.3);
+  --light-secondary-20: hsl(225, 73%, 71%, 0.2);
+  --light-secondary-10: hsl(225, 73%, 71%, 0.1);
+
+  /*  Light-Mode Shades of accent*/
+  --light-accent-90: hsl(87, 70%, 53%, 0.9);
+  --light-accent-80: hsl(87, 70%, 53%, 0.8);
+  --light-accent-70: hsl(87, 70%, 53%, 0.7);
+  --light-accent-60: hsl(87, 70%, 53%, 0.6);
+  --light-accent-50: hsl(87, 70%, 53%, 0.5);
+  --light-accent-40: hsl(87, 70%, 53%, 0.4);
+  --light-accent-30: hsl(87, 70%, 53%, 0.3);
+  --light-accent-20: hsl(87, 70%, 53%, 0.2);
+  --light-accent-10: hsl(87, 70%, 53%, 0.1);
+
+  /* Light-Mode Primary Button Colors*/
+  --light-button-primary-default: var(--light-primary-90); 
+  --light-button-primary-hover: var(--light-primary);
+  --light-button-primary-focused: var(--light-primary-80);
+  
+  /* Light-Mode Primary Button Colors*/
+  --light-button-secondary-default: var(--light-secondary-90); 
+  --light-button-secondary-hover: var(--light-secondary);
+  --light-button-secondary-focused: var(--light-secondary-80);
+
+  /*  Site Fonts and Font-Sizes*/
+  --UI-font: Orbitron;
+  --Body-font: "Roboto Slab";
+  --UI-letter-space: 0.1em;
+
+  --font-size-h1: 2.50rem;     /* 40px */
+  --font-size-h2: 2.25rem;     /* 36px */
+  --font-size-h3: 2.00rem;     /* 32px */
+  --font-size-h4: 1.75rem;     /* 28px */
+  --font-size-h5: 1.50rem;     /* 24px */
+  --font-size-h6: 1.25rem;     /* 20px */
+  --font-size-normal: 1.00rem; /* 16px */
+  --font-size-small: 0.75rem;  /* 12px */
+  --font-size-tiny: 0.5rem;    /* 08px */
+
+  /*  Spacing values */
+  --spacing-xxs : 0.25rem;  /* 04px */
+  --spacing-xs  : 0.50rem;  /* 08px */
+  --spacing-s   : 0.75rem;  /* 12px */
+  --spacing-n   : 1.00rem;  /* 16px */
+  --spacing-l   : 1.50rem;  /* 24px */
+  --spacing-xl  : 2.00rem;  /* 32px */
+  --spacing-xxl : 3.00rem;  /* 48px */
+
+  /*  Site Theme Styling*/
+  /*  Light-Mode Theme*/
+  [data-theme='light']{
+
+    --primary: var(--light-primary);
+    --secondary: var(--light-secondary);
+    --accent: var(--light-accent);
+
+    --text: var(--light-text-100);
+    --text-75: var(--light-text-75);
+    --text-50: var(--light-text-50);
+    --text-25: var(--light-text-25);
+
+    --white: var(--light-white);
+    --grey: var(--light-grey);
+    --lite-grey: var(--light-lite-grey);
+    --dark-grey: var(--light-dark-grey);
+
+    --text-on-primary: var(--light-text-on-primary);
+    --text-on-secondary: var(--light-text-on-secondary);
+
+    --background: var(--light-background);
+
+    --button-primary-default: var(--light-button-primary-default);
+    --button-primary-hover: var(--light-button-primary-hover);
+    --button-primary-focused: var(--light-button-primary-focused);
+
+    --button-secondary-default: var(--light-button-secondary-default);
+    --button-secondary-hover: var(--light-button-secondary-hover);
+    --button-secondary-focused: var(--light-button-secondary-focused);
+
+  }
+
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  font-family: var(--Body-font);
+  max-width: 1920px;
+  background-color: var(--background);
+  padding: var(--spacing-xl);
+  color: var(--text);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
+  font-family: var(--UI-font);
+}
+
+h1{
+  font-size: var(--font-size-h1);
+}
+
+h2{
+  font-size: var(--font-size-h2);
+}
+
+h3{
+  font-size: var(--font-size-h3);
+}
+
+h4{
+  font-size: var(--font-size-h4);
+}
+
+h5{
+  font-size: var(--font-size-h5);
+}
+
+h6{
+  font-size: var(--font-size-h6);
+}
+
+
