@@ -6,16 +6,25 @@ import LockIcon from '../Icons/LockIcon';
 
 
 /**
- * InputField component renders a styled input field with optional icon and size.
+ * InputField component renders a customizable input field with optional icon and size settings.
  * 
- * @param {string} type - The type of the input field (e.g., 'text', 'password'). Default is 'text'.
- * @param {string} size - The size of the input field. Can be 'small', 'medium', or 'large'. Default is 'medium'.
- * @param {boolean} fullWidth - If true, the input field will take up 100% of its container's width. Default is false.
- * @param {string} placeholder - The placeholder text for the input field.
- * @param {ReactNode} [icon] - Optional icon to display inside the input field.
+ * This component allows users to create text input fields with various configurations including
+ * different types (text, password, etc.), sizes (small, medium, large), and whether the field
+ * should occupy the full width of its container. Additionally, an optional icon can be provided
+ * to display inside the input field.
+ * 
+ * @param {string} type - The type of the input field. Determines the type of input (e.g., 'text', 'password'). Default is 'text'.
+ * @param {string} size - The size of the input field. Defines the input field's size. Acceptable values are 'small', 'medium', or 'large'. Default is 'medium'.
+ * @param {boolean} fullWidth - A boolean value that, if true, makes the input field occupy 100% of its container's width. Default is false.
+ * @param {string} placeholder - The placeholder text to be displayed when the input field is empty. Provides a hint to the user about what to enter.
+ * @param {ReactNode} [icon] - An optional icon to be displayed inside the input field. This can be a React component or an image.
+ * @param {string} value - The current value of the input field. This is controlled by the parent component.
+ * @param {Function} onChange - A function to handle changes to the input field's value. This is called when the user types into the input field.
+ * 
+ * @returns {JSX.Element} - A styled input field element with optional icon and size adjustments based on the provided props.
  */
 
-const InputField = ({ type = 'text', size = 'medium', fullWidth = false, placeholder = '', icon = '' }) => {
+const InputField = ({ type = 'text', size = 'medium', fullWidth = false, placeholder = '', icon = '', value, onChange }) => {
   // Function to render the icon dynamically
   const renderIcon = () => {
     switch (icon) {
@@ -41,9 +50,12 @@ const InputField = ({ type = 'text', size = 'medium', fullWidth = false, placeho
         type={type}
         className={inputClassNames}
         placeholder={placeholder}
+        value={value}  // Add value prop
+        onChange={onChange}  // Add onChange prop
       />
     </div>
   );
 };
+
 
 export default InputField;
