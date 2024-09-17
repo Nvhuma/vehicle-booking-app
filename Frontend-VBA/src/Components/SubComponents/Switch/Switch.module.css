@@ -1,0 +1,76 @@
+/* Container for the switch */
+.switch_container {
+	display: inline-block;
+	position: relative;
+	width: 40px;
+	height: 20px;
+}
+
+/* Hide the default checkbox */
+.switch_input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+/* The switch (slider) */
+.switch {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: var(--button-secondary-default);
+	transition: background-color 0.2s ease, transform 0.2s ease;
+	border-radius: 20px;
+}
+
+/* Switch thumb */
+.switch:before {
+	position: absolute;
+	content: "";
+	height: 16px;
+	width: 16px;
+	left: 2px;
+	bottom: 2px;
+	background-color: var(--light-white);
+	transition: transform 0.2s ease;
+	border-radius: 50%;
+}
+
+/* Checked state styles */
+.switch_checked {
+	background-color: var(--button-primary-default);
+}
+
+.switch_checked:before {
+	transform: translateX(20px);
+}
+
+/* Primary variant */
+.switch_primary {
+	background-color: var(--button-primary-default);
+}
+
+.switch_primary.switch_checked {
+	background-color: var(--button-primary-hover);
+}
+
+/* Secondary variant */
+.switch_secondary {
+	background-color: var(--button-secondary-default);
+}
+
+.switch_secondary.switch_checked {
+	background-color: var(--button-secondary-hover);
+}
+
+/* Disabled variant */
+.switch_disabled {
+	background-color: var(--grey);
+}
+
+.switch_disabled.switch_checked {
+	background-color: var(--grey);
+}

@@ -1,0 +1,73 @@
+.radio_container {
+	display: inline-flex;
+	align-items: center;
+	cursor: pointer;
+	margin-right: var(--spacing-s);
+  }
+  
+  .radio_input {
+	display: none; /* Hide the default radio input */
+  }
+  
+  .radio {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	border: 2px solid var(--text-50);
+	position: relative;
+	transition: border-color 0.3s ease;
+  }
+  
+  /* Checked state with matching inner circle and border color */
+  .radio_checked::before {
+	content: '';
+	display: block;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+  }
+  
+  /* Primary Radio Button */
+  .radio_primary {
+	border-color: var(--button-primary-default);
+  }
+  
+  .radio_primary.radio_checked {
+	border-color: var(--button-primary-hover);
+  }
+  
+  .radio_primary.radio_checked::before {
+	background-color: var(--button-primary-hover); /* Match inner circle color to border */
+  }
+  
+  /* Secondary Radio Button */
+  .radio_secondary {
+	border-color: var(--button-secondary-default);
+  }
+  
+  .radio_secondary.radio_checked {
+	border-color: var(--button-secondary-hover);
+  }
+  
+  .radio_secondary.radio_checked::before {
+	background-color: var(--button-secondary-hover); /* Match inner circle color to border */
+  }
+  
+/* Secondary Radio Button */
+.radio_disabled {
+	border-color: var(--grey);
+}
+
+.radio_disabled.radio_checked {
+	border-color: var(--grey);
+}
+
+.radio_disabled.radio_checked::before {
+	background-color: var(--grey);
+	/* Match inner circle color to border */
+}
