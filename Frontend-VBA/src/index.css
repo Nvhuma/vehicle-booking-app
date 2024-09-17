@@ -126,6 +126,16 @@
 
 }
 
+/* For Material Icons */
+.material-icons {
+  font-size: 16px; /* Adjust size as needed */
+}
+
+/* For Material-UI icons or similar */
+.MuiSvgIcon-root {
+  font-size: 16px; /* Adjust size as needed */
+}
+
 *{
   margin: 0;
   padding: 0;

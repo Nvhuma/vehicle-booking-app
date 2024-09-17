@@ -10,7 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "material-icons": "^1.13.12",
+    "@emotion/styled": "^11.13.0",
+    "@mui/icons-material": "^6.1.0",
+    "@mui/styled-engine": "^6.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

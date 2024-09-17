@@ -1,5 +1,3 @@
-
-
 /* General Button Styles */
 .button {
 	display: inline-flex;
@@ -14,8 +12,14 @@
 	text-align: center;
 	cursor: pointer;
 	transition: background-color 0.3s ease;
-	/*letter-spacing: 0.1em;*/
-	
+  }
+  
+  /* Icon Styles */
+  .button_icon {
+	margin-right: var(--spacing-xs); /* Space between icon and text */
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
   }
   
   /* Dynamic Width Button */
@@ -23,13 +27,11 @@
 	width: auto; /* Button will hug its content */
   }
   
-
   /* Full Width Button */
   .button_full_width {
 	width: 100%; /* Button spans the full width of its container */
   }
   
-
   /* Primary Button Types */
   .button_primary {
 	background-color: var(--button-primary-default);
@@ -44,7 +46,6 @@
 	background-color: var(--button-primary-focused);
   }
   
-
   /* Secondary Button Types */
   .button_secondary {
 	background-color: var(--button-secondary-default);
