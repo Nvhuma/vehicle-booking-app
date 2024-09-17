@@ -59,4 +59,18 @@
   .button_secondary:focus {
 	background-color: var(--button-secondary-focused);
   }
+
+  /* Social Button Types */
+  .button_social {
+	background-color: var(--white);
+	color: var(--text);
+	box-shadow: 2px 3px 4px var(--grey);
+  }
   
+  .button_social:hover {
+	background-color: var(--lite-grey);
+  }
+  
+  .button_social:focus {
+	background-color: var(--lite-grey);
+  }

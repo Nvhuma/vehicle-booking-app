@@ -3,6 +3,7 @@ import "./Login.css";
 import InputField from "../../SubComponents/InputField/InputField";
 import Button from "../../SubComponents/Button/Button";
 import axios from 'axios';
+import { Facebook, Google, MailOutline , LockOutlined } from "@mui/icons-material";
 
 
 const Login = () => {
@@ -13,11 +14,11 @@ const Login = () => {
     e.preventDefault();
     console.log("Login attempted with:", email, password);
 
- 
+
 
     try {
       const response = await axios.post("http://localhost:5287/api/Account/login", {
-        email: email,  
+        email: email,
         password: password
       }, {
         headers: {
@@ -61,7 +62,7 @@ const Login = () => {
               type="email"
               placeholder="Email address"
               value={email}
-              icon="mail"
+              icon={<MailOutline />}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
@@ -70,16 +71,16 @@ const Login = () => {
               type="password"
               placeholder="Password"
               value={password}
-              icon="lock"
+              icon={<LockOutlined />}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <a href="/forgot-password" className="forgot-password">
             Forgot password?
           </a>
-          <Button type = "submit" variant="primary" value="Sign In" fullWidth />
-          <Button variant="secondary" value="Sign In With facebook" fullWidth />
-          <Button variant="secondary" value="Sign In with facebook" fullWidth />
+          <Button type="submit" variant="primary" value="Sign In" fullWidth />
+          <Button variant="social" value="Sign In With facebook" fullWidth icon={<Facebook />} />
+          <Button variant="social" value="Sign In with facebook" fullWidth icon={<Google />} />
         </form>
         <a href="/register" className="register-link">
           Click here to Register
