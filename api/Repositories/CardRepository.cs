@@ -8,28 +8,28 @@ namespace api.Repositories
 {
     public class CardRepository : ICardRepository
     {
-
+        private readonly IEncryptionService _encryptionService;
         private readonly ApplicationDBContext _context;
-        public CardRepository(ApplicationDBContext context)
+        public CardRepository(ApplicationDBContext context, IEncryptionService encryptionService)
         {
             _context = context;
+            _encryptionService = encryptionService;
         }
         public async Task<CardDetails> CreateCardAsync(string userId, CreateCardDto createCardDto)
         {
+            string encryptedCardNumber = _encryptionService.Encrypt(createCardDto.CardNumber);
+            string encryptedCVV = _encryptionService.Encrypt(createCardDto.CVV);
+
             //MAPING THE dto to the card credentials
             var card = new CardDetails
             {
                 CardHolder = createCardDto.CardHolder,
-                CardNumber = createCardDto.CardNumber,
+                CardNumber = encryptedCardNumber,
                 ExpiryDate = createCardDto.ExpiryDate,
-                CVV = createCardDto.CVV,
+                CVV = encryptedCVV,
                 BankName = createCardDto.BankName,
                 UserID = userId // Assign the logged-in user's ID
             };
-
-
-            // [SQL - Staging the changes on sql]
-
 
             _context.CardDetails.Add(card);
             //now we save the card details 
@@ -61,11 +61,18 @@ namespace api.Repositories
             throw new NotImplementedException();
         }
 
-        public  async Task<List<CardDetails>> GetCardsByUserIdAsync(string userId)
+        public async Task<List<CardDetails>> GetCardsByUserIdAsync(string userId)
         {
-             var cards = await _context.CardDetails
-                .Where(c => c.UserID == userId) // Filter cards by UserId
-                .ToListAsync();                 // Convert to a list asynchronously
+            var cards = await _context.CardDetails
+               .Where(c => c.UserID == userId) // Filter cards by UserId
+               .ToListAsync();                 // Convert to a list asynchronously
+
+            // Decrypt the card details
+            foreach (var card in cards)
+            {
+                card.CardNumber = _encryptionService.Decrypt(card.CardNumber); // Decrypt the card number
+                card.CVV = _encryptionService.Decrypt(card.CVV);               // Decrypt the CVV
+            }
 
             return cards;
         }

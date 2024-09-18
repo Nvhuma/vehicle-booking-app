@@ -109,6 +109,7 @@ builder.Services.AddScoped<IPasswordHistoryService, PasswordHistoryService>();
 builder.Services.AddScoped<ITitleCaseService, TitleCaseService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ICardRepository, CardRepository>();
+builder.Services.AddScoped<IEncryptionService, EncryptionService>();
 
 
 var app = builder.Build();
