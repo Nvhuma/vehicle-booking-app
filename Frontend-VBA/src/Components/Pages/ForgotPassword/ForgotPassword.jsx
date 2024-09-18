@@ -3,6 +3,7 @@ import './ForgotPassword.module.css';
 import InputField from "../../SubComponents/InputField/InputField";
 import Button from "../../SubComponents/Button/Button";
 import axios from 'axios';
+import {MailOutlined} from "@mui/icons-material";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -41,7 +42,7 @@ const ForgotPassword = () => {
             type="email"
             placeholder="Email address"
             value={email}
-            icon="mail"
+            icon={<MailOutlined />}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>

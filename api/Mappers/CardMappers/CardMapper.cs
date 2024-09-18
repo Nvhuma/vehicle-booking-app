@@ -15,6 +15,7 @@ namespace api.Mappers.CardMappers
             return new GetCardDto
             {
                 BankName = cardDetailsModel.BankName
+                
             };
         }
     }
