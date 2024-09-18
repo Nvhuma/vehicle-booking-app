@@ -7,6 +7,9 @@ using api.Interfaces;
 using api.Data;
 using api.Extensions;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http.HttpResults;
+using api.Mappers.CardMappers;
 
 
 namespace api.Controllers
@@ -89,6 +92,45 @@ namespace api.Controllers
                 return StatusCode(500, "An error occurred while processing your request.");
             }
         }
+
+        
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetCards([FromRoute] GetCardDto getCardDto)
+        {
+            var userEmail = User.GetUserEmail();
+            var user = await _userManager.FindByEmailAsync(userEmail);
+            var cards = await _cardRepo.GetCardsByUserIdAsync(user.Id);
+    	    var cardDto = cards.Select(x => x.ToGetCardDto());
+
+            return Ok(cardDto);
+
+        }
+
+
+        // [HttpGet("cards")]
+        // [Authorize]
+        // public async Task<IActionResult> GetCardsByUserId();
+        // {
+        //     var userName = User.GetUserName(); //given name does not work also // using given name again and BIG User
+
+        //     if ( userId == null)
+        //     {
+        //         return Unauthorized("user is not logged in.");
+        //     }
+
+        //     //fetch the cards for the specific logged in user
+        //     var cardDetails = await _cardRepo.GetCardsByUserIdAsync(userId); //checking user ID instead of logged in userid
+
+        //     if (cardDetails == null)
+        //     {
+        //         return NotFound($"No card details found for user with ID: {userId}");
+        //     }
+
+        //     return Ok(cardDetails);
+        // }
+
+
 
         [Authorize]
         [HttpDelete("id")]

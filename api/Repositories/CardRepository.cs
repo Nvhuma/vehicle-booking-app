@@ -2,6 +2,7 @@ using api.Data;
 using api.DTOs.CardDtos;
 using api.Interfaces;
 using api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Repositories
 {
@@ -55,9 +56,18 @@ namespace api.Repositories
             return card;
         }
 
-        public async Task<CardDetails> GetCardsAsync(string userId, GetCardDto getCardDto)
+        public Task<CardDetails> GetCardsAsync(string userId, GetCardDto getCardDto)
         {
             throw new NotImplementedException();
+        }
+
+        public  async Task<List<CardDetails>> GetCardsByUserIdAsync(string userId)
+        {
+             var cards = await _context.CardDetails
+                .Where(c => c.UserID == userId) // Filter cards by UserId
+                .ToListAsync();                 // Convert to a list asynchronously
+
+            return cards;
         }
     }
 }

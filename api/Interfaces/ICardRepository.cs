@@ -1,5 +1,6 @@
 using api.DTOs.CardDtos;
 using api.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace api.Interfaces
 {
@@ -13,5 +14,8 @@ namespace api.Interfaces
 
         // implement the _repo in the route
         Task<CardDetails> DeleteCardAsync(string userId, int cardId);
+
+
+        Task<List<CardDetails>> GetCardsByUserIdAsync(string userId);
     }
 }
