@@ -2,7 +2,6 @@
 import React from 'react';
 import styles from './Button.module.css'; // Import the updated CSS file
 
-
 /**
  * Button component renders a styled button with customizable appearance, width, and optional icon.
  * 

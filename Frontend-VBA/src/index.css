@@ -9,7 +9,7 @@
   /*  Light-Mode Nutral colours*/
   --light-white: hsl(0, 0%, 100%);
   --light-grey: hsl(0, 0%, 83%);
-  --light-lite-grey: hsl(0, 0%, 98%);
+  --light-lite-grey: hsl(0, 0%, 94%);
   --light-dark-grey: hsl(0, 0%, 50%);
 
   /*  Light-Mode Background Colour*/
@@ -57,13 +57,76 @@
   --light-accent-20: hsl(87, 70%, 53%, 0.2);
   --light-accent-10: hsl(87, 70%, 53%, 0.1);
 
+  /* Light-Mode Colors for Notifications */
+
+  /* Info Colors (Usually blue-ish) */
+  --light-info: hsl(200, 80%, 55%);
+  /* New color for general info */
+  --light-info-text: var(--light-text-on-primary);
+  /* White text on info */
+  --light-info-90: hsla(200, 80%, 55%, 0.9);
+  --light-info-80: hsla(200, 80%, 55%, 0.8);
+  --light-info-70: hsla(200, 80%, 55%, 0.7);
+  --light-info-60: hsla(200, 80%, 55%, 0.6);
+  --light-info-50: hsla(200, 80%, 55%, 0.5);
+  --light-info-40: hsla(200, 80%, 55%, 0.4);
+  --light-info-30: hsla(200, 80%, 55%, 0.3);
+  --light-info-20: hsla(200, 80%, 55%, 0.2);
+  --light-info-10: hsla(200, 80%, 55%, 0.1);
+
+  /* Warning Colors (Yellow to Orange) */
+  --light-warning: #f3ba12;
+  /* New color for warnings */
+  --light-warning-text: var(--light-text-100);
+  /* Dark text on warning */
+  --light-warning-90: hsla(45, 90%, 51%, 0.9);
+  --light-warning-80: hsla(45, 90%, 51%, 0.8);
+  --light-warning-70: hsla(45, 90%, 51%, 0.7);
+  --light-warning-60: hsla(45, 90%, 51%, 0.6);
+  --light-warning-50: hsla(45, 90%, 51%, 0.5);
+  --light-warning-40: hsla(45, 90%, 51%, 0.4);
+  --light-warning-30: hsla(45, 90%, 51%, 0.3);
+  --light-warning-20: hsla(45, 90%, 51%, 0.2);
+  --light-warning-10: hsla(45, 90%, 51%, 0.1);
+
+  /* Danger Colors (Reddish) */
+  --light-danger: #df2020;
+  /* New color for danger */
+  --light-danger-text: var(--light-text-on-primary);
+  /* White text on danger */
+  --light-danger-90: hsla(0, 75%, 50%, 0.9);
+  --light-danger-80: hsla(0, 75%, 50%, 0.8);
+  --light-danger-70: hsla(0, 75%, 50%, 0.7);
+  --light-danger-60: hsla(0, 75%, 50%, 0.6);
+  --light-danger-50: hsla(0, 75%, 50%, 0.5);
+  --light-danger-40: hsla(0, 75%, 50%, 0.4);
+  --light-danger-30: hsla(0, 75%, 50%, 0.3);
+  --light-danger-20: hsla(0, 75%, 50%, 0.2);
+  --light-danger-10: hsla(0, 75%, 50%, 0.1);
+
+  /* Success Colors (Green) */
+  --light-success: #339933;
+  /* New color for success */
+  --light-success-text: var(--light-text-on-primary);
+  /* White text on success */
+  --light-success-90: hsla(120, 50%, 40%, 0.9);
+  --light-success-80: hsla(120, 50%, 40%, 0.8);
+  --light-success-70: hsla(120, 50%, 40%, 0.7);
+  --light-success-60: hsla(120, 50%, 40%, 0.6);
+  --light-success-50: hsla(120, 50%, 40%, 0.5);
+  --light-success-40: hsla(120, 50%, 40%, 0.4);
+  --light-success-30: hsla(120, 50%, 40%, 0.3);
+  --light-success-20: hsla(120, 50%, 40%, 0.2);
+  --light-success-10: hsla(120, 50%, 40%, 0.1);
+
+
   /* Light-Mode Primary Button Colors*/
-  --light-button-primary-default: var(--light-primary-90); 
+  --light-button-primary-default: var(--light-primary-90);
   --light-button-primary-hover: var(--light-primary);
   --light-button-primary-focused: var(--light-primary-80);
-  
+
   /* Light-Mode Primary Button Colors*/
-  --light-button-secondary-default: var(--light-secondary-90); 
+  --light-button-secondary-default: var(--light-secondary-90);
   --light-button-secondary-hover: var(--light-secondary);
   --light-button-secondary-focused: var(--light-secondary-80);
 
@@ -72,28 +135,44 @@
   --Body-font: "Roboto Slab";
   --UI-letter-space: 0.1em;
 
-  --font-size-h1: 2.50rem;     /* 40px */
-  --font-size-h2: 2.25rem;     /* 36px */
-  --font-size-h3: 2.00rem;     /* 32px */
-  --font-size-h4: 1.75rem;     /* 28px */
-  --font-size-h5: 1.50rem;     /* 24px */
-  --font-size-h6: 1.25rem;     /* 20px */
-  --font-size-normal: 1.00rem; /* 16px */
-  --font-size-small: 0.75rem;  /* 12px */
-  --font-size-tiny: 0.5rem;    /* 08px */
+  --font-size-h1: 2.50rem;
+  /* 40px */
+  --font-size-h2: 2.25rem;
+  /* 36px */
+  --font-size-h3: 2.00rem;
+  /* 32px */
+  --font-size-h4: 1.75rem;
+  /* 28px */
+  --font-size-h5: 1.50rem;
+  /* 24px */
+  --font-size-h6: 1.25rem;
+  /* 20px */
+  --font-size-normal: 1.00rem;
+  /* 16px */
+  --font-size-small: 0.75rem;
+  /* 12px */
+  --font-size-tiny: 0.5rem;
+  /* 08px */
 
   /*  Spacing values */
-  --spacing-xxs : 0.25rem;  /* 04px */
-  --spacing-xs  : 0.50rem;  /* 08px */
-  --spacing-s   : 0.75rem;  /* 12px */
-  --spacing-n   : 1.00rem;  /* 16px */
-  --spacing-l   : 1.50rem;  /* 24px */
-  --spacing-xl  : 2.00rem;  /* 32px */
-  --spacing-xxl : 3.00rem;  /* 48px */
+  --spacing-xxs: 0.25rem;
+  /* 04px */
+  --spacing-xs: 0.50rem;
+  /* 08px */
+  --spacing-s: 0.75rem;
+  /* 12px */
+  --spacing-n: 1.00rem;
+  /* 16px */
+  --spacing-l: 1.50rem;
+  /* 24px */
+  --spacing-xl: 2.00rem;
+  /* 32px */
+  --spacing-xxl: 3.00rem;
+  /* 48px */
 
   /*  Site Theme Styling*/
   /*  Light-Mode Theme*/
-  [data-theme='light']{
+  [data-theme='light'] {
 
     --primary: var(--light-primary);
     --secondary: var(--light-secondary);
@@ -128,21 +207,23 @@
 
 /* For Material Icons */
 .material-icons {
-  font-size: 16px; /* Adjust size as needed */
+  font-size: 16px;
+  /* Adjust size as needed */
 }
 
 /* For Material-UI icons or similar */
 .MuiSvgIcon-root {
-  font-size: 16px; /* Adjust size as needed */
+  font-size: 16px;
+  /* Adjust size as needed */
 }
 
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body{
+body {
   font-family: var(--Body-font);
   max-width: 1920px;
   background-color: var(--background);
@@ -155,32 +236,30 @@ h2,
 h3,
 h4,
 h5,
-h6{
+h6 {
   font-family: var(--UI-font);
 }
 
-h1{
+h1 {
   font-size: var(--font-size-h1);
 }
 
-h2{
+h2 {
   font-size: var(--font-size-h2);
 }
 
-h3{
+h3 {
   font-size: var(--font-size-h3);
 }
 
-h4{
+h4 {
   font-size: var(--font-size-h4);
 }
 
-h5{
+h5 {
   font-size: var(--font-size-h5);
 }
 
-h6{
+h6 {
   font-size: var(--font-size-h6);
 }
-
-

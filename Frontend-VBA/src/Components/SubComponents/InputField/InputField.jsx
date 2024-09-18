@@ -26,18 +26,6 @@ import LockIcon from '../Icons/LockIcon';
 
 const InputField = ({ type = 'text', size = 'medium', fullWidth = false, placeholder = '', icon = '', value, onChange }) => {
   // Function to render the icon dynamically
-  const renderIcon = () => {
-    switch (icon) {
-      case 'search':
-        return <SearchIcon />;
-      case 'mail':
-        return <MailIcon />;
-      case 'lock':
-        return <LockIcon />;
-      default:
-        return null;
-    }
-  };
 
   // Create className string dynamically
   const inputClassNames = `${styles.input} ${styles[`input_${size}`]} ${fullWidth ? styles.input_fullWidth : ''} ${icon ? `${styles.input_with_icon}` : ''}`;
@@ -45,7 +33,7 @@ const InputField = ({ type = 'text', size = 'medium', fullWidth = false, placeho
 
   return (
     <div className={containerClassNames}>
-      {icon && renderIcon(icon)}
+      {icon &&  <span className={styles.icon}>{icon}</span>  }
       <input
         type={type}
         className={inputClassNames}

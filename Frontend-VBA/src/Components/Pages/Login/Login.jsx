@@ -3,11 +3,9 @@ import "./Login.css";
 import InputField from "../../SubComponents/InputField/InputField";
 import Button from "../../SubComponents/Button/Button";
 import axios from "axios";
-import { Facebook, Google } from "@mui/icons-material";
 import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-
-
+import { Link } from "react-router-dom";
+import { Facebook, Google, MailOutline , LockOutlined } from "@mui/icons-material";
 
 
 const Login = () => {
@@ -72,7 +70,7 @@ const Login = () => {
               type="email"
               placeholder="Email address"
               value={email}
-              icon="mail"
+              icon={<MailOutline />}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
@@ -81,7 +79,7 @@ const Login = () => {
               type="password"
               placeholder="Password"
               value={password}
-              icon="lock"
+              icon={<LockOutlined />}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
