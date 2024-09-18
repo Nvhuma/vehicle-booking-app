@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using api.DTOs.CardDtos;
 using Microsoft.AspNetCore.Identity;
 using api.Models;
@@ -7,8 +6,6 @@ using api.Interfaces;
 using api.Data;
 using api.Extensions;
 using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Http.HttpResults;
 using api.Mappers.CardMappers;
 
 
@@ -73,18 +70,24 @@ namespace api.Controllers
                     return BadRequest("Failed to upload image. Please try again");
                 }
 
-
                 // Mask the card number to show only the last four digits
                 var maskedCardNumber = $"**** **** **** {createCardDto.CardNumber.Substring(createCardDto.CardNumber.Length - 4)}";
-
 
                 var recipient = User.GetUserEmail();
                 var subject = "Card creation";
                 var templateName = "CardCreate";
 
-                await _emailService.SendEmailCardAsync(recipient, subject, user.Name, maskedCardNumber, templateName);
+                try
+                {
+                    await _emailService.SendEmailCardAsync(recipient, subject, user.Name, maskedCardNumber, templateName);
 
-                return Ok("Card created successfully.");
+                    return Ok("Card created successfully.");
+                }
+                catch (Exception ex)
+                {
+                    await _cardRepo.DeleteCardAsync(user.Id, createCard.Id);
+                    return StatusCode(500, ex);
+                }
             }
             catch (Exception ex)
             {
@@ -93,44 +96,18 @@ namespace api.Controllers
             }
         }
 
-        
+
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetCards([FromRoute] GetCardDto getCardDto)
+        public async Task<IActionResult> GetCards()
         {
             var userEmail = User.GetUserEmail();
             var user = await _userManager.FindByEmailAsync(userEmail);
             var cards = await _cardRepo.GetCardsByUserIdAsync(user.Id);
-    	    var cardDto = cards.Select(x => x.ToGetCardDto());
+            var cardDto = cards.Select(x => x.ToGetCardDto());
 
             return Ok(cardDto);
-
         }
-
-
-        // [HttpGet("cards")]
-        // [Authorize]
-        // public async Task<IActionResult> GetCardsByUserId();
-        // {
-        //     var userName = User.GetUserName(); //given name does not work also // using given name again and BIG User
-
-        //     if ( userId == null)
-        //     {
-        //         return Unauthorized("user is not logged in.");
-        //     }
-
-        //     //fetch the cards for the specific logged in user
-        //     var cardDetails = await _cardRepo.GetCardsByUserIdAsync(userId); //checking user ID instead of logged in userid
-
-        //     if (cardDetails == null)
-        //     {
-        //         return NotFound($"No card details found for user with ID: {userId}");
-        //     }
-
-        //     return Ok(cardDetails);
-        // }
-
-
 
         [Authorize]
         [HttpDelete("id")]
@@ -169,12 +146,8 @@ namespace api.Controllers
                     return BadRequest("Failed to delete card. Please try again");
                 }
 
-
-
                 // Mask the card number to show only the last four digits , we do not have a dto so we have to get CARD DETAILS 
                 var maskedCardNumber = $"**** **** **** {cardDetails.CardNumber.Substring(cardDetails.CardNumber.Length - 4)}";
-
-
 
                 var recipient = User.GetUserEmail();
                 var subject = "Card Deletion";
