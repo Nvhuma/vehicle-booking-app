@@ -1,0 +1,27 @@
+.login-container {
+	display: flex;
+	height: 100vh;
+	justify-content: center;
+	align-items: center;
+	background-color: var(--background);
+	gap: var(--spacing-l)
+}
+
+.form-container{
+	padding: var(--spacing-xxl) 0;
+	display: flex;
+	flex-direction: column;
+}
+
+.login-form{
+	max-width: 400px;
+}
+
+.forgot-password{
+	font-family: var(--UI-font);
+	text-align: end;
+}
+
+.register-link{
+	text-align: center;
+}

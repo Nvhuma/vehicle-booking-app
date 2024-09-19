@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Login.css";
+import styles from "./Login.module.css";
 import InputField from "../../SubComponents/InputField/InputField";
 import Button from "../../SubComponents/Button/Button";
 import axios from "axios";
@@ -58,43 +58,47 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
+    <div className={styles['login-container']}>
       <div className="login-image">
-        <img src="src/assets/Rectangle 482.png" alt="Vehicle" />
+        <img src="src/assets/images/login_image.png" alt="Vehicle" />
       </div>
-      <div className="login-form">
+      <div className={styles["form-container"]}>
         <h1>VEHICLE BOOKING APP</h1>
-        <form onSubmit={handleLogin}>
+        <form className={styles['loin-form']} onSubmit={handleLogin}>
           <div className="input-group">
             <InputField
               type="email"
+              fullWidth
               placeholder="Email address"
               value={email}
               icon={<MailOutline />}
               onChange={(e) => setEmail(e.target.value)}
+              className={styles["input-field"]}
             />
           </div>
           <div className="input-group">
             <InputField
               type="password"
+              fullWidth
               placeholder="Password"
               value={password}
               icon={<LockOutlined />}
               onChange={(e) => setPassword(e.target.value)}
+              className={styles["input-field"]}
             />
           </div>
-          <Link to="/ForgotPassword" className="forgot-password">
+          <Link to="/ForgotPassword" className={styles["forgot-password"]}>
             Forgot password?
           </Link>
           <Button type="submit" variant="primary" value="Sign In" fullWidth />
           <Button
-            variant="secondary"
+            variant="social"
             value="Sign In With facebook"
             fullWidth
             icon={<Facebook />}
           />
           <Button
-            variant="secondary"
+            variant="social"
             value="Sign In with facebook"
             fullWidth
             icon={<Google />}
@@ -102,8 +106,8 @@ const Login = () => {
             </form>
     
             {/* Register link */}
-            <Link to="/register" className="register-link">
-              Click here to Register
+            <Link to="/register" className={styles["register-link"]}>
+              Click here to <span>Register</span>
             </Link>
       </div>
     </div>
