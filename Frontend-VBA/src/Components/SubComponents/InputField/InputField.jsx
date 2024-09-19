@@ -1,9 +1,5 @@
 import React from 'react';
 import styles from './InputField.module.css'; // Assuming your CSS is in InputField.module.css
-import SearchIcon from '../Icons/SearchIcon';
-import MailIcon from '../Icons/MailIcon';
-import LockIcon from '../Icons/LockIcon';
-
 
 /**
  * InputField component renders a customizable input field with optional icon and size settings.

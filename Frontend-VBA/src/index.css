@@ -228,6 +228,7 @@ body {
   max-width: 1920px;
   background-color: var(--background);
   color: var(--text);
+  margin: 0 auto;
 }
 
 h1,
@@ -237,6 +238,7 @@ h4,
 h5,
 h6 {
   font-family: var(--UI-font);
+  margin-bottom: 16;
 }
 
 h1 {

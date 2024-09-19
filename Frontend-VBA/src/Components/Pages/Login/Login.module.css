@@ -38,6 +38,11 @@
 	width: 100%;
 }
 
+.page-identity{
+	text-align: left;
+	font-weight: 400;
+}
+
 .input-group{
 	margin-bottom: 16px;
 }

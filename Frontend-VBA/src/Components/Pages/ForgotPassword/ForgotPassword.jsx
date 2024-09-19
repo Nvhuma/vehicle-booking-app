@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import './ForgotPassword.module.css';
+import styles from './ForgotPassword.module.css';
 import InputField from "../../SubComponents/InputField/InputField";
 import Button from "../../SubComponents/Button/Button";
 import axios from 'axios';
-import {MailOutlined} from "@mui/icons-material";
+import { MailOutlined } from "@mui/icons-material";
+import Validation from '../../SubComponents/Validations/Validation';
+import { Link } from "react-router-dom";
+import CustomLogo from '../../SubComponents/CustomLogo/CustomLogo';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -33,22 +36,48 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="forgot-password-container">
-      <h1>Forgot Password</h1>
-      <p>Enter your email address and we will send you a link to reset your password.</p>
-      <form onSubmit={handleForgotPassword}>
-        <div className="input-group">
-          <InputField
-            type="email"
-            placeholder="Email address"
-            value={email}
-            icon={<MailOutlined />}
-            onChange={(e) => setEmail(e.target.value)}
+    <div className={styles["forgot-password-container"]}>
+      <div className={styles["site-image-container"]}>
+        <img className={styles["site-image"]} src="src/assets/images/login_image.png" alt="Vehicle" />
+      </div>
+      <div className={styles["form-container"]}>
+      <h1 className={styles["business-name"]}>AUTO SERVICES</h1>
+        <div className={styles["logo-container"]}>
+          <CustomLogo
+            variant="primary"
+            className={styles['logo']}
           />
         </div>
-        <Button type="submit" variant="primary" value="Send Reset Link" fullWidth />
-      </form>
-      {message && <p className="message">{message}</p>}
+        
+        <form className={styles['forgot-password-form']} onSubmit={handleForgotPassword}>
+        <h3 className={styles["page-identity"]}>Forgot Password</h3>
+        <p className={styles["page-instructions"]}>Enter your email address and we will send you a link to reset your password.</p>
+          <div className={styles["input-group"]}>
+            <Validation
+              value={"Your email does not exist"}
+            />
+            <InputField
+              type="email"
+              fullWidth
+              placeholder="Email address"
+              value={email}
+              icon={<MailOutlined />}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <Link to="/" className={styles["back-to-login"]}>
+            Back to Login
+          </Link>
+          <Button
+            type="submit"
+            variant="primary"
+            value="Send Reset Link"
+            fullWidth
+            className={styles["input-button"]}
+            />
+        </form>
+        {message && <p className="message">{message}</p>}
+      </div>
     </div>
   );
 };

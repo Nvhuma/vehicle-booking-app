@@ -61,18 +61,19 @@ const Login = () => {
 
   return (
     <div className={styles['login-container']}>
-      <div className="login-image">
+      <div className={styles["site-image-containera"]}>
         <img className={styles["site-image"]} src="src/assets/images/login_image.png" alt="Vehicle" />
       </div>
       <div className={styles["form-container"]}>
         <h1 className={styles["business-name"]}>AUTO SERVICES</h1>
         <div className={styles["logo-container"]}>
           <CustomLogo
-          variant="primary"
-          className={styles['logo']} />
+            variant="primary"
+            className={styles['logo']}
+          />
         </div>
         <form className={styles['login-form']} onSubmit={handleLogin}>
-
+          <h1 className={styles["page-identity"]}>Login</h1>
           <div className={styles["input-group"]}>
             <Validation value={'Replace text with code for validation'} />
             <InputField
