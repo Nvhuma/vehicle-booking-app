@@ -1,32 +1,52 @@
 <html lang="en" style="margin: 0; padding: 0px;">
-<body style="margin: 0; padding: 0px; position: relative; font-family: sans-serif;">
 
-	<header style="margin: 0;padding: 10px 7%; background-color: #2187AB; color: #E9F5F9;">
-		<div style="width: 100%;">
-			<img src="https://i.ibb.co/3Mr2PNB/Logo-1-white.png" alt="Logo-1-white" style="height: 75px;">
-		</div>
-	</header>
+<head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Roboto+Slab:wght@100..900&display=swap');
 
-	<main style="margin: 10px 7% 0;">
-		<h1>Card Successfully Deleted from Vehicle Booking App</h1>
-		<h3>Hi {nameOfUser}</h3>
-		<p>Your card ending in <strong>{maskedCardNumber}</strong> has been successfully DELETED to your account.</p>
-		<div style="padding: 0 0 10px;">
-			<h4>If you did not authorize this deletion, please contact our support team immediately to secure your account.</h4>
-		</div>
+        body {
+            font-family: 'Roboto Slab', Arial, sans-serif;
+        }
+    </style>
+</head>
 
-		<p>If you wish to add a new card for future transactions, you can do so through your account settings.</p>
-		<p>Thank you,</p>
-		<h4>Signature</h4>
-		<p>Best regards,</p>
-		<p>The Vehicle Booking App Team</p>
-	</main>
+<body style="margin: 0; padding: 0px; font-family: sans-serif; background-color: #F5F5F5;">
 
-	<footer style="margin: 10px 0 0;padding: 0 7%;">
-		<div style="width: fit-content; background-color: #2187AB; color: #E9F5F9; padding: 5px;">
-			<img src="https://i.ibb.co/3Mr2PNB/Logo-1-white.png" alt="Logo-1-white" style="height: 75px;">
-			<p>© 2024 Vehicle Booking App. All rights reserved.</p>
-		</div>
-	</footer>
+    <!-- Main Content Section -->
+    <main style="background-color: #fff; max-width: 800px; margin: 50px auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <img src="https://res.cloudinary.com/decx7vro8/image/upload/fl_preserve_transparency/v1726732539/email_header_bj2ooy.jpg?_s=public-apps" alt="Logo" width="100%" style="max-height: 200px;">
+        <h2 style="font-size: 1.8em; font-family: Orbitron, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; color: #333; text-align: center;">
+            Card Successfully Deleted</h2>
+        <div class="email-body" style="padding: 0 24px 16px;">
+            <p style="font-size: 1.1em; color: #333;">Hello <h3>{nameOfUser}</h3>,</p>
+            <p>Your card ending in <strong>{maskedCardNumber}</strong> has been successfully deleted from your <strong>Vehicle Booking App</strong> account.</p>
+
+            <!-- Notification Section -->
+            <h3 style="font-size: 1.2em; color: #333;">Important:</h3>
+            <ul style="font-size: 1.1em; color: #333; padding-left: 20px;">
+                <li>If you did not authorize this deletion, please contact our support team immediately to secure your account.</li>
+                <li>You can add a new card for future transactions through your account settings.</li>
+            </ul>
+
+            <!-- Contact Support Button (Optional) -->
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="{supportLink}" style="display: inline-block; padding: 12px 24px; font-family: Orbitron; font-size: 1.1em; color: #fff; background-color: #2187AB; text-decoration: none; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    Contact Support
+                </a>
+            </div>
+
+            <!-- Signature Section -->
+            <p style="margin-top: 20px;">If you need further assistance, feel free to reach out to our support team at <a href="mailto:support@vehiclebookingapp.com" style="color: #2187AB;">support@vehiclebookingapp.com</a>.</p>
+            <p style="font-size: 1.1em;">Best regards,</p>
+            <p style="font-size: 1.1em;"><strong>The Vehicle Booking App Team</strong></p>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer style="background-color: #2187AB; color: #E9F5F9; text-align: center; padding: 20px 7%; margin-top: 20px;">
+        <p>&copy; 2024 Vehicle Booking App. All rights reserved.</p>
+    </footer>
+
 </body>
+
 </html>
