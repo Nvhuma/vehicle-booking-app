@@ -227,7 +227,6 @@ body {
   font-family: var(--Body-font);
   max-width: 1920px;
   background-color: var(--background);
-  padding: var(--spacing-xl);
   color: var(--text);
 }
 

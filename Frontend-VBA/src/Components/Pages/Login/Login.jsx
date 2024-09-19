@@ -5,7 +5,9 @@ import Button from "../../SubComponents/Button/Button";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
-import { Facebook, Google, MailOutline , LockOutlined } from "@mui/icons-material";
+import { Facebook, Google, MailOutline, LockOutlined } from "@mui/icons-material";
+import Validation from "../../SubComponents/Validations/Validation";
+import CustomLogo from "../../SubComponents/CustomLogo/CustomLogo";
 
 
 const Login = () => {
@@ -60,12 +62,19 @@ const Login = () => {
   return (
     <div className={styles['login-container']}>
       <div className="login-image">
-        <img src="src/assets/images/login_image.png" alt="Vehicle" />
+        <img className={styles["site-image"]} src="src/assets/images/login_image.png" alt="Vehicle" />
       </div>
       <div className={styles["form-container"]}>
-        <h1>VEHICLE BOOKING APP</h1>
-        <form className={styles['loin-form']} onSubmit={handleLogin}>
-          <div className="input-group">
+        <h1 className={styles["business-name"]}>AUTO SERVICES</h1>
+        <div className={styles["logo-container"]}>
+          <CustomLogo
+          variant="primary"
+          className={styles['logo']} />
+        </div>
+        <form className={styles['login-form']} onSubmit={handleLogin}>
+
+          <div className={styles["input-group"]}>
+            <Validation value={'Replace text with code for validation'} />
             <InputField
               type="email"
               fullWidth
@@ -73,10 +82,11 @@ const Login = () => {
               value={email}
               icon={<MailOutline />}
               onChange={(e) => setEmail(e.target.value)}
-              className={styles["input-field"]}
             />
           </div>
-          <div className="input-group">
+
+          <div className={styles["input-group"]}>
+            <Validation value={'Replace text with code for validation'} />
             <InputField
               type="password"
               fullWidth
@@ -84,31 +94,44 @@ const Login = () => {
               value={password}
               icon={<LockOutlined />}
               onChange={(e) => setPassword(e.target.value)}
-              className={styles["input-field"]}
             />
           </div>
+
           <Link to="/ForgotPassword" className={styles["forgot-password"]}>
             Forgot password?
           </Link>
-          <Button type="submit" variant="primary" value="Sign In" fullWidth />
+
+          <Button
+            type="submit"
+            variant="primary"
+            value="Sign In"
+            fullWidth
+            className={styles["input-button"]}
+          />
+
           <Button
             variant="social"
             value="Sign In With facebook"
             fullWidth
             icon={<Facebook />}
+            className={styles["input-button"]} // Add custom styles here
           />
+
           <Button
             variant="social"
             value="Sign In with facebook"
             fullWidth
             icon={<Google />}
-            />
-            </form>
-    
-            {/* Register link */}
-            <Link to="/register" className={styles["register-link"]}>
-              Click here to <span>Register</span>
-            </Link>
+            className={styles["input-button"]}
+          />
+
+        </form>
+
+        {/* Register link */}
+        <Link to="/register" className={styles["register-link"]}>
+          Click here to <span>Register</span>
+        </Link>
+
       </div>
     </div>
   );

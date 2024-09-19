@@ -1,27 +1,81 @@
 .login-container {
 	display: flex;
 	height: 100vh;
-	justify-content: center;
+	justify-content: space-around;
 	align-items: center;
 	background-color: var(--background);
-	gap: var(--spacing-l)
+	gap: var(--spacing-l);
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 var(--spacing-l);
+}
+
+.site-image{
+	width: 100%;
 }
 
 .form-container{
 	padding: var(--spacing-xxl) 0;
 	display: flex;
 	flex-direction: column;
+	align-items: center;
+}
+
+.business-name{
+	color: var(--primary);
+}
+
+.logo-container{
+	width: 100px;
+	margin-bottom: 60px;
+}
+
+.logo{
+	width: 100%;
 }
 
 .login-form{
-	max-width: 400px;
+	width: 100%;
+}
+
+.input-group{
+	margin-bottom: 16px;
+}
+
+.input-group:last-of-type{
+	margin-bottom: 4px;
 }
 
 .forgot-password{
 	font-family: var(--UI-font);
+	font-size: var(--font-size-small);
 	text-align: end;
+	color: var(--text);
+}
+
+.input-button:first-of-type{
+	margin-top: 32px;
+}
+
+.input-button{
+	margin-bottom: 16px;
+}
+
+.input-button:last-of-type{
+	margin-bottom: 0;
 }
 
 .register-link{
 	text-align: center;
+	color: var(--text);
+	font-family: var(--UI-font);
+	text-decoration: none;
+	margin-top: 32px;
 }
+
+.register-link > span {
+	color: var(--primary);
+	text-decoration: underline;
+	font-weight: 700;
+}
+

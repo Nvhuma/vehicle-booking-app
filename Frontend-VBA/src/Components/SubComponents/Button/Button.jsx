@@ -12,12 +12,12 @@ import styles from './Button.module.css'; // Import the updated CSS file
  * 
  * @returns {JSX.Element} - The rendered button component with the appropriate styles applied.
  */
-const Button = ({ variant = 'primary', fullWidth = false, value, icon = null }) => {
+const Button = ({ variant = 'primary', fullWidth = false, value, icon = null, className ='' }) => {
   // Function to get the button variant class
   const getVariantClass = (variant) => styles[`button_${variant}`];
 
   // Combine the class names
-  const classNames = `${styles.button} ${getVariantClass(variant)} ${fullWidth ? styles.button_full_width : styles.button_dynamic}`;
+  const classNames = `${styles.button} ${getVariantClass(variant)} ${fullWidth ? styles.button_full_width : styles.button_dynamic} ${className}`;
 
   return (
     <button className={classNames}>
