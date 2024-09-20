@@ -264,6 +264,8 @@ namespace api.Controllers
                 }
 
                 var resetLink = $"{Environment.GetEnvironmentVariable("FRONT_END_LINK")}/resetpassword?userId={user.Id}&token={encodedToken}";
+                Console.WriteLine($"Front End Link: {resetLink}"); 
+                
 
                 var recipient = forgotPasswordDto.Email;
                 var subject = "Reset Password Request";

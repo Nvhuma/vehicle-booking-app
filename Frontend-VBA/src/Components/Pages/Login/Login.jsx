@@ -75,7 +75,7 @@ const Login = () => {
         <form className={styles['login-form']} onSubmit={handleLogin}>
           <h3 className={styles["page-identity"]}>Login</h3>
           <div className={styles["input-group"]}>
-            <Validation value={'Replace text with code for validation'} />
+            <Validation value={''} />
             <InputField
               type="email"
               fullWidth
@@ -87,7 +87,7 @@ const Login = () => {
           </div>
 
           <div className={styles["input-group"]}>
-            <Validation value={'Replace text with code for validation'} />
+            <Validation value={''} />
             <InputField
               type="password"
               fullWidth
