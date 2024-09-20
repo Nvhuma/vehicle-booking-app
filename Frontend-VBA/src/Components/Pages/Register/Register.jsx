@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom'
 import InputField from "../../SubComponents/InputField/InputField";
 import Button from "../../SubComponents/Button/Button";
-import './Register.module.css'; // Assuming you have your CSS file
-
+import styles from './Register.module.css'; // Assuming you have your CSS file
+import CustomLogo from '../../SubComponents/CustomLogo/CustomLogo';
+import Validation from '../../SubComponents/Validations/Validation';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -48,61 +50,132 @@ const Register = () => {
   };
 
   return (
-    <div className="register-container">
-      <h1>Register for Vehicle Booking App</h1>
-      <form onSubmit={handleRegister}>
-        <InputField
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <InputField
-          type="text"
-          placeholder="Surname"
-          value={surname}
-          onChange={(e) => setSurname(e.target.value)}
-        />
-        <InputField
-          type="text"
-          placeholder="Username"
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
-        />
-        <InputField
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <InputField
-          type="text"
-          placeholder="Phone Number"
-          value={phoneNumber}
-          onChange={(e) => setPhoneNumber(e.target.value)}
-        />
-        <InputField
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <InputField
-          type="password"
-          placeholder="Confirm Password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-        />
-        <InputField
-          type="text"
-          placeholder="Identity Number"
-          value={identityNumber}
-          onChange={(e) => setIdentityNumber(e.target.value)}
-        />
-        {error && <div className="error-message">{error}</div>}
-        {success && <div className="success-message">{success}</div>}
-        <Button type="submit" variant="primary" value="Register" fullWidth />
-      </form>
+    <div className={styles["register-container"]}>
+      <div className={styles["site-image-containera"]}>
+        <img className={styles["site-image"]} src="src/assets/images/login_image.png" alt="Vehicle" />
+      </div>
+      <div className={styles["form-container"]}>
+        <h1 className={styles["business-name"]}>AUTO SERVICES</h1>
+        <div className={styles["logo-container"]}>
+          <CustomLogo
+            variant="primary"
+            className={styles['logo']}
+          />
+        </div>
+
+        <form className={styles["register-form"]} onSubmit={handleRegister}>
+          <h3 className={styles["page-identity"]}>Register</h3>
+
+          <div className={styles["input-group"]}>
+            <div className={styles["short-input-group"]}>
+            <Validation value={'Replace text with code for validation'} />
+              <InputField
+                type="text"
+                fullWidth
+                placeholder="Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+
+            <div className={styles["short-input-group"]}>
+            <Validation value={'Replace text with code for validation'} />
+            <InputField
+                type="text"
+                fullWidth
+                placeholder="Surname"
+                value={surname}
+                onChange={(e) => setSurname(e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div className={styles["input-group"]}>
+            <div className={styles["short-input-group"]}>
+            <Validation value={'Replace text with code for validation'} />
+            <InputField
+                type="text"
+                fullWidth
+                placeholder="Username"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+              />
+            </div>
+
+            <div className={styles["short-input-group"]}>
+            <Validation value={'Replace text with code for validation'} />
+              <InputField
+                type="text"
+                fullWidth
+                placeholder="Phone Number"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div className={styles["input-group"]}>
+          <Validation value={'Replace text with code for validation'} />
+            <InputField
+              type="email"
+              fullWidth
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+
+          <div className={styles["input-group"]}>
+          <Validation value={'Replace text with code for validation'} />
+            <InputField
+              type="password"
+              fullWidth
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+
+          <div className={styles["input-group"]}>
+          <Validation value={'Replace text with code for validation'} />
+            <InputField
+              type="password"
+              fullWidth
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </div>
+
+          <div className={styles["input-group"]}>
+          <Validation value={'Replace text with code for validation'} />
+            <InputField
+              type="text"
+              fullWidth
+              placeholder="Identity Number"
+              value={identityNumber}
+              onChange={(e) => setIdentityNumber(e.target.value)}
+            />
+          </div>
+
+          {error && <div className="error-message">{error}</div>}
+          {success && <div className="success-message">{success}</div>}
+          
+          <Button
+          type="submit"
+          variant="primary"
+          value="Register"
+          fullWidth
+          className={styles["input-button"]}
+          />
+        </form>
+
+        {/* Register link */}
+        <Link to="/" className={styles["login-link"]}>
+          Already have an account <span>Login</span>
+        </Link>
+
+      </div>
     </div>
   );
 };

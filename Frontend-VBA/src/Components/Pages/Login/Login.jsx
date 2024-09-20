@@ -73,7 +73,7 @@ const Login = () => {
           />
         </div>
         <form className={styles['login-form']} onSubmit={handleLogin}>
-          <h1 className={styles["page-identity"]}>Login</h1>
+          <h3 className={styles["page-identity"]}>Login</h3>
           <div className={styles["input-group"]}>
             <Validation value={'Replace text with code for validation'} />
             <InputField

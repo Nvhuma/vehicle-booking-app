@@ -12,6 +12,7 @@
 
 .site-image{
 	width: 100%;
+	transform: scale(0.9);
 }
 
 .form-container{
@@ -19,6 +20,7 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	max-width: 400px;
 }
 
 .business-name{
@@ -27,7 +29,7 @@
 
 .logo-container{
 	width: 100px;
-	margin-bottom: 60px;
+	margin:20px 0 40px;
 }
 
 .logo{
@@ -36,11 +38,14 @@
 
 .login-form{
 	width: 100%;
+	display: flex;
+	flex-direction: column;
 }
 
 .page-identity{
 	text-align: left;
 	font-weight: 400;
+	margin-bottom: 16px;
 }
 
 .input-group{
@@ -54,7 +59,7 @@
 .forgot-password{
 	font-family: var(--UI-font);
 	font-size: var(--font-size-small);
-	text-align: end;
+	align-self: flex-end;
 	color: var(--text);
 }
 
