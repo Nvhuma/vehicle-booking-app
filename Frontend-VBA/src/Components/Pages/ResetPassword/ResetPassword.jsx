@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import styles from "./ResetPassword.module.css";
 import InputField from "../../SubComponents/InputField/InputField";
@@ -20,12 +21,12 @@ const ResetPassword = () => {
   const userId = queryParams.get('userId');
   const token = queryParams.get('token');
 
-  useEffect(() => {
-    if (!userId || !token) {
-      alert("Invalid or missing reset token. Please check your email or contact support.");
-      navigate("/forgot-password");
-    }
-  }, [userId, token, navigate]);
+  //useEffect(() => {
+  //  if (!userId || !token) {
+  //    alert("Invalid or missing reset token. Please check your email or contact support.");
+  //    navigate("/forgot-password");
+  //  }
+  //}, [userId, token, navigate]);
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
@@ -69,16 +70,18 @@ const ResetPassword = () => {
 
   return (
     <div className={styles['reset-container']}>
-      <div className="reset-image">
-        <img className={styles["site-image"]} src="src/assets/images/reset_password_image.png" alt="Vehicle" />
+      <div className={styles["site-image-container"]}>
+        <img className={styles["site-image"]} src="src/assets/images/login_image.png" alt="Vehicle" />
       </div>
       <div className={styles["form-container"]}>
         <h1 className={styles["business-name"]}>AUTO SERVICES</h1>
         <div className={styles["logo-container"]}>
-          <CustomLogo variant="primary" className={styles['logo']} />
+          <CustomLogo
+          variant="primary"
+          className={styles['logo']} />
         </div>
         <form className={styles['reset-form']} onSubmit={handleResetPassword}>
-
+        <h3 className={styles["page-identity"]}>Reset Password</h3>
           <div className={styles["input-group"]}>
             <Validation value={''} />
             <InputField
@@ -102,7 +105,9 @@ const ResetPassword = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </div>
-
+          <Link to="/" className={styles["back-to-login"]}>
+            Back to Login
+          </Link>
           <Button
             type="submit"
             variant="primary"
