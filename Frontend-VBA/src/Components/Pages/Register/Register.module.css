@@ -67,6 +67,10 @@
 	color: var(--text);
 }
 
+.reCAPTCHA > iframe{
+	width: 100%;
+}
+
 .input-button:first-of-type{
 	margin-top: 32px;
 }

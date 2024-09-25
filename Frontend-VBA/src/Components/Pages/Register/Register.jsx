@@ -6,6 +6,8 @@ import Button from "../../SubComponents/Button/Button";
 import styles from './Register.module.css'; // Assuming you have your CSS file
 import CustomLogo from '../../SubComponents/CustomLogo/CustomLogo';
 import Validation from '../../SubComponents/Validations/Validation';
+import ReCAPTCHA from 'react-google-recaptcha';
+import { RECAPTCHA_SITE_KEY } from '../../../../config';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -18,6 +20,9 @@ const Register = () => {
   const [identityNumber, setIdentityNumber] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [capVal, setCapVal] = useState(null)
+
+  console.log(RECAPTCHA_SITE_KEY)
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -68,7 +73,7 @@ const Register = () => {
 
           <div className={styles["input-group"]}>
             <div className={styles["short-input-group"]}>
-            <Validation value={'Replace text with code for validation'} />
+              <Validation value={'Replace text with code for validation'} />
               <InputField
                 type="text"
                 fullWidth
@@ -79,8 +84,8 @@ const Register = () => {
             </div>
 
             <div className={styles["short-input-group"]}>
-            <Validation value={'Replace text with code for validation'} />
-            <InputField
+              <Validation value={'Replace text with code for validation'} />
+              <InputField
                 type="text"
                 fullWidth
                 placeholder="Surname"
@@ -92,8 +97,8 @@ const Register = () => {
 
           <div className={styles["input-group"]}>
             <div className={styles["short-input-group"]}>
-            <Validation value={'Replace text with code for validation'} />
-            <InputField
+              <Validation value={'Replace text with code for validation'} />
+              <InputField
                 type="text"
                 fullWidth
                 placeholder="Username"
@@ -103,7 +108,7 @@ const Register = () => {
             </div>
 
             <div className={styles["short-input-group"]}>
-            <Validation value={'Replace text with code for validation'} />
+              <Validation value={'Replace text with code for validation'} />
               <InputField
                 type="text"
                 fullWidth
@@ -115,7 +120,7 @@ const Register = () => {
           </div>
 
           <div className={styles["input-group"]}>
-          <Validation value={'Replace text with code for validation'} />
+            <Validation value={'Replace text with code for validation'} />
             <InputField
               type="email"
               fullWidth
@@ -126,7 +131,7 @@ const Register = () => {
           </div>
 
           <div className={styles["input-group"]}>
-          <Validation value={'Replace text with code for validation'} />
+            <Validation value={'Replace text with code for validation'} />
             <InputField
               type="password"
               fullWidth
@@ -137,7 +142,7 @@ const Register = () => {
           </div>
 
           <div className={styles["input-group"]}>
-          <Validation value={'Replace text with code for validation'} />
+            <Validation value={'Replace text with code for validation'} />
             <InputField
               type="password"
               fullWidth
@@ -148,7 +153,7 @@ const Register = () => {
           </div>
 
           <div className={styles["input-group"]}>
-          <Validation value={'Replace text with code for validation'} />
+            <Validation value={'Replace text with code for validation'} />
             <InputField
               type="text"
               fullWidth
@@ -160,13 +165,19 @@ const Register = () => {
 
           {error && <div className="error-message">{error}</div>}
           {success && <div className="success-message">{success}</div>}
-          
+
+          <ReCAPTCHA
+            sitekey={RECAPTCHA_SITE_KEY}
+            onChange={(val) => setCapVal(val)}
+          />
+
           <Button
-          type="submit"
-          variant="primary"
-          value="Register"
-          fullWidth
-          className={styles["input-button"]}
+            type="submit"
+            variant={ !capVal ? "disabled" : "primary"}
+            value="Register"
+            fullWidth
+            disabled={!capVal}
+            className={styles["input-button"]}
           />
         </form>
 
