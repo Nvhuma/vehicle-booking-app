@@ -158,6 +158,8 @@ namespace api.Controllers
             if (result.Succeeded)
             {
                 await _userManager.ResetAccessFailedCountAsync(user);
+                
+                var roles = await _userManager.GetRolesAsync(user);
 
                 return Ok(
                     new
@@ -165,7 +167,9 @@ namespace api.Controllers
                         userName = user.UserName,
                         email = user.Email,
                         fullName = $"{_titleCaseService.ToTitleCase(user.Name).Trim()} {_titleCaseService.ToTitleCase(user.Surname).Trim()}",
-                        token = _tokenService.CreateToken(user)
+                        token = _tokenService.CreateToken(user),
+                        roles = roles
+                        
                     }
                 );
             }

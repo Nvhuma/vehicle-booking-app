@@ -21,12 +21,12 @@ const ResetPassword = () => {
   const userId = queryParams.get('userId');
   const token = queryParams.get('token');
 
-  //useEffect(() => {
-  //  if (!userId || !token) {
-  //    alert("Invalid or missing reset token. Please check your email or contact support.");
-  //    navigate("/forgot-password");
-  //  }
-  //}, [userId, token, navigate]);
+  useEffect(() => {
+    if (!userId || !token) {
+      alert("Invalid or missing reset token. Please check your email or contact support.");
+      navigate("/forgotpassword");
+    }
+  }, [userId, token, navigate]);
 
   const handleResetPassword = async (e) => {
     e.preventDefault();

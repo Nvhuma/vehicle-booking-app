@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import styles from "./Login.module.css";
 import InputField from "../../SubComponents/InputField/InputField";
 import Button from "../../SubComponents/Button/Button";
@@ -8,55 +10,53 @@ import { Link } from "react-router-dom";
 import { Facebook, Google, MailOutline, LockOutlined } from "@mui/icons-material";
 import Validation from "../../SubComponents/Validations/Validation";
 import CustomLogo from "../../SubComponents/CustomLogo/CustomLogo";
+import {BASE_URL} from "../../../../config";
+import { SetUser } from "../../../utils/Auth";
+
 
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const navigate = useNavigate();
-
-
+  
   const handleLogin = async (e) => {
     e.preventDefault();
     console.log("Login attempted with:", email, password);
 
-    try {
-      const response = await axios.post(
-        "http://localhost:5287/api/Account/login",
-        {
-          email: email,
-          password: password,
+    // Show toast notifications using toast.promise
+    toast.promise(
+      axios.post(
+        `${BASE_URL}/api/Account/login`,
+        { email, password },
+        { headers: { "Content-Type": "application/json" } }
+      ),
+      {
+        pending: 'Validating Credentials...',
+        success: {
+          render({ data }) {
+            // Local storage set User Data
+            SetUser({data});
+            return 'Login Successful! 🎉';
+          }
         },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
+        error: {
+          render({ data }) {
+            const errorMessage = data?.response?.data?.message || "Error logging in.";
+            return `Login failed: ${errorMessage}`;
+          }
         }
-      );
-
-      console.log("Login response:", response.data);
-
-      if (response.status === 200) {
-        //save the respsonse so that it an be later used react auth
-        console.log("Login Successful!");
-        console.log("UserName:", response.data.userName);
-        console.log("Email:", response.data.email);
-        console.log("FullName:", response.data.fullName);
-        console.log("Token:", response.data.token);
-
-        alert("Login successful! ");
       }
-    } catch (error) {
+    )
+    .then(() => {
+      // Delay redirection to allow toast success message to be seen
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 2000);
+    })
+    .catch((error) => {
       console.error("Login error:", error);
-      if (error.response) {
-        const errorMessage =
-          error.response.data.message || "An unexpected error occurred.";
-        alert(`Login failed: ${errorMessage}`);
-      } else {
-        alert("An unexpected error occurred. Please try again.");
-      }
-    }
+    });
   };
 
   return (
@@ -134,6 +134,9 @@ const Login = () => {
         </Link>
 
       </div>
+      <ToastContainer
+        theme="colored"
+      />
     </div>
   );
 };
