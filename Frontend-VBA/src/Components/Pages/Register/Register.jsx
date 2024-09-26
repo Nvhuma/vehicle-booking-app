@@ -8,6 +8,7 @@ import CustomLogo from '../../SubComponents/CustomLogo/CustomLogo';
 import Validation from '../../SubComponents/Validations/Validation';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { RECAPTCHA_SITE_KEY } from '../../../../config';
+import { BASE_URL } from '../../../../config';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -21,8 +22,6 @@ const Register = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [capVal, setCapVal] = useState(null)
-
-  console.log(RECAPTCHA_SITE_KEY)
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -44,7 +43,7 @@ const Register = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:5287/api/Account/register', registerData);
+      const response = await axios.post(`${BASE_URL}/api/Account/register`, registerData);
       if (response.status === 200) {
         setSuccess('User registered successfully. Please check your email to confirm your account.');
         setError('');

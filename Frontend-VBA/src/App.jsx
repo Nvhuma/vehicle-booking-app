@@ -2,9 +2,12 @@ import React from 'react';
 import './App.css'
 import Register from './Components/Pages/Register/Register';
 import Login from './Components/Pages/Login/Login';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, BrowserRouter } from 'react-router-dom';
 import ForgotPassword from './Components/Pages/ForgotPassword/ForgotPassword';
 import ResetPassword from './Components/Pages/ResetPassword/ResetPassword';
+import ProtectedRoutes from './utils/ProtectedRoutes';
+import Dashboard from './Components/Pages/Dashboard/Dashboard';
+import Profile from './Components/Pages/Profile/Profile';
 import Home from './Components/Pages/Home/Home';
 
 
@@ -12,18 +15,22 @@ import Home from './Components/Pages/Home/Home';
 function App() {
 
   return (
-    <Router>
+    <BrowserRouter>
       <div className="App">
         <Routes>
-        <Route path="/" element={<Navigate to="/Login" />} />
-          <Route path="/Login" element={<Login />} />
-          <Route path="/Register" element={<Register />} /> 
-          <Route path="/ForgotPassword" element={<ForgotPassword />} /> 
-          <Route path="/resetpassword" element={<ResetPassword />} /> 
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
+          <Route path="/resetpassword" element={<ResetPassword />} />
+          
+          <Route element={<ProtectedRoutes/>}>
+            <Route path='/' element={<Dashboard />}/>
+            <Route path='/profile' element={<Profile />}/>
+          </Route>       
           <Route path="/Home" element={<Home />} /> 
         </Routes>
       </div>
-    </Router>
+    </BrowserRouter>
   );
 }
 
