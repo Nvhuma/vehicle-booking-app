@@ -110,6 +110,7 @@ builder.Services.AddScoped<ITitleCaseService, TitleCaseService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ICardRepository, CardRepository>();
 builder.Services.AddScoped<IEncryptionService, EncryptionService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 
 var app = builder.Build();
