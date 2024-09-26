@@ -51,19 +51,12 @@ const Login = () => {
     .then(() => {
       // Delay redirection to allow toast success message to be seen
       setTimeout(() => {
-        navigate('/dashboard');
+        navigate('/Home');
       }, 2000);
     })
     .catch((error) => {
       console.error("Login error:", error);
-      if (error.response) {
-        const errorMessage =
-          error.response.data.message || "An unexpected error occurred.";
-        alert(`Login failed: ${errorMessage}`);
-      } else {
-        alert("An unexpected error occurred. Please try again.");
-      }
-    })
+    });
   };
 
   return (
@@ -139,13 +132,6 @@ const Login = () => {
         <Link to="/register" className={styles["register-link"]}>
           Click here to <span>Register</span>
         </Link>
-
-        {/* Success Popup */}
-        {showPopup && (
-          <div className={styles['login-popup']}>
-            Login successful!
-          </div>
-        )}
 
       </div>
       <ToastContainer
