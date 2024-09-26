@@ -11,7 +11,7 @@ import { Facebook, Google, MailOutline, LockOutlined } from "@mui/icons-material
 import Validation from "../../SubComponents/Validations/Validation";
 import CustomLogo from "../../SubComponents/CustomLogo/CustomLogo";
 import {BASE_URL} from "../../../../config";
-import { SetUser } from "../../../utils/Auth";
+import { SetUser } from "../../../utils/Auth/Auth";
 
 
 
