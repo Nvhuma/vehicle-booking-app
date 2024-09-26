@@ -13,14 +13,14 @@ import CustomLogo from "../../SubComponents/CustomLogo/CustomLogo";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPopup, setShowPopup] = useState(false); // Added for managing popup state
 
   const navigate = useNavigate();
-
 
   const handleLogin = async (e) => {
     e.preventDefault();
     console.log("Login attempted with:", email, password);
-
+  
     try {
       const response = await axios.post(
         "http://localhost:5287/api/Account/login",
@@ -34,18 +34,27 @@ const Login = () => {
           },
         }
       );
-
+  
       console.log("Login response:", response.data);
-
+  
       if (response.status === 200) {
-        //save the respsonse so that it an be later used react auth
+        // Save the response so that it can be later used in react auth
         console.log("Login Successful!");
         console.log("UserName:", response.data.userName);
         console.log("Email:", response.data.email);
         console.log("FullName:", response.data.fullName);
         console.log("Token:", response.data.token);
-
-        alert("Login successful! ");
+  
+        // Show the green popup
+        setShowPopup(true);
+  
+        // Hide the popup after 4 seconds
+        setTimeout(() => {
+          setShowPopup(false);
+        }, 4000);
+  
+        // Navigate to the homepage after a successful login
+        navigate('/Home');  // Change to the desired path
       }
     } catch (error) {
       console.error("Login error:", error);
@@ -58,6 +67,7 @@ const Login = () => {
       }
     }
   };
+  
 
   return (
     <div className={styles['login-container']}>
@@ -132,6 +142,13 @@ const Login = () => {
         <Link to="/register" className={styles["register-link"]}>
           Click here to <span>Register</span>
         </Link>
+
+        {/* Success Popup */}
+        {showPopup && (
+          <div className={styles['login-popup']}>
+            Login successful!
+          </div>
+        )}
 
       </div>
     </div>
