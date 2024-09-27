@@ -2,32 +2,35 @@ import React, { useState, useEffect } from 'react';
 import styles from './Home.module.css';
 import CustomLogo from '../../SubComponents/CustomLogo/CustomLogo';
 import { Person } from '@mui/icons-material';
-import { getCards, addCard, deleteCard } from '../../../utils/APIs/CardsApi';
+import { getCards, deleteCard } from '../../../utils/APIs/CardsApi';
 import InputField from '../../SubComponents/InputField/InputField'; // Import the InputField component
 import Button from '../../SubComponents/Button/Button'; // Import the Button component
 import axios from 'axios';
 import { BASE_URL } from '../../../../config';
 import { GetUser } from '../../../utils/Auth/Auth';
+import CardManagement from '../CardManagement/CardManagement';
 
 const HomePage = () => {
   const [activeTab, setActiveTab] = useState('General');
   const [cards, setCards] = useState([]);
   const [isAddingCard, setIsAddingCard] = useState(false); // Toggle for showing add card form
-  const [cardHolder, setCardHolder,] = useState("")
-  const [cardNumber, setCardNumber,] = useState("")
-  const [cvv, setCvv,] = useState("")
-  const [bankName, setBankName,] = useState("")
-  const [expiryDate, setExpiryDate,] = useState("")
-  const [userData, setUserData] = useState("")
+  const [inputFields, setInputFields] = useState({
+    cardHolder: '',
+    cardNumber: '',
+    cvv: '',
+    bankName: '',
+    expiryDate: '',
+  });
+  const [userData, setUserData] = useState("");
 
   const user = GetUser();
+
   // Fetch cards when 'Profile' tab is active
   useEffect(() => {
     if (activeTab === 'Profile') {
       fetchCards();
     }
   }, [activeTab]);
-
 
   useEffect(() => {
     if (activeTab === 'General') {
@@ -42,10 +45,8 @@ const HomePage = () => {
       setCards(fetchedCards);
     } catch (error) {
       console.error('Failed to fetch cards:', error.response ? error.response.data : error.message);
-      // Use error.response to check for server-side errors and error.message for network issues
     }
   };
-
 
   const fetchUser = async () => {
     try {
@@ -55,57 +56,55 @@ const HomePage = () => {
         },
       });
 
-      // Log the fetched user data
       console.log('Fetched user data:', results.data);
-      setUserData(results.data)
-
+      setUserData(results.data);
     } catch (error) {
       console.error('Error fetching user data:', error);
     }
   };
 
-
-
   // Handle input changes for the new card
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewCard((prevState) => ({
-      ...prevState,
+    setInputFields((prevFields) => ({
+      ...prevFields,
       [name]: value, // Update the specific field based on input name
     }));
   };
 
   // Handle adding a new card
   const handleAddCard = async () => {
-    console.log("clicked")
-    // Create the new card object
+    console.log("clicked");
+
+    // Create the new card object from inputFields state
     const newCard = {
-      cardHolder,
-      cardNumber,
-      cvv,
-      bankName,
-      expiryDate,
+      ...inputFields,
     };
 
     try {
-      // Send a POST request to add the new card
       const results = await axios.post(`${BASE_URL}/api/card`, newCard, {
         headers: {
           Authorization: `Bearer ${user.token}`,
-          'Content-Type': 'application/json', // Add content type
+          'Content-Type': 'application/json',
         },
       });
 
       // Assuming the API returns the added card, update the state
-     
-      setCards((prevCards) => [...prevCards, results.data]); // Add the new card to the existing cards array
-      
-      console.log("card added")
+      setCards((prevCards) => [...prevCards, results.data]);
+      console.log("card added");
+
+      // Reset input fields after adding a card
+      setInputFields({
+        cardHolder: '',
+        cardNumber: '',
+        cvv: '',
+        bankName: '',
+        expiryDate: '',
+      });
     } catch (error) {
       console.error('Error saving card:', error);
     }
   };
-
 
   // Handle deleting a card
   const handleDeleteCard = async (cardId) => {
@@ -158,76 +157,7 @@ const HomePage = () => {
 
         {/* Conditionally render card management when Profile tab is active */}
         {activeTab === 'Profile' && (
-          <div className={styles['card-management']}>
-            <h2>Manage Your Cards</h2>
-
-            {/* Toggle form visibility */}
-            <button onClick={() => setIsAddingCard(!isAddingCard)}>
-              {isAddingCard ? 'Cancel' : 'Add Card'}
-            </button>
-
-            {/* Conditionally render the add card form */}
-            {isAddingCard && (
-              <div className={styles['card-form']}>
-                <InputField
-                  type="text"
-                  placeholder="Card Holder"
-                  value={cardHolder}
-                  onChange={handleInputChange}
-                  name="cardHolder"
-                />
-                <InputField
-                  type="text"
-                  placeholder="Card Number"
-                  value={cardNumber}
-                  onChange={handleInputChange}
-                  name="cardNumber"
-                />
-                <InputField
-                  type="text"
-                  placeholder="CVV"
-                  value={cvv}
-                  onChange={handleInputChange}
-                  name="cvv"
-                />
-                <InputField
-                  type="text"
-                  placeholder="Bank Name"
-                  value={bankName}
-                  onChange={handleInputChange}
-                  name="bankName"
-                />
-                <InputField
-                  type="date"
-                  placeholder="Expiry Date"
-                  value={expiryDate}
-                  onChange={handleInputChange}
-                  name="expiryDate"
-                />
-                <Button
-                  variant="primary"
-                  value="Submit"
-                  fullWidth={true}
-                  onClick={handleAddCard}
-                />
-              </div>
-            )}
-
-            {/* Button to view cards */}
-            <button onClick={fetchCards}>View Cards</button>
-
-            {/* Render card list */}
-            <ul className={styles['card-list']}>
-              {cards.map((card) => (
-                <li key={card.id} className={styles['card-item']}>
-                  {card.cardNumber} - {card.expiryDate}
-                  <button onClick={() => handleDeleteCard(card.id)} className={styles['delete-button']}>
-                    Delete
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <CardManagement />
         )}
 
         {activeTab === 'General' && (
@@ -235,7 +165,7 @@ const HomePage = () => {
             {userData && Object.entries(userData).map(([key, value]) => (
               <div key={key}>
                 <p>
-                  <span style={{ fontWeight: 700 }}>{key.replace(/([A-Z])/g, ' $1')}: </span>{/* Convert camelCase to readable format */}
+                  <span style={{ fontWeight: 700 }}>{key.replace(/([A-Z])/g, ' $1')}: </span>
                   {value}
                 </p>
               </div>
