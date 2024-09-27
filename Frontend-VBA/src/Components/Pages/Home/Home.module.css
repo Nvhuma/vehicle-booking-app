@@ -52,4 +52,41 @@
   h1 {
 	color: #032733;
   }
+  .card-container {
+	display: flex;
+  }
+  
+  .sidebar {
+	width: 200px;
+  }
+  
+  .card-content {
+	flex-grow: 1;
+	padding: 20px;
+  }
+  
+  .card-management {
+	margin-top: 20px;
+  }
+  
+  .card-list {
+	list-style: none;
+	padding: 0;
+  }
+  
+  .card-item {
+	display: flex;
+	justify-content: space-between;
+	margin: 10px 0;
+  }
+  
+  button {
+	margin-right: 10px;
+	padding: 10px;
+  }
+  
+  .delete-button {
+	background-color: red;
+	color: white;
+  }
   

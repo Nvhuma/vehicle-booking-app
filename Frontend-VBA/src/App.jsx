@@ -26,7 +26,7 @@ function App() {
           <Route path="/resetpassword" element={<ResetPassword />} />
 
           <Route element={<ProtectedRoutes />}>
-            <Route path="/" element={<Navigate to="/Home" />} />
+            <Route path="/" element={<Navigate to="/home" />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/Home" element={<Home />} />
           </Route>

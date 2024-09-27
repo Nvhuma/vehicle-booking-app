@@ -10,10 +10,8 @@ import { Link } from "react-router-dom";
 import { Facebook, Google, MailOutline, LockOutlined } from "@mui/icons-material";
 import Validation from "../../SubComponents/Validations/Validation";
 import CustomLogo from "../../SubComponents/CustomLogo/CustomLogo";
-import {BASE_URL} from "../../../../config";
+import { BASE_URL } from "../../../../config";
 import { SetUser } from "../../../utils/Auth/Auth";
-
-
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -35,8 +33,14 @@ const Login = () => {
         pending: 'Validating Credentials...',
         success: {
           render({ data }) {
-            // Local storage set User Data
-            SetUser({data});
+            // Extract token from response and set in local storage
+            const token = data.data.token; // Assuming the token is returned as `data.token`
+            const user = { email, token }; // Store both email and token
+            localStorage.setItem('user', JSON.stringify(user)); // Save user data in local storage
+
+            // Also set user using SetUser
+            SetUser({ email, token });
+
             return 'Login Successful! 🎉';
           }
         },
