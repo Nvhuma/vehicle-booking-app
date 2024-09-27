@@ -110,7 +110,7 @@ namespace api.Controllers
         }
 
         [Authorize]
-        [HttpDelete("id")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteCard(int id)
         {
             try

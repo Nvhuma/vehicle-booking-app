@@ -17,12 +17,11 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  
+
   const handleLogin = async (e) => {
     e.preventDefault();
     console.log("Login attempted with:", email, password);
 
-    // Show toast notifications using toast.promise
     toast.promise(
       axios.post(
         `${BASE_URL}/api/Account/login`,
@@ -33,14 +32,12 @@ const Login = () => {
         pending: 'Validating Credentials...',
         success: {
           render({ data }) {
-            // Extract token from response and set in local storage
-            const token = data.data.token; // Assuming the token is returned as `data.token`
-            const user = { email, token }; // Store both email and token
-            localStorage.setItem('user', JSON.stringify(user)); // Save user data in local storage
-
-            // Also set user using SetUser
-            SetUser({ email, token });
-
+            // Get the entire user object from the response
+            const user = data.data; // This will contain userName, email, fullName, token, and roles
+    
+            // Use SetUser to store the entire user object in localStorage with expiration
+            SetUser(user);
+    
             return 'Login Successful! 🎉';
           }
         },
@@ -55,7 +52,7 @@ const Login = () => {
     .then(() => {
       // Delay redirection to allow toast success message to be seen
       setTimeout(() => {
-        navigate('/Home');
+        navigate('/Home'); // Redirect to home page after 2 seconds
       }, 2000);
     })
     .catch((error) => {
@@ -63,6 +60,7 @@ const Login = () => {
     });
   };
 
+  // Move the return statement outside of the handleLogin function
   return (
     <div className={styles['login-container']}>
       <div className={styles["site-image-containera"]}>

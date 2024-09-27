@@ -5,23 +5,33 @@ import { Person } from '@mui/icons-material';
 import { getCards, addCard, deleteCard } from '../../../utils/APIs/CardsApi';
 import InputField from '../../SubComponents/InputField/InputField'; // Import the InputField component
 import Button from '../../SubComponents/Button/Button'; // Import the Button component
+import axios from 'axios';
+import { BASE_URL } from '../../../../config';
+import { GetUser } from '../../../utils/Auth/Auth';
 
 const HomePage = () => {
   const [activeTab, setActiveTab] = useState('General');
   const [cards, setCards] = useState([]);
   const [isAddingCard, setIsAddingCard] = useState(false); // Toggle for showing add card form
-  const [newCard, setNewCard] = useState({
-    cardHolder: '',
-    cardNumber: '',
-    cvv: '',
-    bankName: '',
-    expiryDate: '',
-  });
+  const [cardHolder, setCardHolder,] = useState("")
+  const [cardNumber, setCardNumber,] = useState("")
+  const [cvv, setCvv,] = useState("")
+  const [bankName, setBankName,] = useState("")
+  const [expiryDate, setExpiryDate,] = useState("")
+  const [userData, setUserData] = useState("")
 
+  const user = GetUser();
   // Fetch cards when 'Profile' tab is active
   useEffect(() => {
     if (activeTab === 'Profile') {
       fetchCards();
+    }
+  }, [activeTab]);
+
+
+  useEffect(() => {
+    if (activeTab === 'General') {
+      fetchUser();
     }
   }, [activeTab]);
 
@@ -31,31 +41,71 @@ const HomePage = () => {
       const fetchedCards = await getCards();
       setCards(fetchedCards);
     } catch (error) {
-      console.error('Failed to fetch cards:', error.response ? error.response.data : error.message); 
+      console.error('Failed to fetch cards:', error.response ? error.response.data : error.message);
       // Use error.response to check for server-side errors and error.message for network issues
     }
   };
-  
+
+
+  const fetchUser = async () => {
+    try {
+      const results = await axios.get(`${BASE_URL}/api/user`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+
+      // Log the fetched user data
+      console.log('Fetched user data:', results.data);
+      setUserData(results.data)
+
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
+
+
 
   // Handle input changes for the new card
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewCard((prevCard) => ({
-      ...prevCard,
-      [name]: value
+    setNewCard((prevState) => ({
+      ...prevState,
+      [name]: value, // Update the specific field based on input name
     }));
   };
 
   // Handle adding a new card
   const handleAddCard = async () => {
+    console.log("clicked")
+    // Create the new card object
+    const newCard = {
+      cardHolder,
+      cardNumber,
+      cvv,
+      bankName,
+      expiryDate,
+    };
+
     try {
-      await addCard(newCard);
-      setIsAddingCard(false); // Hide the form after adding the card
-      fetchCards(); // Refresh card list
+      // Send a POST request to add the new card
+      const results = await axios.post(`${BASE_URL}/api/card`, newCard, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+          'Content-Type': 'application/json', // Add content type
+        },
+      });
+
+      // Assuming the API returns the added card, update the state
+     
+      setCards((prevCards) => [...prevCards, results.data]); // Add the new card to the existing cards array
+      
+      console.log("card added")
     } catch (error) {
-      console.error('Failed to add card:', error);
+      console.error('Error saving card:', error);
     }
   };
+
 
   // Handle deleting a card
   const handleDeleteCard = async (cardId) => {
@@ -122,35 +172,35 @@ const HomePage = () => {
                 <InputField
                   type="text"
                   placeholder="Card Holder"
-                  value={newCard.cardHolder}
+                  value={cardHolder}
                   onChange={handleInputChange}
                   name="cardHolder"
                 />
                 <InputField
                   type="text"
                   placeholder="Card Number"
-                  value={newCard.cardNumber}
+                  value={cardNumber}
                   onChange={handleInputChange}
                   name="cardNumber"
                 />
                 <InputField
                   type="text"
                   placeholder="CVV"
-                  value={newCard.cvv}
+                  value={cvv}
                   onChange={handleInputChange}
                   name="cvv"
                 />
                 <InputField
                   type="text"
                   placeholder="Bank Name"
-                  value={newCard.bankName}
+                  value={bankName}
                   onChange={handleInputChange}
                   name="bankName"
                 />
                 <InputField
-                  type="text"
+                  type="date"
                   placeholder="Expiry Date"
-                  value={newCard.expiryDate}
+                  value={expiryDate}
                   onChange={handleInputChange}
                   name="expiryDate"
                 />
@@ -177,6 +227,19 @@ const HomePage = () => {
                 </li>
               ))}
             </ul>
+          </div>
+        )}
+
+        {activeTab === 'General' && (
+          <div>
+            {userData && Object.entries(userData).map(([key, value]) => (
+              <div key={key}>
+                <p>
+                  <span style={{ fontWeight: 700 }}>{key.replace(/([A-Z])/g, ' $1')}: </span>{/* Convert camelCase to readable format */}
+                  {value}
+                </p>
+              </div>
+            ))}
           </div>
         )}
       </div>
