@@ -28,11 +28,11 @@ function App() {
 
           <Route element={<ProtectedRoutes />}>
             <Route path="/home" element={<Navigate to="/" />} />
-            <Route path="/profile" element={<Navigate to="/" />} />
 
             {/* Home Route with Nested Routes */}
             <Route path="/" element={<Home />}>
               <Route path="billing" element={<CardManagement />} />
+              <Route path="/profile" element={<Navigate to="/" />} />
             </Route>
           </Route>
         </Routes>

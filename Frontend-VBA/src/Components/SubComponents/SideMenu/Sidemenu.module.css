@@ -51,7 +51,7 @@
 
 .nav-link:hover {
 	color: var(--text);
-	transition: 0.3s;
+	transition: 0.5s;
 }
 
 .nav-link-icon {
