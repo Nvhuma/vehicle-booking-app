@@ -14,6 +14,7 @@ import ResetPassword from "./Components/Pages/ResetPassword/ResetPassword";
 import ProtectedRoutes from "./utils/Auth/ProtectedRoutes";
 import Profile from "./Components/Pages/Profile/Profile";
 import Home from "./Components/Pages/Home/Home";
+import CardManagement from "./Components/Pages/CardManagement/CardManagement";
 
 function App() {
   return (
@@ -26,9 +27,13 @@ function App() {
           <Route path="/resetpassword" element={<ResetPassword />} />
 
           <Route element={<ProtectedRoutes />}>
-            <Route path="/" element={<Navigate to="/home" />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/Home" element={<Home />} />
+            <Route path="/home" element={<Navigate to="/" />} />
+            <Route path="/profile" element={<Navigate to="/" />} />
+
+            {/* Home Route with Nested Routes */}
+            <Route path="/" element={<Home />}>
+              <Route path="billing" element={<CardManagement />} />
+            </Route>
           </Route>
         </Routes>
       </div>
