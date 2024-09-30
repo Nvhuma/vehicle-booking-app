@@ -13,7 +13,8 @@
   --light-dark-grey: hsl(0, 0%, 50%);
 
   /*  Light-Mode Background Colour*/
-  --light-background: hsl(87, 100%, 98%);
+  /*--light-background: hsl(87, 100%, 98%);*/
+    --light-background: rgb(244, 244, 244);
 
   /*  Light-mode Shades of Text colour*/
   --light-text-100: hsla(90, 33%, 2%, 1.00);

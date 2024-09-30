@@ -55,7 +55,7 @@ namespace api.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetUserDetails(string userId = null)
+        public async Task<IActionResult> GetUserById(string userId = null)
         {
             // Check if the current user is an admin
             if (User.IsInRole("Admin") && !string.IsNullOrEmpty(userId))
@@ -67,10 +67,10 @@ namespace api.Controllers
                     return NotFound(); // Handle case where user is not found
                 }
 
-                var userDetails = await _userRepo.GetUserById(userId); 
-                var userDetailsDto = userDetails.ToGetUserDto(); 
+                var userDetails = await _userRepo.GetUserByIdAsync(userId);
+                var userDetailsDto = userDetails.ToGetUserDto();
 
-                return Ok(userDetailsDto); 
+                return Ok(userDetailsDto);
             }
             else
             {
@@ -82,7 +82,7 @@ namespace api.Controllers
                     return NotFound(); // Handle case where user is not found
                 }
 
-                var userDetails = await _userRepo.GetUserById(user.Id);
+                var userDetails = await _userRepo.GetUserByIdAsync(user.Id);
                 var userDetailsDto = userDetails.ToGetUserDto();
 
                 return Ok(userDetailsDto);
@@ -100,52 +100,24 @@ namespace api.Controllers
 
             try
             {
-                // Getting the currently logged-in user
                 var userEmail = User.GetUserEmail();
-                var user = await _userManager.FindByEmailAsync(userEmail);
-                if (user == null)
+                if (userEmail == null)
                 {
-                    return Unauthorized("User not found");
+                    return BadRequest("User not found"); 
                 }
 
-                // Apply updates only to fields that are provided (non-null)
-                if (!string.IsNullOrWhiteSpace(editUserDetailsDto.Name))
-                {
-                    user.Name = _titleCaseService.ToTitleCase(editUserDetailsDto.Name).Trim();
-                }
-
-                if (!string.IsNullOrWhiteSpace(editUserDetailsDto.Surname))
-                {
-                    user.Surname = _titleCaseService.ToTitleCase(editUserDetailsDto.Surname).Trim();
-                }
-
-                if (!string.IsNullOrWhiteSpace(editUserDetailsDto.UserName))
-                {
-                    user.UserName = editUserDetailsDto.UserName;
-                }
-
-                if (!string.IsNullOrWhiteSpace(editUserDetailsDto.Email))
-                {
-                    user.Email = editUserDetailsDto.Email.ToLower();
-                }
-
-                if (!string.IsNullOrWhiteSpace(editUserDetailsDto.PhoneNumber))
-                {
-                    user.PhoneNumber = editUserDetailsDto.PhoneNumber;
-                }
-
-                var updateUserResult = await _userManager.UpdateAsync(user);
-                if (!updateUserResult.Succeeded)
-                {
-                    return BadRequest(new { errors = updateUserResult.Errors.Select(e => e.Description) });
-                }
-
-                return Ok("User details updated successfully.");
+                var user =  await _userManager.FindByEmailAsync(userEmail);
+                var result = await _userRepo.UpdateUserDetailsAsync(user.Id, editUserDetailsDto );
+                return Ok("User Details Updated successfully");
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(ex.Message);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while editing user details.");
-                return StatusCode(500, "An error occurred while processing your request.");
+                return StatusCode(500, $"An error occurred while processing your request. {ex}");
             }
         }
     }
