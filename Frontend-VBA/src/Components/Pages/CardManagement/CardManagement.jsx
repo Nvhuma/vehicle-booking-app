@@ -91,6 +91,7 @@ const CardManagement = () => {
   return (
     <div className={styles['card-management']}>
       <h2>Manage Your Cards</h2>
+      
 
       {/* Toggle form visibility */}
       <button onClick={() => setIsAddingCard(!isAddingCard)}>

@@ -193,6 +193,7 @@
     --text-on-secondary: var(--light-text-on-secondary);
 
     --background: var(--light-background);
+    --card-background:var(--white);
 
     --button-primary-default: var(--light-button-primary-default);
     --button-primary-hover: var(--light-button-primary-hover);

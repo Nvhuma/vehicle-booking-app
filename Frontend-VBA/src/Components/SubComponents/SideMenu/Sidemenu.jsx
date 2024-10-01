@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import styles from './Sidemenu.module.css'
-import { Event, Logout, Payment, Person, Security } from '@mui/icons-material'
+import { Event, Home, HomeMax, Logout, Payment, Person, Security } from '@mui/icons-material'
 import CustomLogo from '../CustomLogo/CustomLogo'
 
 function Sidemenu() {
@@ -16,9 +16,21 @@ function Sidemenu() {
 					<h4 className={styles['logo-text']}>Auto Servives</h4>
 				</NavLink>
 			</div>
+
 			<div className={styles['nav-links-container']}>
+
 				<NavLink
 					to="/"
+					className={({ isActive }) =>
+						`${styles['nav-link']} ${isActive ? styles['active'] : ''}`
+					}
+				>
+					<Home className={styles['nav-link-icon']} />
+					Dashboard
+				</NavLink>
+
+				<NavLink
+					to="/profile"
 					className={({ isActive }) =>
 						`${styles['nav-link']} ${isActive ? styles['active'] : ''}`
 					}
@@ -46,6 +58,8 @@ function Sidemenu() {
 					<Payment className={styles['nav-link-icon']} />
 					Billing
 				</NavLink>
+
+
 
 				<NavLink
 					to="/security"

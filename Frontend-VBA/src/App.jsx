@@ -31,8 +31,9 @@ function App() {
 
             {/* Home Route with Nested Routes */}
             <Route path="/" element={<Home />}>
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/dashboard" element={<Navigate to="/" />} />
               <Route path="billing" element={<CardManagement />} />
-              <Route path="/profile" element={<Navigate to="/" />} />
             </Route>
           </Route>
         </Routes>

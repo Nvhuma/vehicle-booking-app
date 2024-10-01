@@ -1,0 +1,28 @@
+.top-header-container{
+	background-color: var(--white);
+	height: 85px;
+	margin-top: var(--spacing-n);
+	border-radius: var(--spacing-xs);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.profiler-container{
+	height: 100%;
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-n);
+	padding: var(--spacing-s);
+	justify-content: end;
+}
+
+.profiler-email{
+	font-weight: 500;
+}
+
+.profiler-image{
+	height: 100%;
+	width: auto;
+	border-radius: 50%;
+	border: 4px solid var(--white);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
