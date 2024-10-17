@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using api.Data;
 
@@ -11,9 +12,11 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241017134831_bookings")]
+    partial class bookings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,31 +69,31 @@ namespace api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e059dd2f-54fa-413b-ad06-f47fbe8fa12c",
+                            Id = "0f761d1d-a1de-4243-8a9b-ca5459076d07",
                             Name = "SuperUser",
                             NormalizedName = "SUPERUSER"
                         },
                         new
                         {
-                            Id = "98282b82-cee5-4651-af85-95e7eb1f7ab1",
+                            Id = "43dea621-7fb8-4baa-a35c-a101823801b6",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "751869bc-1153-429e-b7e7-21fdd77bff1a",
+                            Id = "3faffbc5-eb49-46e4-9fe6-c38841e8dee2",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "05e9e889-c7e8-4df5-8d79-f1965edb98bd",
+                            Id = "ea5eb7f3-21f3-4c3b-95b2-040ec21c10bb",
                             Name = "Executive",
                             NormalizedName = "EXECUTIVE"
                         },
                         new
                         {
-                            Id = "d6526b20-2f02-4694-b885-27639752bbe0",
+                            Id = "a409d490-7d8d-4f36-ae19-b937bb3f8a88",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });

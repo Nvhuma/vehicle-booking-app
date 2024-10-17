@@ -12,15 +12,13 @@ using DotNetEnv;
 using Microsoft.Extensions.Hosting;
 using api.Repositories;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 Env.Load();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
 
+// Swagger configuration
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option =>
 {
     option.SwaggerDoc("v1", new OpenApiInfo { Title = "Vehicle Booking API", Version = "v1" });
@@ -40,8 +38,8 @@ builder.Services.AddSwaggerGen(option =>
             {
                 Reference = new OpenApiReference
                 {
-                    Type=ReferenceType.SecurityScheme,
-                    Id="Bearer"
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
                 }
             },
             new string[]{}
@@ -49,18 +47,20 @@ builder.Services.AddSwaggerGen(option =>
     });
 });
 
+// Controller configuration with Newtonsoft.Json
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 });
 
-//this service is responisble for which DataBase is being used 
+// Database context configuration
 builder.Services.AddDbContext<ApplicationDBContext>((serviceProvider, options) =>
 {
     var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
     options.UseSqlServer(connectionString);
 });
 
+// Identity configuration
 builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 {
     options.Password.RequiredLength = 8;
@@ -74,8 +74,9 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
     options.Lockout.AllowedForNewUsers = true;
 })
 .AddEntityFrameworkStores<ApplicationDBContext>()
-.AddDefaultTokenProviders(); // Add this line to register default token providers
+.AddDefaultTokenProviders();
 
+// Authentication configuration
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme =
@@ -102,7 +103,7 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-//dependency injection for the Interfaces, Services and Repositories
+// Dependency injection for services and repositories
 builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.AddScoped<IIdService, IdService>();
 builder.Services.AddScoped<IPasswordHistoryService, PasswordHistoryService>();
@@ -112,6 +113,8 @@ builder.Services.AddScoped<ICardRepository, CardRepository>();
 builder.Services.AddScoped<IEncryptionService, EncryptionService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
+// Register AdminService
+builder.Services.AddScoped<AdminService>();
 
 var app = builder.Build();
 
@@ -124,15 +127,16 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// CORS registration should be done separately
+// CORS registration
 app.UseCors(options => options.WithOrigins("http://localhost:5173")
     .AllowAnyMethod()
     .AllowAnyHeader());
 
 app.UseAuthentication();
-
 app.UseAuthorization();
 
 app.MapControllers();
+
+
 
 app.Run();
