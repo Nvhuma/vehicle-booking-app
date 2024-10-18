@@ -24,12 +24,7 @@
 
 
 .nav-links-container {
-	/*shift the center to the top   */
 	margin-bottom: auto;
-
-	/*shift the center to the bottom*/
-	/*margin-top: auto; */
-
 	display: flex;
 	flex-direction: column;
 	gap: var(--spacing-xs);
@@ -56,4 +51,18 @@
 
 .nav-link-icon {
 	color: var(--primary);
+}
+
+.nav-logout-container{
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-xs);
+}
+
+.logout-button{
+	border: none;
+	outline: none;
+	background-color: inherit;
+	font-family: inherit;
+	font-size: var(--font-size-normal);
 }

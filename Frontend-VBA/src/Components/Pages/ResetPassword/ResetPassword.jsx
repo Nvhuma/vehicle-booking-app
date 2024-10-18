@@ -8,6 +8,7 @@ import Button from "../../SubComponents/Button/Button";
 import { LockOutlined } from "@mui/icons-material";
 import Validation from "../../SubComponents/Validations/Validation";
 import CustomLogo from "../../SubComponents/CustomLogo/CustomLogo";
+import { toast } from "react-toastify";
 
 const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState("");

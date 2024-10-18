@@ -1,0 +1,51 @@
+/* UserDetailsSection.module.css */
+.user-details-container {
+  margin-top: 2rem;
+  background-color: var(--card-background);
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+	border-radius: var(--spacing-xs);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.user-details-info-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.user-info-group {
+  flex-grow: 1;
+  flex-basis: 45%;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--Alt-Body-font);
+}
+
+.user-info-label {
+  font-weight: 700;
+  font-family: var(--UI-font);
+  font-size: var(--font-size-small);
+}
+
+.user-info {
+  color: var(--text-75);
+}
+
+.section-identity {
+  font-family: var(--UI-font);
+  display: block;
+  margin-bottom: 1rem;
+  font-size: var(--font-size-h6);
+  font-weight: 700;
+}
+
+.spotlight-actions-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}

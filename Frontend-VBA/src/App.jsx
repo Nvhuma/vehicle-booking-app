@@ -15,6 +15,7 @@ import ProtectedRoutes from "./utils/Auth/ProtectedRoutes";
 import Profile from "./Components/Pages/Profile/Profile";
 import Home from "./Components/Pages/Home/Home";
 import CardManagement from "./Components/Pages/CardManagement/CardManagement";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -37,6 +38,19 @@ function App() {
             </Route>
           </Route>
         </Routes>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+          transition:Bounce
+        />
       </div>
     </BrowserRouter>
   );

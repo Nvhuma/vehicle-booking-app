@@ -89,7 +89,7 @@ namespace api.Controllers
             }
         }
 
-        [HttpPatch("Edit-user-details")]
+        [HttpPatch]
         [Authorize]
         public async Task<IActionResult> EditUserDetails([FromBody] EditUserDetailsDto editUserDetailsDto)
         {
