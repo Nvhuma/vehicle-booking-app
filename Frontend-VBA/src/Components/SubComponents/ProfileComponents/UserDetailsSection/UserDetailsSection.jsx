@@ -1,9 +1,9 @@
 import React from "react";
 import styles from "./UserDetailsSection.module.css";
-import Button from "../../SubComponents/Button/Button";
+import Button from "../../Button/Button";
 import { Edit } from "@mui/icons-material";
 
-function UserDetailsSection({ sectionTitle, details }) {
+function UserDetailsSection({ sectionTitle, details, onEdit }) {
   return (
     <div className={styles["user-details-container"]}>
       <div className={styles["user-details-layout-container"]}>
@@ -18,10 +18,8 @@ function UserDetailsSection({ sectionTitle, details }) {
         </div>
       </div>
 
-      <div
-        className={`${styles["spotlight-actions-container"]} ${styles["section-action-button"]}`}
-      >
-        <Button value="Edit" icon={<Edit />} />
+      <div className={`${styles["spotlight-actions-container"]} ${styles["section-action-button"]}`}>
+      <Button value="Edit" icon={<Edit />} onClick={onEdit} /> {/* this is where it all begins*/}
       </div>
     </div>
   );

@@ -1,45 +1,46 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Profile.module.css";
 import Button from "../../SubComponents/Button/Button";
 import { Edit } from "@mui/icons-material";
-import UserDetailsSection from "../../SubComponents/ProfileComponents/UserDetailsSection";
-import UserDetailsSectionPlaceholder from "../../SubComponents/ProfileComponents/UserDetailsSectionPlaceholder";
+import UserDetailsSection from "../../SubComponents/ProfileComponents/UserDetailsSection/UserDetailsSection";
+import UserDetailsSectionPlaceholder from "../../SubComponents/ProfileComponents/UserDetailsSection/UserDetailsSectionPlaceholder";
+import UpdateUserDetails from "../../SubComponents/ProfileComponents/UpdateUserDetails/UpdateUserDetails";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { BASE_URL } from "../../../../config";
 import { GetUser } from "../../../utils/Auth/Auth";
 
 function Profile() {
-  const [personalInfo, setPersonalInfo] = useState (null)
-  const [personalAddress, setPersonalAddress] = useState (null)
+  const [personalInfo, setPersonalInfo] = useState(null);
+  const [personalAddress, setPersonalAddress] = useState(null);
+  const [editingSection, setEditingSection] = useState(null); // Track the currently edited section
+
   const user = GetUser();
   const token = user?.token;
-  
+
   useEffect(() => {
-    toast.promise(
-      axios.get(`${BASE_URL}/api/user`, {
+    const loadToastId = toast.loading("Loading user data...");
+    axios
+      .get(`${BASE_URL}/api/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }),
-      {
-        pending: 'Loading user data...',
-        //success: {
-        //  render({ data }) {
-            
-        //    console.log(data.data); // Log the data on success
-        //    return 'Load successful'; // Return an empty string to avoid showing a toast
-        //  },
-        //},
-        error: {
-          render({ data }) {
-            console.error(data); // Log the entire error response
-            const errorMessage = data?.response?.data?.message || "Error fetching user data.";
-            return `Fetch failed: ${errorMessage}`;
-          },
-        },
-      }
-    );
+      })
+      .then((response) => {
+        const formattedInfo = formatPersonalInfo(response.data);
+        setPersonalInfo(formattedInfo);
+        toast.dismiss(loadToastId);
+      })
+      .catch((error) => {
+        const errorMessage =
+          error?.response?.data?.message || "Error fetching user data.";
+        toast.update(loadToastId, {
+          render: `Fetch failed: ${errorMessage}`,
+          type: "error",
+          isLoading: false,
+          autoClose: 5000,
+        });
+      });
   }, [token]);
 
   const formatPersonalInfo = (data) => {
@@ -51,7 +52,6 @@ function Profile() {
       { label: "ID Number", value: data.identityNumber },
     ];
   };
-  
 
   const addressInfo = [
     { label: "Address Line 1", value: "20530 N Rand Rd" },
@@ -60,6 +60,50 @@ function Profile() {
     { label: "City", value: "Waverley" },
     { label: "Postal Code", value: "60010" },
   ];
+
+  const handleEditSection = (section) => {
+    console.log(`${section} clicked`); // This should log to the console when clicked
+    setEditingSection(section);
+  };
+
+  const handleCloseUpdate = () => {
+    setEditingSection(null);
+  };
+
+  const handleSubmitUpdate = (updatedData) => {
+    const loadToastId = toast.loading("Updating user data...");
+    axios
+      .put(`${BASE_URL}/api/user`, updatedData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        const updatedInfo = formatPersonalInfo(response.data);
+        setPersonalInfo(updatedInfo);
+
+        const updatedAddress = formatAddressInfo(response.data);
+        setPersonalAddress(updatedAddress);
+
+        toast.update(loadToastId, {
+          render: "User data updated successfully!",
+          type: "success",
+          isLoading: false,
+          autoClose: 5000,
+        });
+        setEditingSection(null); 
+      })
+      .catch((error) => {
+        const errorMessage =
+          error?.response?.data?.message || "Error updating user data.";
+        toast.update(loadToastId, {
+          render: `Update failed: ${errorMessage}`,
+          type: "error",
+          isLoading: false,
+          autoClose: 5000,
+        });
+      });
+  };
 
   return (
     <div className={styles["profile-container"]}>
@@ -89,8 +133,41 @@ function Profile() {
         </div>
       </div>
 
-      {personalInfo && (<UserDetailsSection sectionTitle="Personal Information" details={personalInfo} />)}
-      {personalAddress ? (<UserDetailsSection sectionTitle="Address" details={addressInfo} />) : (<UserDetailsSectionPlaceholder sectionTitle="Address"/>)}
+      {personalInfo ? (
+        <UserDetailsSection
+        sectionTitle="Personal Information"
+        details={personalInfo}
+        onEdit={() => handleEditSection("Personal Information")} /* I'm not sure if its not being passed properly but i cant hit this */
+      />
+      ) : (
+        <UserDetailsSectionPlaceholder
+        sectionTitle="Personal Information"
+        onEdit={() => handleEditSection("Personal Information")} />
+      )}
+
+      {personalAddress ? (
+        <UserDetailsSection
+        sectionTitle="Address"
+        details={addressInfo}
+        onEdit={() => handleEditSection("Address")} 
+      />
+      ) : (
+        <UserDetailsSectionPlaceholder
+        sectionTitle="Address"
+        onEdit={() => handleEditSection("Address")}/>
+      )}
+
+      {editingSection ? (
+        <UpdateUserDetails
+          sectionTitle={`Update ${editingSection}`}
+          details={
+            editingSection === "Personal Information"
+              ? personalInfo
+              : addressInfo
+          }
+          onClose={handleCloseUpdate}
+        />
+      ) : ""}
     </div>
   );
 }
