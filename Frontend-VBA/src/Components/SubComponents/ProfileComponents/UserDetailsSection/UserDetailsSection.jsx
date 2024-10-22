@@ -19,7 +19,7 @@ function UserDetailsSection({ sectionTitle, details, onEdit }) {
       </div>
 
       <div className={`${styles["spotlight-actions-container"]} ${styles["section-action-button"]}`}>
-      <Button value="Edit" icon={<Edit />} onClick={onEdit} /> {/* this is where it all begins*/}
+      <Button value="Edit" icon={<Edit />} onClick={onEdit} />
       </div>
     </div>
   );

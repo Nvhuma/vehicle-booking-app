@@ -20,7 +20,7 @@ const Button = ({ variant = 'primary', fullWidth = false, value, icon = null, cl
   const classNames = `${styles.button} ${getVariantClass(variant)} ${fullWidth ? styles.button_full_width : styles.button_dynamic} ${className}`;
 
   return (
-    <button className={classNames} onClick={onClick}> {/* Add onClick here */}
+    <button className={classNames} onClick={onClick}>
       {icon && <span className={styles.button_icon}>{icon}</span>}
       {value}
     </button>

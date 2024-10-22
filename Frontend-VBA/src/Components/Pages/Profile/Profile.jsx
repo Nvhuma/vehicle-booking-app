@@ -13,7 +13,7 @@ import { GetUser } from "../../../utils/Auth/Auth";
 function Profile() {
   const [personalInfo, setPersonalInfo] = useState(null);
   const [personalAddress, setPersonalAddress] = useState(null);
-  const [editingSection, setEditingSection] = useState(null); // Track the currently edited section
+  const [editingSection, setEditingSection] = useState(null);
 
   const user = GetUser();
   const token = user?.token;
@@ -62,7 +62,7 @@ function Profile() {
   ];
 
   const handleEditSection = (section) => {
-    console.log(`${section} clicked`); // This should log to the console when clicked
+    console.log(`${section} clicked`);
     setEditingSection(section);
   };
 
@@ -137,7 +137,7 @@ function Profile() {
         <UserDetailsSection
         sectionTitle="Personal Information"
         details={personalInfo}
-        onEdit={() => handleEditSection("Personal Information")} /* I'm not sure if its not being passed properly but i cant hit this */
+        onEdit={() => handleEditSection("Personal Information")}
       />
       ) : (
         <UserDetailsSectionPlaceholder
