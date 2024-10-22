@@ -5,10 +5,8 @@ import { Edit } from "@mui/icons-material";
 import UserDetailsSection from "../../SubComponents/ProfileComponents/UserDetailsSection/UserDetailsSection";
 import UserDetailsSectionPlaceholder from "../../SubComponents/ProfileComponents/UserDetailsSection/UserDetailsSectionPlaceholder";
 import UpdateUserDetails from "../../SubComponents/ProfileComponents/UpdateUserDetails/UpdateUserDetails";
-import { toast } from "react-toastify";
-import axios from "axios";
-import { BASE_URL } from "../../../../config";
 import { GetUser } from "../../../utils/Auth/Auth";
+import { updatePersonalInfo, getPersonalInfo } from "../../../utils/APIs/UserApi";
 
 function Profile() {
   const [personalInfo, setPersonalInfo] = useState(null);
@@ -18,29 +16,17 @@ function Profile() {
   const user = GetUser();
   const token = user?.token;
 
+
+  /*  Use Effect to fetch initial data.*/
   useEffect(() => {
-    const loadToastId = toast.loading("Loading user data...");
-    axios
-      .get(`${BASE_URL}/api/user`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        const formattedInfo = formatPersonalInfo(response.data);
-        setPersonalInfo(formattedInfo);
-        toast.dismiss(loadToastId);
-      })
-      .catch((error) => {
-        const errorMessage =
-          error?.response?.data?.message || "Error fetching user data.";
-        toast.update(loadToastId, {
-          render: `Fetch failed: ${errorMessage}`,
-          type: "error",
-          isLoading: false,
-          autoClose: 5000,
-        });
-      });
+    getPersonalInfo(token)
+   .then((responseData) => {
+      const formattedInfo = formatPersonalInfo(responseData);
+      setPersonalInfo(formattedInfo);
+    })
+   .catch((error) => {
+      console.error(error); // Just in case I need more detail on the error
+    });
   }, [token]);
 
   const formatPersonalInfo = (data) => {
@@ -61,8 +47,8 @@ function Profile() {
     { label: "Postal Code", value: "60010" },
   ];
 
+
   const handleEditSection = (section) => {
-    console.log(`${section} clicked`);
     setEditingSection(section);
   };
 
@@ -70,39 +56,21 @@ function Profile() {
     setEditingSection(null);
   };
 
-  const handleSubmitUpdate = (updatedData) => {
-    const loadToastId = toast.loading("Updating user data...");
-    axios
-      .put(`${BASE_URL}/api/user`, updatedData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        const updatedInfo = formatPersonalInfo(response.data);
-        setPersonalInfo(updatedInfo);
-
-        const updatedAddress = formatAddressInfo(response.data);
-        setPersonalAddress(updatedAddress);
-
-        toast.update(loadToastId, {
-          render: "User data updated successfully!",
-          type: "success",
-          isLoading: false,
-          autoClose: 5000,
-        });
-        setEditingSection(null); 
-      })
-      .catch((error) => {
-        const errorMessage =
-          error?.response?.data?.message || "Error updating user data.";
-        toast.update(loadToastId, {
-          render: `Update failed: ${errorMessage}`,
-          type: "error",
-          isLoading: false,
-          autoClose: 5000,
-        });
-      });
+  const handleSubmitUpdate = async (updatedData, section) => {
+    let userData;
+  
+    if (section === "Personal Information") {
+      userData = await updatePersonalInfo(token, updatedData);
+      const updatedInfo = formatPersonalInfo(userData);
+      console.log("Updated info :",updatedInfo)
+    setPersonalInfo(updatedInfo);
+    } else if (section === "Address") {
+      userData = await updatePersonalAddress(token, updatedData);
+      const updatedAddress = formatAddressInfo(userData);
+      setPersonalAddress(updatedAddress);
+    }
+  
+    setEditingSection(null);
   };
 
   return (
@@ -165,6 +133,7 @@ function Profile() {
               ? personalInfo
               : addressInfo
           }
+           onSubmit={(updatedData) => handleSubmitUpdate(updatedData, editingSection)}
           onClose={handleCloseUpdate}
         />
       ) : ""}

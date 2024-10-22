@@ -107,8 +107,14 @@ namespace api.Controllers
                 }
 
                 var user =  await _userManager.FindByEmailAsync(userEmail);
+                if (user == null)
+                {
+                    return BadRequest("User not found.");
+                }
+
                 var result = await _userRepo.UpdateUserDetailsAsync(user.Id, editUserDetailsDto );
-                return Ok("User Details Updated successfully");
+                var userDetails = result.ToGetUserDto();
+                return Ok(userDetails); 
             }
             catch (UnauthorizedAccessException ex)
             {

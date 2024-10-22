@@ -13,7 +13,6 @@ function UpdateUserDetails({ sectionTitle, details, onClose, onSubmit }) {
     if (details) {
       const initialValues = {};
       details.forEach((field) => {
-        field.label ? console.log(field.label) : console.log ("label is blank")
         initialValues[field.label] = field.value || ""; // Default to empty string if no value
       });
       setFormValues(initialValues);
@@ -23,7 +22,6 @@ function UpdateUserDetails({ sectionTitle, details, onClose, onSubmit }) {
   // Handle input field changes
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    console.log(`changing ${name} to ${value}`);
     setFormValues((prevValues) => ({
       ...prevValues,
       [name]: value, // Update the specific field value

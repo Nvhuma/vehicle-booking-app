@@ -17,7 +17,7 @@ function TopHeader() {
     };
 
     fetchUserData();
-  }, []);
+  }, [user]);
 
 
   return (
