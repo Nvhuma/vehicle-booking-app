@@ -18,5 +18,7 @@ namespace api.Models
 
         public int TimeSlotID { get; set; } // Foreign key for TimeSlot
         public TimeSlot TimeSlot { get; set; } // Navigation property for TimeSlot
+
+				public AppUser AppUser { get; set;}
     }
 }

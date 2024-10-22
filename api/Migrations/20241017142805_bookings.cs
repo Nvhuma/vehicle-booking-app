@@ -261,11 +261,17 @@ namespace api.Migrations
                     DesiredDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ServiceTypeId = table.Column<int>(type: "int", nullable: false),
                     EmployeeId = table.Column<int>(type: "int", nullable: false),
-                    TimeSlotID = table.Column<int>(type: "int", nullable: false)
+                    TimeSlotID = table.Column<int>(type: "int", nullable: false),
+                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Bookings", x => x.BookingId);
+                    table.ForeignKey(
+                        name: "FK_Bookings_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "UserID");
                     table.ForeignKey(
                         name: "FK_Bookings_Employees_EmployeeId",
                         column: x => x.EmployeeId,
@@ -396,11 +402,11 @@ namespace api.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0f761d1d-a1de-4243-8a9b-ca5459076d07", null, "SuperUser", "SUPERUSER" },
-                    { "3faffbc5-eb49-46e4-9fe6-c38841e8dee2", null, "User", "USER" },
-                    { "43dea621-7fb8-4baa-a35c-a101823801b6", null, "Admin", "ADMIN" },
-                    { "a409d490-7d8d-4f36-ae19-b937bb3f8a88", null, "Employee", "EMPLOYEE" },
-                    { "ea5eb7f3-21f3-4c3b-95b2-040ec21c10bb", null, "Executive", "EXECUTIVE" }
+                    { "0cfb039e-ed3c-4ef7-b14a-15495dbb81c5", null, "Employee", "EMPLOYEE" },
+                    { "1ac0ee27-3acf-4dd0-92ac-7bb746223873", null, "Executive", "EXECUTIVE" },
+                    { "6d281727-616c-421a-93fc-087e1f71ecca", null, "User", "USER" },
+                    { "75e5828a-0475-46d1-9446-3766cd386d53", null, "Admin", "ADMIN" },
+                    { "e6457915-37c7-4456-9184-1f1a912b473d", null, "SuperUser", "SUPERUSER" }
                 });
 
             migrationBuilder.InsertData(
@@ -480,6 +486,11 @@ namespace api.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bookings_AppUserId",
+                table: "Bookings",
+                column: "AppUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_EmployeeId",
@@ -578,13 +589,13 @@ namespace api.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "VehicleModels");
 
             migrationBuilder.DropTable(
                 name: "Bookings");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Employees");

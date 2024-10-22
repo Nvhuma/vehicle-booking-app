@@ -12,8 +12,8 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20241017135155_bookings1")]
-    partial class bookings1
+    [Migration("20241021100054_SeedData")]
+    partial class SeedData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -69,31 +69,31 @@ namespace api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e059dd2f-54fa-413b-ad06-f47fbe8fa12c",
+                            Id = "9e057244-75b1-4f8b-9995-00b09067785f",
                             Name = "SuperUser",
                             NormalizedName = "SUPERUSER"
                         },
                         new
                         {
-                            Id = "98282b82-cee5-4651-af85-95e7eb1f7ab1",
+                            Id = "06e2a8f6-88a9-48b3-81ee-31ae67bceb43",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "751869bc-1153-429e-b7e7-21fdd77bff1a",
+                            Id = "55c1d937-f588-47de-a0e6-533db6813094",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "05e9e889-c7e8-4df5-8d79-f1965edb98bd",
+                            Id = "17ede88f-b837-4356-b143-3fbd3017e427",
                             Name = "Executive",
                             NormalizedName = "EXECUTIVE"
                         },
                         new
                         {
-                            Id = "d6526b20-2f02-4694-b885-27639752bbe0",
+                            Id = "7128d79f-93cf-4e82-8046-cf281bfef3d9",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -305,6 +305,9 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookingId"));
 
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("DesiredDateTime")
                         .HasColumnType("datetime2");
 
@@ -318,6 +321,8 @@ namespace api.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("BookingId");
+
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("EmployeeId");
 
@@ -379,6 +384,23 @@ namespace api.Migrations
                     b.HasKey("EmployeeId");
 
                     b.ToTable("Employees");
+
+                    b.HasData(
+                        new
+                        {
+                            EmployeeId = 1,
+                            Name = "Vusi Vusimusi"
+                        },
+                        new
+                        {
+                            EmployeeId = 2,
+                            Name = "Jane Smith"
+                        },
+                        new
+                        {
+                            EmployeeId = 3,
+                            Name = "Bob Johnson"
+                        });
                 });
 
             modelBuilder.Entity("api.Models.EmployeeService", b =>
@@ -513,7 +535,7 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("BookingId")
+                    b.Property<int?>("BookingId")
                         .HasColumnType("int");
 
                     b.Property<int>("EmployeeId")
@@ -534,13 +556,43 @@ namespace api.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BookingId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[BookingId] IS NOT NULL");
 
                     b.HasIndex("EmployeeId");
 
                     b.HasIndex("ServiceTypeId");
 
                     b.ToTable("TimeSlots");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            EmployeeId = 1,
+                            EndTime = new DateTime(2023, 3, 15, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsAvailable = true,
+                            ServiceTypeId = 1,
+                            StartTime = new DateTime(2023, 3, 15, 9, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            EmployeeId = 2,
+                            EndTime = new DateTime(2023, 3, 15, 11, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsAvailable = true,
+                            ServiceTypeId = 2,
+                            StartTime = new DateTime(2023, 3, 15, 10, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            EmployeeId = 3,
+                            EndTime = new DateTime(2023, 3, 15, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsAvailable = true,
+                            ServiceTypeId = 3,
+                            StartTime = new DateTime(2023, 3, 15, 11, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("api.Models.UserPasswordHistory", b =>
@@ -724,6 +776,10 @@ namespace api.Migrations
 
             modelBuilder.Entity("api.Models.Bookings", b =>
                 {
+                    b.HasOne("api.Models.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId");
+
                     b.HasOne("api.Models.Employee", "Employee")
                         .WithMany("Bookings")
                         .HasForeignKey("EmployeeId")
@@ -735,6 +791,8 @@ namespace api.Migrations
                         .HasForeignKey("ServiceTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("AppUser");
 
                     b.Navigation("Employee");
 
@@ -795,8 +853,7 @@ namespace api.Migrations
                     b.HasOne("api.Models.Bookings", "Booking")
                         .WithOne("TimeSlot")
                         .HasForeignKey("api.Models.TimeSlot", "BookingId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("api.Models.Employee", "Employee")
                         .WithMany("TimeSlots")

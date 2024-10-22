@@ -12,7 +12,7 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20241017134831_bookings")]
+    [Migration("20241017142805_bookings")]
     partial class bookings
     {
         /// <inheritdoc />
@@ -69,31 +69,31 @@ namespace api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0f761d1d-a1de-4243-8a9b-ca5459076d07",
+                            Id = "e6457915-37c7-4456-9184-1f1a912b473d",
                             Name = "SuperUser",
                             NormalizedName = "SUPERUSER"
                         },
                         new
                         {
-                            Id = "43dea621-7fb8-4baa-a35c-a101823801b6",
+                            Id = "75e5828a-0475-46d1-9446-3766cd386d53",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "3faffbc5-eb49-46e4-9fe6-c38841e8dee2",
+                            Id = "6d281727-616c-421a-93fc-087e1f71ecca",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "ea5eb7f3-21f3-4c3b-95b2-040ec21c10bb",
+                            Id = "1ac0ee27-3acf-4dd0-92ac-7bb746223873",
                             Name = "Executive",
                             NormalizedName = "EXECUTIVE"
                         },
                         new
                         {
-                            Id = "a409d490-7d8d-4f36-ae19-b937bb3f8a88",
+                            Id = "0cfb039e-ed3c-4ef7-b14a-15495dbb81c5",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -305,6 +305,9 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookingId"));
 
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("DesiredDateTime")
                         .HasColumnType("datetime2");
 
@@ -318,6 +321,8 @@ namespace api.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("BookingId");
+
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("EmployeeId");
 
@@ -724,6 +729,10 @@ namespace api.Migrations
 
             modelBuilder.Entity("api.Models.Bookings", b =>
                 {
+                    b.HasOne("api.Models.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId");
+
                     b.HasOne("api.Models.Employee", "Employee")
                         .WithMany("Bookings")
                         .HasForeignKey("EmployeeId")
@@ -735,6 +744,8 @@ namespace api.Migrations
                         .HasForeignKey("ServiceTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("AppUser");
 
                     b.Navigation("Employee");
 

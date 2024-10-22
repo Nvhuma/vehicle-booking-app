@@ -112,10 +112,9 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ICardRepository, CardRepository>();
 builder.Services.AddScoped<IEncryptionService, EncryptionService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-
-// Register AdminService
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+builder.Services.AddScoped<IBookingService, BookingService>(); // Update to Scoped
 builder.Services.AddScoped<AdminService>();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -129,8 +128,8 @@ app.UseHttpsRedirection();
 
 // CORS registration
 app.UseCors(options => options.WithOrigins("http://localhost:5173")
-    .AllowAnyMethod()
-    .AllowAnyHeader());
+   .AllowAnyMethod()
+   .AllowAnyHeader());
 
 app.UseAuthentication();
 app.UseAuthorization();

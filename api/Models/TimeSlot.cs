@@ -10,7 +10,7 @@ namespace api.Models
         public DateTime EndTime { get; set; }
 
         public bool IsAvailable { get; set; }
-        public int BookingId { get; set; } // Foreign key for Booking (if occupied)
+        public int ? BookingId { get; set; } // Foreign key for Booking (if occupied)
         public Bookings Booking { get; set; } // Navigation property for Booking
 
         public int ServiceTypeId { get; set; }

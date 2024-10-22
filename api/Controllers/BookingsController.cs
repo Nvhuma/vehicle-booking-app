@@ -1,10 +1,8 @@
 using api.DTOs.BookingsDtos;
 using api.Interfaces;
 using api.Models;
-using api.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+
 
 namespace api.Controllers
 {
@@ -19,7 +17,7 @@ namespace api.Controllers
 			_bookingService = bookingService;
 		}
 
-		// **POST: Create New Booking**
+
 		[HttpPost]
 		public async Task<ActionResult<Bookings>> CreateBooking(BookingsDTO bookingDTO)
 		{
@@ -33,6 +31,7 @@ namespace api.Controllers
 			var createdBooking = await _bookingService.CreateBookingAsync(booking);
 			return CreatedAtAction(nameof(CreateBooking), new { id = createdBooking.BookingId }, createdBooking);
 		}
+
 
 		// **GET: Get All Bookings**
 		[HttpGet]
