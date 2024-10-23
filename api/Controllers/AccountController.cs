@@ -339,7 +339,7 @@ namespace api.Controllers
 
                 var reusedPeriod = TimeSpan.FromDays(180);
 
-                // checking the paasword has been used in the past by the same user 
+                // checking the password has been used in the past by the same user 
                 if (await _passwordHistoryService.IsPasswordReusedAsync(user.Id, resetPasswordDto.NewPassword, reusedPeriod))
                 {
                     return BadRequest(new { errors = new[] { "You cannot reuse a previous password" } });

@@ -100,21 +100,69 @@ namespace api.Controllers
 
             try
             {
+                // Retrieve the user's email from the claims
                 var userEmail = User.GetUserEmail();
                 if (userEmail == null)
                 {
-                    return BadRequest("User not found"); 
+                    return BadRequest("User not found");
                 }
 
-                var user =  await _userManager.FindByEmailAsync(userEmail);
+                // Find the user by email
+                var user = await _userManager.FindByEmailAsync(userEmail);
                 if (user == null)
                 {
-                    return BadRequest("User not found.");
+                    return BadRequest("User not found");
                 }
 
-                var result = await _userRepo.UpdateUserDetailsAsync(user.Id, editUserDetailsDto );
+                // Retrieve the gender of the user
+                var gender = user.Gender; // Assuming gender is a property of the AppUser model
+
+                if (gender == "Female")
+                {
+                    // Female users can update Name and Surname
+                    if (!string.IsNullOrWhiteSpace(editUserDetailsDto.Name))
+                    {
+                        user.Name = _titleCaseService.ToTitleCase(editUserDetailsDto.Name).Trim();
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(editUserDetailsDto.Surname))
+                    {
+                        user.Surname = _titleCaseService.ToTitleCase(editUserDetailsDto.Surname).Trim();
+                    }
+                }
+                else if (gender == "Male")
+                {
+                    // Restrict name and surname updates for male users, unless they input the same values as in the DB
+                    if (!string.IsNullOrWhiteSpace(editUserDetailsDto.Name) || !string.IsNullOrWhiteSpace(editUserDetailsDto.Surname))
+
+                    {     // Check if inputted name and surname match the ones in the DB
+                        if (editUserDetailsDto.Name?.Trim() != user.Name || editUserDetailsDto.Surname?.Trim() != user.Surname)
+                        {
+                            return BadRequest("Male users are not allowed to change their Name or Surname. Contact Admin");
+                        }
+
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(editUserDetailsDto.UserName))
+                    {
+                        user.UserName = editUserDetailsDto.UserName;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(editUserDetailsDto.Email))
+                    {
+                        user.Email = editUserDetailsDto.Email.ToLower();
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(editUserDetailsDto.PhoneNumber))
+                    {
+                        user.PhoneNumber = editUserDetailsDto.PhoneNumber;
+                    }
+                }
+
+                // Call the repository method to update user details
+                var result = await _userRepo.UpdateUserDetailsAsync(user.Id, editUserDetailsDto);
                 var userDetails = result.ToGetUserDto();
-                return Ok(userDetails); 
+                return Ok(userDetails);
             }
             catch (UnauthorizedAccessException ex)
             {
@@ -123,8 +171,10 @@ namespace api.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while editing user details.");
-                return StatusCode(500, $"An error occurred while processing your request. {ex}");
+                return StatusCode(500, $"An error occurred while processing your request. {ex.Message}");
             }
         }
+
+
     }
 }

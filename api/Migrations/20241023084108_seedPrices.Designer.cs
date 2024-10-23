@@ -12,8 +12,8 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240911064542_DobAndCitizenshipToUser")]
-    partial class DobAndCitizenshipToUser
+    [Migration("20241023084108_seedPrices")]
+    partial class seedPrices
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,31 +54,31 @@ namespace api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "613d4e70-8a09-447a-b1bc-4b534e3d2351",
+                            Id = "e23e2290-8d21-4b3c-881e-3acbdf022902",
                             Name = "SuperUser",
                             NormalizedName = "SUPERUSER"
                         },
                         new
                         {
-                            Id = "a2460fd6-9bdd-4d82-ac5f-3281197813dd",
+                            Id = "559fda8f-b36c-4d01-94e7-c812fb4f81dd",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "bedff37c-29ad-4831-bd7b-2db3bc6517b4",
+                            Id = "9b031811-864e-42cf-8646-6dc031056845",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "a187d278-84e4-4b86-a08f-05c2fcfbc8ce",
+                            Id = "cb9df9c6-b42a-421d-8e9b-bd20052695df",
                             Name = "Executive",
                             NormalizedName = "EXECUTIVE"
                         },
                         new
                         {
-                            Id = "4ac68686-3a45-415a-a1ac-8a1ba8efe9bb",
+                            Id = "637b411f-3be0-4e14-8d48-b00764d0da10",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -282,6 +282,60 @@ namespace api.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("api.Models.Booking", b =>
+                {
+                    b.Property<int>("BookingId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookingId"));
+
+                    b.Property<string>("AdditionalNotes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("BookingStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DesiredDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("EmployeeId1")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ServiceType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ServiceTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("VehicleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BookingId");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("EmployeeId1");
+
+                    b.HasIndex("ServiceTypeId");
+
+                    b.HasIndex("VehicleId");
+
+                    b.ToTable("Bookings");
+                });
+
             modelBuilder.Entity("api.Models.CardDetails", b =>
                 {
                     b.Property<int>("Id")
@@ -320,6 +374,164 @@ namespace api.Migrations
                     b.ToTable("CardDetails");
                 });
 
+            modelBuilder.Entity("api.Models.Employee", b =>
+                {
+                    b.Property<int>("EmployeeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeId"));
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ServiceSpecialty")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ServiceTypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("EmployeeId");
+
+                    b.HasIndex("ServiceTypeId");
+
+                    b.ToTable("Employee");
+
+                    b.HasData(
+                        new
+                        {
+                            EmployeeId = 1,
+                            IsAvailable = true,
+                            Name = "Vusi Vusimusi",
+                            ServiceSpecialty = "Oil Change"
+                        },
+                        new
+                        {
+                            EmployeeId = 2,
+                            IsAvailable = true,
+                            Name = "Jane Smith",
+                            ServiceSpecialty = "Tire Rotation"
+                        },
+                        new
+                        {
+                            EmployeeId = 3,
+                            IsAvailable = true,
+                            Name = "Bob Johnson",
+                            ServiceSpecialty = "Break pads"
+                        });
+                });
+
+            modelBuilder.Entity("api.Models.ServicePrice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<int>("ServiceTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VehicleModelId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ServiceTypeId");
+
+                    b.HasIndex("VehicleModelId");
+
+                    b.ToTable("ServicePrices");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Price = 29.99m,
+                            ServiceTypeId = 1,
+                            VehicleModelId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Price = 19.99m,
+                            ServiceTypeId = 2,
+                            VehicleModelId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Price = 31.99m,
+                            ServiceTypeId = 1,
+                            VehicleModelId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Price = 29.99m,
+                            ServiceTypeId = 1,
+                            VehicleModelId = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Price = 99.99m,
+                            ServiceTypeId = 3,
+                            VehicleModelId = 4
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Price = 99.99m,
+                            ServiceTypeId = 3,
+                            VehicleModelId = 9
+                        });
+                });
+
+            modelBuilder.Entity("api.Models.ServiceType", b =>
+                {
+                    b.Property<int>("ServiceTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ServiceTypeId"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ServiceTypeId");
+
+                    b.ToTable("ServiceTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            ServiceTypeId = 1,
+                            Name = "Oil Change"
+                        },
+                        new
+                        {
+                            ServiceTypeId = 2,
+                            Name = "Tire Rotation"
+                        },
+                        new
+                        {
+                            ServiceTypeId = 3,
+                            Name = "Brake Repair"
+                        });
+                });
+
             modelBuilder.Entity("api.Models.UserPasswordHistory", b =>
                 {
                     b.Property<int>("Id")
@@ -344,6 +556,95 @@ namespace api.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("PasswordHistories");
+                });
+
+            modelBuilder.Entity("api.Models.VehicleModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Make")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Model")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("VehicleModels");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Make = "Toyota",
+                            Model = "Camry",
+                            Year = 2019
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Make = "Toyota",
+                            Model = "Corolla",
+                            Year = 2020
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Make = "Toyota",
+                            Model = "Corolla",
+                            Year = 2018
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Make = "Honda",
+                            Model = "Civic",
+                            Year = 2021
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Make = "Honda",
+                            Model = "Civic",
+                            Year = 2019
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Make = "Honda",
+                            Model = "Accord",
+                            Year = 2020
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Make = "Ford",
+                            Model = "Mustang",
+                            Year = 2022
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Make = "Ford",
+                            Model = "Mustang",
+                            Year = 2029
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Make = "Ford",
+                            Model = "F-150",
+                            Year = 2022
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -397,6 +698,33 @@ namespace api.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("api.Models.Booking", b =>
+                {
+                    b.HasOne("api.Models.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId");
+
+                    b.HasOne("api.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId1");
+
+                    b.HasOne("api.Models.ServiceType", null)
+                        .WithMany("Bookings")
+                        .HasForeignKey("ServiceTypeId");
+
+                    b.HasOne("api.Models.VehicleModel", "Vehicle")
+                        .WithMany()
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("Vehicle");
+                });
+
             modelBuilder.Entity("api.Models.CardDetails", b =>
                 {
                     b.HasOne("api.Models.AppUser", "AppUser")
@@ -406,6 +734,32 @@ namespace api.Migrations
                         .IsRequired();
 
                     b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("api.Models.Employee", b =>
+                {
+                    b.HasOne("api.Models.ServiceType", null)
+                        .WithMany("Employees")
+                        .HasForeignKey("ServiceTypeId");
+                });
+
+            modelBuilder.Entity("api.Models.ServicePrice", b =>
+                {
+                    b.HasOne("api.Models.ServiceType", "ServiceType")
+                        .WithMany("ServicePrice")
+                        .HasForeignKey("ServiceTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("api.Models.VehicleModel", "VehicleModel")
+                        .WithMany("ServicePrice")
+                        .HasForeignKey("VehicleModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ServiceType");
+
+                    b.Navigation("VehicleModel");
                 });
 
             modelBuilder.Entity("api.Models.UserPasswordHistory", b =>
@@ -424,6 +778,20 @@ namespace api.Migrations
                     b.Navigation("Cards");
 
                     b.Navigation("UserPasswordHistories");
+                });
+
+            modelBuilder.Entity("api.Models.ServiceType", b =>
+                {
+                    b.Navigation("Bookings");
+
+                    b.Navigation("Employees");
+
+                    b.Navigation("ServicePrice");
+                });
+
+            modelBuilder.Entity("api.Models.VehicleModel", b =>
+                {
+                    b.Navigation("ServicePrice");
                 });
 #pragma warning restore 612, 618
         }
