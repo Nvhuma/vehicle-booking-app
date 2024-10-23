@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Profile.module.css";
-import Button from "../../SubComponents/Button/Button";
-import { Edit } from "@mui/icons-material";
 import UserDetailsSection from "../../SubComponents/ProfileComponents/UserDetailsSection/UserDetailsSection";
 import UserDetailsSectionPlaceholder from "../../SubComponents/ProfileComponents/UserDetailsSection/UserDetailsSectionPlaceholder";
 import UpdateUserDetails from "../../SubComponents/ProfileComponents/UpdateUserDetails/UpdateUserDetails";
 import { GetUser } from "../../../utils/Auth/Auth";
 import { updatePersonalInfo, getPersonalInfo } from "../../../utils/APIs/UserApi";
+import UserSpotlight from "../../SubComponents/UserSpotlight/UserSpotlight";
 
 function Profile() {
   const [personalInfo, setPersonalInfo] = useState(null);
@@ -77,29 +76,7 @@ function Profile() {
     <div className={styles["profile-container"]}>
       <span className={styles["page-identity"]}>My Profile</span>
 
-      <div className={styles["user-spotlight-container"]}>
-        <div className={styles["spotlight-image-container"]}>
-          <img
-            src="https://placehold.co/150"
-            alt=""
-            className={styles["spotlight-image"]}
-          />
-        </div>
-
-        <div className={styles["spotlight-text-container"]}>
-          <span className={styles["spotlight-name"]}>{user.fullName}</span>
-          <span className={styles["spotlight-role"]}>{user.roles[0]}</span>
-          <span className={styles["spotlight-location"]}>
-            Gauteng, South Africa
-          </span>
-        </div>
-
-        <div
-          className={`${styles["spotlight-actions-container"]} ${styles["section-action-button"]}`}
-        >
-          <Button value="Edit" icon={<Edit />} />
-        </div>
-      </div>
+      <UserSpotlight button={true} />
 
       {personalInfo ? (
         <UserDetailsSection

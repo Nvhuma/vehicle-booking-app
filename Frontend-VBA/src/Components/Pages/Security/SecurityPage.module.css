@@ -1,0 +1,11 @@
+.security-container{
+	margin-top: var(--spacing-n);
+}
+
+.page-identity{
+	font-weight: 500;
+	font-family: var(--UI-font);
+	font-size: var(--font-size-h3);
+	display: block;
+	margin-bottom: 1rem;
+}
