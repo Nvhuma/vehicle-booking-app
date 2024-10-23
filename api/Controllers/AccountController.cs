@@ -112,7 +112,7 @@ namespace api.Controllers
 
                     try
                     {
-                        var roleResult = await _userManager.AddToRoleAsync(appUser, "User");
+                        var roleResult = await _userManager.AddToRoleAsync(appUser, "SuperUser");
 
                         if (roleResult.Succeeded)
                         {

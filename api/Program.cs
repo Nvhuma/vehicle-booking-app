@@ -1,8 +1,8 @@
 using api.Data;
 using api.Interfaces;
 using api.Models;
-using api.Service;
-using api.Services;
+using api.Repositories;
+using api.Services; // Fix the import
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -10,11 +10,11 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using DotNetEnv;
 using Microsoft.Extensions.Hosting;
-using api.Repositories;
+using api.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Load environment variables
 Env.Load();
 
 // Swagger configuration
@@ -53,14 +53,14 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 });
 
-// Database context configuration
+// Add ApplicationDBContext
 builder.Services.AddDbContext<ApplicationDBContext>((serviceProvider, options) =>
 {
     var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
     options.UseSqlServer(connectionString);
 });
 
-// Identity configuration
+// Add Identity
 builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 {
     options.Password.RequiredLength = 8;
@@ -77,19 +77,13 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 .AddDefaultTokenProviders();
 
 // Authentication configuration
+var signInKey = Environment.GetEnvironmentVariable("SIGN_IN_KEY");
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultAuthenticateScheme =
-    options.DefaultChallengeScheme =
-    options.DefaultForbidScheme =
-    options.DefaultScheme =
-    options.DefaultSignInScheme =
-    options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
-
-}).AddJwtBearer((options) =>
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
 {
-    var signInKey = Environment.GetEnvironmentVariable("SIGN_IN_KEY");
-
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
@@ -98,12 +92,11 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = builder.Configuration["JWT:Audience"],
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(
-            System.Text.Encoding.UTF8.GetBytes(signInKey)
-        )
+            System.Text.Encoding.UTF8.GetBytes(signInKey))
     };
 });
 
-// Dependency injection for services and repositories
+// Add services and repositories
 builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.AddScoped<IIdService, IdService>();
 builder.Services.AddScoped<IPasswordHistoryService, PasswordHistoryService>();
@@ -112,12 +105,12 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ICardRepository, CardRepository>();
 builder.Services.AddScoped<IEncryptionService, EncryptionService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IBookingRepository, BookingRepository>();
-builder.Services.AddScoped<IBookingService, BookingService>(); // Update to Scoped
 builder.Services.AddScoped<AdminService>();
+builder.Services.AddScoped<BookingService>(); // Add BookingService
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -126,7 +119,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// CORS registration
+// CORS setup
 app.UseCors(options => options.WithOrigins("http://localhost:5173")
    .AllowAnyMethod()
    .AllowAnyHeader());
@@ -134,8 +127,6 @@ app.UseCors(options => options.WithOrigins("http://localhost:5173")
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
-
-
+app.MapControllers(); // Maps routes for controllers
 
 app.Run();

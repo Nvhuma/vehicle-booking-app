@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace api.Migrations
 {
     /// <inheritdoc />
-    public partial class bookings : Migration
+    public partial class seedPrices : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -60,19 +60,6 @@ namespace api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Employees",
-                columns: table => new
-                {
-                    EmployeeId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Employees", x => x.EmployeeId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ServiceTypes",
                 columns: table => new
                 {
@@ -92,8 +79,8 @@ namespace api.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Make = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Model = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Make = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Year = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -253,86 +240,24 @@ namespace api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Bookings",
+                name: "Employee",
                 columns: table => new
                 {
-                    BookingId = table.Column<int>(type: "int", nullable: false)
+                    EmployeeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DesiredDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ServiceTypeId = table.Column<int>(type: "int", nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false),
-                    TimeSlotID = table.Column<int>(type: "int", nullable: false),
-                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ServiceSpecialty = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsAvailable = table.Column<bool>(type: "bit", nullable: false),
+                    ServiceTypeId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Bookings", x => x.BookingId);
+                    table.PrimaryKey("PK_Employee", x => x.EmployeeId);
                     table.ForeignKey(
-                        name: "FK_Bookings_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "UserID");
-                    table.ForeignKey(
-                        name: "FK_Bookings_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employees",
-                        principalColumn: "EmployeeId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Bookings_ServiceTypes_ServiceTypeId",
+                        name: "FK_Employee_ServiceTypes_ServiceTypeId",
                         column: x => x.ServiceTypeId,
                         principalTable: "ServiceTypes",
-                        principalColumn: "ServiceTypeId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EmployeeServices",
-                columns: table => new
-                {
-                    EmployeeId = table.Column<int>(type: "int", nullable: false),
-                    ServiceTypeId = table.Column<int>(type: "int", nullable: false),
-                    EmployeeServiceId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EmployeeServices", x => new { x.EmployeeId, x.ServiceTypeId });
-                    table.ForeignKey(
-                        name: "FK_EmployeeServices_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employees",
-                        principalColumn: "EmployeeId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_EmployeeServices_ServiceTypes_ServiceTypeId",
-                        column: x => x.ServiceTypeId,
-                        principalTable: "ServiceTypes",
-                        principalColumn: "ServiceTypeId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EmployeeServiceType",
-                columns: table => new
-                {
-                    EmployeesEmployeeId = table.Column<int>(type: "int", nullable: false),
-                    ServiceTypesServiceTypeId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EmployeeServiceType", x => new { x.EmployeesEmployeeId, x.ServiceTypesServiceTypeId });
-                    table.ForeignKey(
-                        name: "FK_EmployeeServiceType_Employees_EmployeesEmployeeId",
-                        column: x => x.EmployeesEmployeeId,
-                        principalTable: "Employees",
-                        principalColumn: "EmployeeId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_EmployeeServiceType_ServiceTypes_ServiceTypesServiceTypeId",
-                        column: x => x.ServiceTypesServiceTypeId,
-                        principalTable: "ServiceTypes",
-                        principalColumn: "ServiceTypeId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ServiceTypeId");
                 });
 
             migrationBuilder.CreateTable(
@@ -363,37 +288,45 @@ namespace api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TimeSlots",
+                name: "Bookings",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    BookingId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsAvailable = table.Column<bool>(type: "bit", nullable: false),
-                    BookingId = table.Column<int>(type: "int", nullable: false),
-                    ServiceTypeId = table.Column<int>(type: "int", nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    VehicleId = table.Column<int>(type: "int", nullable: false),
+                    ServiceType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DesiredDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EmployeeId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmployeeId1 = table.Column<int>(type: "int", nullable: true),
+                    AdditionalNotes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BookingStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ServiceTypeId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TimeSlots", x => x.Id);
+                    table.PrimaryKey("PK_Bookings", x => x.BookingId);
                     table.ForeignKey(
-                        name: "FK_TimeSlots_Bookings_BookingId",
-                        column: x => x.BookingId,
-                        principalTable: "Bookings",
-                        principalColumn: "BookingId",
-                        onDelete: ReferentialAction.Restrict);
+                        name: "FK_Bookings_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "UserID");
                     table.ForeignKey(
-                        name: "FK_TimeSlots_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employees",
+                        name: "FK_Bookings_Employee_EmployeeId1",
+                        column: x => x.EmployeeId1,
+                        principalTable: "Employee",
                         principalColumn: "EmployeeId");
                     table.ForeignKey(
-                        name: "FK_TimeSlots_ServiceTypes_ServiceTypeId",
+                        name: "FK_Bookings_ServiceTypes_ServiceTypeId",
                         column: x => x.ServiceTypeId,
                         principalTable: "ServiceTypes",
-                        principalColumn: "ServiceTypeId",
+                        principalColumn: "ServiceTypeId");
+                    table.ForeignKey(
+                        name: "FK_Bookings_VehicleModels_VehicleId",
+                        column: x => x.VehicleId,
+                        principalTable: "VehicleModels",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -402,11 +335,21 @@ namespace api.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0cfb039e-ed3c-4ef7-b14a-15495dbb81c5", null, "Employee", "EMPLOYEE" },
-                    { "1ac0ee27-3acf-4dd0-92ac-7bb746223873", null, "Executive", "EXECUTIVE" },
-                    { "6d281727-616c-421a-93fc-087e1f71ecca", null, "User", "USER" },
-                    { "75e5828a-0475-46d1-9446-3766cd386d53", null, "Admin", "ADMIN" },
-                    { "e6457915-37c7-4456-9184-1f1a912b473d", null, "SuperUser", "SUPERUSER" }
+                    { "559fda8f-b36c-4d01-94e7-c812fb4f81dd", null, "Admin", "ADMIN" },
+                    { "637b411f-3be0-4e14-8d48-b00764d0da10", null, "Employee", "EMPLOYEE" },
+                    { "9b031811-864e-42cf-8646-6dc031056845", null, "User", "USER" },
+                    { "cb9df9c6-b42a-421d-8e9b-bd20052695df", null, "Executive", "EXECUTIVE" },
+                    { "e23e2290-8d21-4b3c-881e-3acbdf022902", null, "SuperUser", "SUPERUSER" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Employee",
+                columns: new[] { "EmployeeId", "IsAvailable", "Name", "ServiceSpecialty", "ServiceTypeId" },
+                values: new object[,]
+                {
+                    { 1, true, "Vusi Vusimusi", "Oil Change", null },
+                    { 2, true, "Jane Smith", "Tire Rotation", null },
+                    { 3, true, "Bob Johnson", "Break pads", null }
                 });
 
             migrationBuilder.InsertData(
@@ -493,9 +436,9 @@ namespace api.Migrations
                 column: "AppUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bookings_EmployeeId",
+                name: "IX_Bookings_EmployeeId1",
                 table: "Bookings",
-                column: "EmployeeId");
+                column: "EmployeeId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_ServiceTypeId",
@@ -503,19 +446,19 @@ namespace api.Migrations
                 column: "ServiceTypeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Bookings_VehicleId",
+                table: "Bookings",
+                column: "VehicleId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CardDetails_UserID",
                 table: "CardDetails",
                 column: "UserID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmployeeServices_ServiceTypeId",
-                table: "EmployeeServices",
+                name: "IX_Employee_ServiceTypeId",
+                table: "Employee",
                 column: "ServiceTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EmployeeServiceType_ServiceTypesServiceTypeId",
-                table: "EmployeeServiceType",
-                column: "ServiceTypesServiceTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PasswordHistories_UserID",
@@ -531,22 +474,6 @@ namespace api.Migrations
                 name: "IX_ServicePrices_VehicleModelId",
                 table: "ServicePrices",
                 column: "VehicleModelId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TimeSlots_BookingId",
-                table: "TimeSlots",
-                column: "BookingId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TimeSlots_EmployeeId",
-                table: "TimeSlots",
-                column: "EmployeeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TimeSlots_ServiceTypeId",
-                table: "TimeSlots",
-                column: "ServiceTypeId");
         }
 
         /// <inheritdoc />
@@ -568,13 +495,10 @@ namespace api.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Bookings");
+
+            migrationBuilder.DropTable(
                 name: "CardDetails");
-
-            migrationBuilder.DropTable(
-                name: "EmployeeServices");
-
-            migrationBuilder.DropTable(
-                name: "EmployeeServiceType");
 
             migrationBuilder.DropTable(
                 name: "PasswordHistories");
@@ -583,22 +507,16 @@ namespace api.Migrations
                 name: "ServicePrices");
 
             migrationBuilder.DropTable(
-                name: "TimeSlots");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "VehicleModels");
-
-            migrationBuilder.DropTable(
-                name: "Bookings");
+                name: "Employee");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Employees");
+                name: "VehicleModels");
 
             migrationBuilder.DropTable(
                 name: "ServiceTypes");

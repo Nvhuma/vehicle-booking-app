@@ -1,7 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace api.DTOs.AccountDtos
-{
+namespace api.DTOs.AccountDtos 
+{ 
+	//changing when you are online
     public class ChangePasswordDto
     {
         [Required]

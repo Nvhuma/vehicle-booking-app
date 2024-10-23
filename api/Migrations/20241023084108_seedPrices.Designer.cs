@@ -12,8 +12,8 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20241021100054_SeedData")]
-    partial class SeedData
+    [Migration("20241023084108_seedPrices")]
+    partial class seedPrices
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,21 +24,6 @@ namespace api.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("EmployeeServiceType", b =>
-                {
-                    b.Property<int>("EmployeesEmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ServiceTypesServiceTypeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("EmployeesEmployeeId", "ServiceTypesServiceTypeId");
-
-                    b.HasIndex("ServiceTypesServiceTypeId");
-
-                    b.ToTable("EmployeeServiceType");
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -69,31 +54,31 @@ namespace api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9e057244-75b1-4f8b-9995-00b09067785f",
+                            Id = "e23e2290-8d21-4b3c-881e-3acbdf022902",
                             Name = "SuperUser",
                             NormalizedName = "SUPERUSER"
                         },
                         new
                         {
-                            Id = "06e2a8f6-88a9-48b3-81ee-31ae67bceb43",
+                            Id = "559fda8f-b36c-4d01-94e7-c812fb4f81dd",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "55c1d937-f588-47de-a0e6-533db6813094",
+                            Id = "9b031811-864e-42cf-8646-6dc031056845",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "17ede88f-b837-4356-b143-3fbd3017e427",
+                            Id = "cb9df9c6-b42a-421d-8e9b-bd20052695df",
                             Name = "Executive",
                             NormalizedName = "EXECUTIVE"
                         },
                         new
                         {
-                            Id = "7128d79f-93cf-4e82-8046-cf281bfef3d9",
+                            Id = "637b411f-3be0-4e14-8d48-b00764d0da10",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -297,7 +282,7 @@ namespace api.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("api.Models.Bookings", b =>
+            modelBuilder.Entity("api.Models.Booking", b =>
                 {
                     b.Property<int>("BookingId")
                         .ValueGeneratedOnAdd()
@@ -305,28 +290,48 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookingId"));
 
+                    b.Property<string>("AdditionalNotes")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("AppUserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("BookingStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DesiredDateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("EmployeeId")
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("EmployeeId1")
                         .HasColumnType("int");
 
-                    b.Property<int>("ServiceTypeId")
+                    b.Property<string>("ServiceType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ServiceTypeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TimeSlotID")
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("VehicleId")
                         .HasColumnType("int");
 
                     b.HasKey("BookingId");
 
                     b.HasIndex("AppUserId");
 
-                    b.HasIndex("EmployeeId");
+                    b.HasIndex("EmployeeId1");
 
                     b.HasIndex("ServiceTypeId");
+
+                    b.HasIndex("VehicleId");
 
                     b.ToTable("Bookings");
                 });
@@ -377,48 +382,48 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeId"));
 
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ServiceSpecialty")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ServiceTypeId")
+                        .HasColumnType("int");
+
                     b.HasKey("EmployeeId");
 
-                    b.ToTable("Employees");
+                    b.HasIndex("ServiceTypeId");
+
+                    b.ToTable("Employee");
 
                     b.HasData(
                         new
                         {
                             EmployeeId = 1,
-                            Name = "Vusi Vusimusi"
+                            IsAvailable = true,
+                            Name = "Vusi Vusimusi",
+                            ServiceSpecialty = "Oil Change"
                         },
                         new
                         {
                             EmployeeId = 2,
-                            Name = "Jane Smith"
+                            IsAvailable = true,
+                            Name = "Jane Smith",
+                            ServiceSpecialty = "Tire Rotation"
                         },
                         new
                         {
                             EmployeeId = 3,
-                            Name = "Bob Johnson"
+                            IsAvailable = true,
+                            Name = "Bob Johnson",
+                            ServiceSpecialty = "Break pads"
                         });
-                });
-
-            modelBuilder.Entity("api.Models.EmployeeService", b =>
-                {
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ServiceTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EmployeeServiceId")
-                        .HasColumnType("int");
-
-                    b.HasKey("EmployeeId", "ServiceTypeId");
-
-                    b.HasIndex("ServiceTypeId");
-
-                    b.ToTable("EmployeeServices");
                 });
 
             modelBuilder.Entity("api.Models.ServicePrice", b =>
@@ -527,74 +532,6 @@ namespace api.Migrations
                         });
                 });
 
-            modelBuilder.Entity("api.Models.TimeSlot", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("BookingId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsAvailable")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("ServiceTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookingId")
-                        .IsUnique()
-                        .HasFilter("[BookingId] IS NOT NULL");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.HasIndex("ServiceTypeId");
-
-                    b.ToTable("TimeSlots");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            EmployeeId = 1,
-                            EndTime = new DateTime(2023, 3, 15, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsAvailable = true,
-                            ServiceTypeId = 1,
-                            StartTime = new DateTime(2023, 3, 15, 9, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            EmployeeId = 2,
-                            EndTime = new DateTime(2023, 3, 15, 11, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsAvailable = true,
-                            ServiceTypeId = 2,
-                            StartTime = new DateTime(2023, 3, 15, 10, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 3,
-                            EmployeeId = 3,
-                            EndTime = new DateTime(2023, 3, 15, 12, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsAvailable = true,
-                            ServiceTypeId = 3,
-                            StartTime = new DateTime(2023, 3, 15, 11, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
-                });
-
             modelBuilder.Entity("api.Models.UserPasswordHistory", b =>
                 {
                     b.Property<int>("Id")
@@ -630,9 +567,11 @@ namespace api.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Make")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Model")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Year")
@@ -708,21 +647,6 @@ namespace api.Migrations
                         });
                 });
 
-            modelBuilder.Entity("EmployeeServiceType", b =>
-                {
-                    b.HasOne("api.Models.Employee", null)
-                        .WithMany()
-                        .HasForeignKey("EmployeesEmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("api.Models.ServiceType", null)
-                        .WithMany()
-                        .HasForeignKey("ServiceTypesServiceTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -774,29 +698,31 @@ namespace api.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("api.Models.Bookings", b =>
+            modelBuilder.Entity("api.Models.Booking", b =>
                 {
                     b.HasOne("api.Models.AppUser", "AppUser")
                         .WithMany()
                         .HasForeignKey("AppUserId");
 
                     b.HasOne("api.Models.Employee", "Employee")
-                        .WithMany("Bookings")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("EmployeeId1");
 
-                    b.HasOne("api.Models.ServiceType", "ServiceType")
+                    b.HasOne("api.Models.ServiceType", null)
                         .WithMany("Bookings")
-                        .HasForeignKey("ServiceTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("ServiceTypeId");
+
+                    b.HasOne("api.Models.VehicleModel", "Vehicle")
+                        .WithMany()
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AppUser");
 
                     b.Navigation("Employee");
 
-                    b.Navigation("ServiceType");
+                    b.Navigation("Vehicle");
                 });
 
             modelBuilder.Entity("api.Models.CardDetails", b =>
@@ -810,23 +736,11 @@ namespace api.Migrations
                     b.Navigation("AppUser");
                 });
 
-            modelBuilder.Entity("api.Models.EmployeeService", b =>
+            modelBuilder.Entity("api.Models.Employee", b =>
                 {
-                    b.HasOne("api.Models.Employee", "Employee")
-                        .WithMany("EmployeeServices")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("api.Models.ServiceType", "ServiceType")
-                        .WithMany("EmployeeServices")
-                        .HasForeignKey("ServiceTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
-
-                    b.Navigation("ServiceType");
+                    b.HasOne("api.Models.ServiceType", null)
+                        .WithMany("Employees")
+                        .HasForeignKey("ServiceTypeId");
                 });
 
             modelBuilder.Entity("api.Models.ServicePrice", b =>
@@ -848,32 +762,6 @@ namespace api.Migrations
                     b.Navigation("VehicleModel");
                 });
 
-            modelBuilder.Entity("api.Models.TimeSlot", b =>
-                {
-                    b.HasOne("api.Models.Bookings", "Booking")
-                        .WithOne("TimeSlot")
-                        .HasForeignKey("api.Models.TimeSlot", "BookingId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("api.Models.Employee", "Employee")
-                        .WithMany("TimeSlots")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("api.Models.ServiceType", "ServiceType")
-                        .WithMany("TimeSlots")
-                        .HasForeignKey("ServiceTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Booking");
-
-                    b.Navigation("Employee");
-
-                    b.Navigation("ServiceType");
-                });
-
             modelBuilder.Entity("api.Models.UserPasswordHistory", b =>
                 {
                     b.HasOne("api.Models.AppUser", "AppUser")
@@ -892,30 +780,13 @@ namespace api.Migrations
                     b.Navigation("UserPasswordHistories");
                 });
 
-            modelBuilder.Entity("api.Models.Bookings", b =>
-                {
-                    b.Navigation("TimeSlot")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("api.Models.Employee", b =>
-                {
-                    b.Navigation("Bookings");
-
-                    b.Navigation("EmployeeServices");
-
-                    b.Navigation("TimeSlots");
-                });
-
             modelBuilder.Entity("api.Models.ServiceType", b =>
                 {
                     b.Navigation("Bookings");
 
-                    b.Navigation("EmployeeServices");
+                    b.Navigation("Employees");
 
                     b.Navigation("ServicePrice");
-
-                    b.Navigation("TimeSlots");
                 });
 
             modelBuilder.Entity("api.Models.VehicleModel", b =>
