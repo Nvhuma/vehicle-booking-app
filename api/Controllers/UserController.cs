@@ -140,17 +140,12 @@ namespace api.Controllers
                         {
                             return BadRequest("Male users are not allowed to change their Name or Surname. Contact Admin");
                         }
-
-                    }
-
-                    if (!string.IsNullOrWhiteSpace(editUserDetailsDto.UserName))
-                    {
-                        user.UserName = editUserDetailsDto.UserName;
                     }
 
                     if (!string.IsNullOrWhiteSpace(editUserDetailsDto.Email))
                     {
                         user.Email = editUserDetailsDto.Email.ToLower();
+                        user.UserName = editUserDetailsDto.Email.ToLower();
                     }
 
                     if (!string.IsNullOrWhiteSpace(editUserDetailsDto.PhoneNumber))
