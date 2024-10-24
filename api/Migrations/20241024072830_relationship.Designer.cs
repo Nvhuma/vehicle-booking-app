@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using api.Data;
 
@@ -11,9 +12,11 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241024072830_relationship")]
+    partial class relationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,31 +54,31 @@ namespace api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6b4654d2-23d2-4f3b-af80-bb8c1d445175",
+                            Id = "696f1ccd-e05b-46bf-8f62-e472a10f89de",
                             Name = "SuperUser",
                             NormalizedName = "SUPERUSER"
                         },
                         new
                         {
-                            Id = "1dd3391e-fa08-4b5f-8d21-a2807b93c46e",
+                            Id = "95226450-a258-499c-b013-110004b9136d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "5e8339bb-f2d7-4365-93f9-c1f14baff8e6",
+                            Id = "b6ef7621-7aef-4a5f-a508-dc7a0ce55066",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "1f66be2c-fb2e-4fa2-8585-b60196dbb77f",
+                            Id = "b65e4bcc-1e8b-4681-9618-6daa12f1f85e",
                             Name = "Executive",
                             NormalizedName = "EXECUTIVE"
                         },
                         new
                         {
-                            Id = "21b377e5-3f6b-4989-90b5-271cd02156d2",
+                            Id = "5e017ad0-a09c-4f94-b206-b8cdff525ad4",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -314,7 +317,7 @@ namespace api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("VehicleModelId")
+                    b.Property<int>("VehicleId")
                         .HasColumnType("int");
 
                     b.HasKey("BookingId");
@@ -323,7 +326,7 @@ namespace api.Migrations
 
                     b.HasIndex("ServiceTypeId");
 
-                    b.HasIndex("VehicleModelId");
+                    b.HasIndex("VehicleId");
 
                     b.ToTable("Bookings");
                 });
@@ -552,11 +555,11 @@ namespace api.Migrations
 
             modelBuilder.Entity("api.Models.VehicleModel", b =>
                 {
-                    b.Property<int>("VehicleModelId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VehicleModelId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Make")
                         .IsRequired()
@@ -569,70 +572,70 @@ namespace api.Migrations
                     b.Property<int>("Year")
                         .HasColumnType("int");
 
-                    b.HasKey("VehicleModelId");
+                    b.HasKey("Id");
 
                     b.ToTable("VehicleModels");
 
                     b.HasData(
                         new
                         {
-                            VehicleModelId = 1,
+                            Id = 1,
                             Make = "Toyota",
                             Model = "Camry",
                             Year = 2019
                         },
                         new
                         {
-                            VehicleModelId = 2,
+                            Id = 2,
                             Make = "Toyota",
                             Model = "Corolla",
                             Year = 2020
                         },
                         new
                         {
-                            VehicleModelId = 3,
+                            Id = 3,
                             Make = "Toyota",
                             Model = "Corolla",
                             Year = 2018
                         },
                         new
                         {
-                            VehicleModelId = 4,
+                            Id = 4,
                             Make = "Honda",
                             Model = "Civic",
                             Year = 2021
                         },
                         new
                         {
-                            VehicleModelId = 5,
+                            Id = 5,
                             Make = "Honda",
                             Model = "Civic",
                             Year = 2019
                         },
                         new
                         {
-                            VehicleModelId = 6,
+                            Id = 6,
                             Make = "Honda",
                             Model = "Accord",
                             Year = 2020
                         },
                         new
                         {
-                            VehicleModelId = 7,
+                            Id = 7,
                             Make = "Ford",
                             Model = "Mustang",
                             Year = 2022
                         },
                         new
                         {
-                            VehicleModelId = 8,
+                            Id = 8,
                             Make = "Ford",
                             Model = "Mustang",
                             Year = 2029
                         },
                         new
                         {
-                            VehicleModelId = 9,
+                            Id = 9,
                             Make = "Ford",
                             Model = "F-150",
                             Year = 2022
@@ -702,7 +705,7 @@ namespace api.Migrations
 
                     b.HasOne("api.Models.VehicleModel", "Vehicle")
                         .WithMany()
-                        .HasForeignKey("VehicleModelId")
+                        .HasForeignKey("VehicleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

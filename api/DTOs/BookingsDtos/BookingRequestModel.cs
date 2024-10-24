@@ -12,5 +12,6 @@ namespace api.DTOs.BookingsDtos
     public DateTime DesiredDateTime { get; set; }
     public string EmployeeId { get; set; }
     public string AdditionalNotes { get; set; }
+		public int  	VehicleModelId { get; set; }
     }
 }

@@ -72,18 +72,19 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
 					new ServicePrice { Id = 6, VehicleModelId = 9, ServiceTypeId = 3, Price = 99.99m }
 			);
 				modelBuilder.Entity<VehicleModel>().HasData(
-					new VehicleModel { Id = 1, Make = "Toyota", Model = "Camry", Year = 2019 },
-					new VehicleModel { Id = 2, Make = "Toyota", Model = "Corolla", Year = 2020 },
-					new VehicleModel { Id = 3, Make = "Toyota", Model = "Corolla", Year = 2018 },
+					new VehicleModel { VehicleModelId = 1, Make = "Toyota", Model = "Camry", Year = 2019 },
+					new VehicleModel { VehicleModelId = 2, Make = "Toyota", Model = "Corolla", Year = 2020 },
+					new VehicleModel { VehicleModelId = 3, Make = "Toyota", Model = "Corolla", Year = 2018 },
 
-					new VehicleModel { Id = 4, Make = "Honda", Model = "Civic", Year = 2021 },
-					new VehicleModel { Id = 5, Make = "Honda", Model = "Civic", Year = 2019 },
-					new VehicleModel { Id = 6, Make = "Honda", Model = "Accord", Year = 2020 },
+					new VehicleModel { VehicleModelId = 4, Make = "Honda", Model = "Civic", Year = 2021 },
+					new VehicleModel { VehicleModelId = 5, Make = "Honda", Model = "Civic", Year = 2019 },
+					new VehicleModel { VehicleModelId = 6, Make = "Honda", Model = "Accord", Year = 2020 },
 
 
-					new VehicleModel { Id = 7, Make = "Ford", Model = "Mustang", Year = 2022 },
-					new VehicleModel { Id = 8, Make = "Ford", Model = "Mustang", Year = 2029 },
-					new VehicleModel { Id = 9, Make = "Ford", Model = "F-150", Year = 2022 }
+					new VehicleModel { VehicleModelId = 7, Make = "Ford", Model = "Mustang", Year = 2022 },
+					new VehicleModel { VehicleModelId = 8, Make = "Ford", Model = "Mustang", Year = 2029 },
+					new VehicleModel { VehicleModelId = 9, Make = "Ford", Model = "F-150", Year = 2022 }
+					
 				);
 
 			modelBuilder.Entity<Employee>().HasData(employees);
