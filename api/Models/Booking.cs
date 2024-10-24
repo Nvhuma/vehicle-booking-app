@@ -9,8 +9,8 @@ namespace api.Models
     {
     public int BookingId { get; set; }
     public string UserId { get; set; }
-   
-    public int VehicleId { get; set; }
+		public decimal Price { get; set; }
+    public int VehicleModelId { get; set; }
     public VehicleModel Vehicle { get; set; }
     public string ServiceType { get; set; }
     public DateTime DesiredDateTime { get; set; }
@@ -18,5 +18,7 @@ namespace api.Models
    
     public string ? AdditionalNotes { get; set; }
     public string BookingStatus { get; set; } // Pending, Confirmed, Cancelled
+
+		public AppUser AppUser { get; set;}
     }
 }

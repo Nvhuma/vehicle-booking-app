@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace api.Models
+namespace api.DTOs.VehicleModelDtos
 {
-    public class VehicleModel
+    public class VehicleModelDto
     {
-        public int VehicleModelId { get; set; }
+       
+
+    public int VehicleModelId { get; set; }
     public string Make { get; set; }
     public string Model { get; set; }
     public int Year { get; set; }
-   
-
-			 public ICollection<ServicePrice> ServicePrice { get; set; }
+}
 
     }
-}

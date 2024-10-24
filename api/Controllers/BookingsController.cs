@@ -19,7 +19,7 @@ public class BookingsController : ControllerBase
         _bookingService = bookingService;
         _userManager = userManager;
     }
-		[HttpPost]
+	[HttpPost]
 public async Task<IActionResult> CreateBooking([FromBody] BookingRequestModel request)
 {
     if (request == null)
@@ -44,22 +44,34 @@ public async Task<IActionResult> CreateBooking([FromBody] BookingRequestModel re
         return BadRequest(new { message });
     }
 
+    // Retrieve the vehicle model from the database based on the request
+    var vehicleModel = await _bookingService.GetVehicleModelAsync(request.VehicleModelId);
+    if (vehicleModel == null)
+    {
+        return NotFound("Vehicle model not found.");
+    }
+
+    // Retrieve the service price for the selected vehicle model and service type
+   
+
+		var  servicePrice  = await _bookingService.GetServicePriceAsync( vehicleModel.VehicleModelId,int.Parse(request.ServiceType));
+
+    if (servicePrice == null)
+    {
+        return BadRequest("No price available for the selected vehicle model and service type.");
+    }
+
     // Create the booking object
     var booking = new Booking
     {
         UserId = currentUser.Id,  // Set the UserId to the current user's ID
-        Vehicle = new VehicleModel
-        {
-            Make = request.Vehicle.Make,
-            Model = request.Vehicle.Model,
-            Year = request.Vehicle.Year,
-           
-        },
+        VehicleModelId = vehicleModel.VehicleModelId, // Link the VehicleModel to the Booking
         ServiceType = request.ServiceType,
         DesiredDateTime = request.DesiredDateTime,
         EmployeeId = request.EmployeeId,
         AdditionalNotes = request.AdditionalNotes,
-        BookingStatus = "Pending"
+        BookingStatus = "Pending",
+        Price = servicePrice.Price  // Track the price from the ServicePrices table
     };
 
     // Persist the booking
@@ -69,10 +81,10 @@ public async Task<IActionResult> CreateBooking([FromBody] BookingRequestModel re
     {
         BookingId = createdBooking.BookingId,
         Message = "Booking successfully created",
-        createdBooking.BookingStatus
+        createdBooking.BookingStatus,
+        Price = createdBooking.Price  // Return the price in the response
     });
 }
-
 
     
     }
