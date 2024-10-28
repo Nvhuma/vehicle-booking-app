@@ -10,35 +10,26 @@ using System.Threading.Tasks;
 
 namespace api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class VehicleModelController : ControllerBase
-    {
-        private readonly IVehicleModelRepository _repository;
-				  private readonly ApplicationDBContext _context;
+	[Route("api/[controller]")]
+	[ApiController]
+	public class VehicleModelController : ControllerBase
+	{
+		private readonly IVehicleModelRepository _vehicleRepo;
+		private readonly ApplicationDBContext _context;
 
-        public VehicleModelController(IVehicleModelRepository repository, ApplicationDBContext context)
-        {
-            _repository = repository;
-						 _context = context;
-        }
+		public VehicleModelController(IVehicleModelRepository vehicleRepo, ApplicationDBContext context)
+		{
+			_vehicleRepo = vehicleRepo ;
+			_context = context;
+		}
 
-      [HttpGet]
-    public async Task<ActionResult<IEnumerable<VehicleModelDto>>> GetVehicleModels()
-    {
-        var vehicleModels = await _context.VehicleModels.ToListAsync();
+		[HttpGet]
+		public async Task<ActionResult<IEnumerable<VehicleModelDto>>> GetVehicleModels()
+		{
+			var vehicleModels = await _vehicleRepo.GetAllAsync();
 
-        // Map to DTO
-        var vehicleModelDtos = vehicleModels.Select(vm => new VehicleModelDto
-        {
-            VehicleModelId = vm.VehicleModelId,
-            Make = vm.Make,
-            Model = vm.Model,
-            Year = vm.Year
-        }).ToList();
+			return Ok(vehicleModels);
+		}
 
-        return Ok(vehicleModelDtos);
-    }
-       
-    }
+	}
 }

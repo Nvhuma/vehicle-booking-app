@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace api.Models
 {
 	public class VehicleModel
@@ -18,11 +13,11 @@ namespace api.Models
 
 		public ICollection<ServicePrice> ServicePrice { get; set; }
 		// Navigation properties for many-to-many relationships
-    public ICollection<VehicleModelEngineType> VehicleModelEngineTypes { get; set; }
-    public ICollection<VehicleModelTransmissionType> VehicleModelTransmissionTypes { get; set; }
-    public ICollection<VehicleModelDriveTrain> VehicleModelDriveTrains { get; set; }
-    public ICollection<VehicleModelFuelType> VehicleModelFuelTypes { get; set; }
-    public ICollection<VehicleModelTrimLevel> VehicleModelTrimLevels { get; set; }
+		public ICollection<VehicleModelEngineType> VehicleModelEngineTypes { get; set; }
+		public ICollection<VehicleModelTransmissionType> VehicleModelTransmissionTypes { get; set; }
+		public ICollection<VehicleModelDriveTrain> VehicleModelDriveTrains { get; set; }
+		public ICollection<VehicleModelFuelType> VehicleModelFuelTypes { get; set; }
+		public ICollection<VehicleModelTrimLevel> VehicleModelTrimLevels { get; set; }
 
 	}
 }
