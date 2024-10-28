@@ -12,8 +12,8 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20241024134200_AdditionalCarData")]
-    partial class AdditionalCarData
+    [Migration("20241028125544_Tables2")]
+    partial class Tables2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,31 +54,31 @@ namespace api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0f024934-1cbe-4744-a053-d5e61918cc59",
+                            Id = "15a2a459-3fba-4f6e-a1c0-bc7ccb6f51ea",
                             Name = "SuperUser",
                             NormalizedName = "SUPERUSER"
                         },
                         new
                         {
-                            Id = "92df9b37-d3bc-4f06-89b9-a2c2b2f0385a",
+                            Id = "8fc37c66-38c0-41a6-8d27-48de7d42795b",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "8a154fd0-9351-4503-8e8b-455e3d7e9213",
+                            Id = "bdaed4f5-80d9-4efd-9a87-4f365faa1758",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "bb31ecee-62f9-4f6b-8dfd-cd6a144417d9",
+                            Id = "9828dfd8-9cf3-4665-b169-b720c9883b37",
                             Name = "Executive",
                             NormalizedName = "EXECUTIVE"
                         },
                         new
                         {
-                            Id = "3106a0c5-9f3c-45bf-bfce-87a1732aa739",
+                            Id = "c6eb9d25-48ed-4f3d-b213-247504f982b0",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });

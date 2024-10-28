@@ -26,11 +26,7 @@ namespace api.Repositories
         .ThenInclude(vmt => vmt.TransmissionType)
     .Include(vm => vm.VehicleModelDriveTrains)
         .ThenInclude(vmd => vmd.DriveTrain)
-    .Include(vm => vm.VehicleModelFuelTypes)
-        .ThenInclude(vmf => vmf.FuelType)
-    .Include(vm => vm.VehicleModelTrimLevels)
-        .ThenInclude(vmt => vmt.TrimLevel)
-    .AsSplitQuery()
+    
 		.ToListAsync();  // defer execution
 
 		return vehicleModelWithDetails;

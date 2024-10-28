@@ -19,7 +19,7 @@ namespace api.Controllers
 
 		public VehicleModelController(IVehicleModelRepository vehicleRepo, ApplicationDBContext context)
 		{
-			_vehicleRepo = vehicleRepo ;
+			_vehicleRepo = vehicleRepo;
 			_context = context;
 		}
 
@@ -28,7 +28,10 @@ namespace api.Controllers
 		{
 			var vehicleModels = await _vehicleRepo.GetAllAsync();
 
+
 			return Ok(vehicleModels);
+
+			
 		}
 
 	}
