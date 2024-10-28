@@ -1,16 +1,11 @@
 using api.Data;
-using api.DTOs.VehicleModelDtos;
 using api.Interfaces;
 using api.Models;
-using api.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace api.Controllers
 {
-	[Route("api/[controller]")]
+    [Route("api/[controller]")]
 	[ApiController]
 	public class VehicleModelController : ControllerBase
 	{
@@ -24,7 +19,7 @@ namespace api.Controllers
 		}
 
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<VehicleModelDto>>> GetVehicleModels()
+		public async Task<ActionResult<List<VehicleModelDto>>> GetVehicleModels()
 		{
 			var vehicleModels = await _vehicleRepo.GetAllAsync();
 
