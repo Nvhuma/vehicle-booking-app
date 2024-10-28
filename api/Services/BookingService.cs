@@ -7,10 +7,13 @@ namespace api.Services
 	public class BookingService
 	{
 		private readonly ApplicationDBContext _context;
+		    private readonly ILogger<BookingService> _logger;
 
-		public BookingService(ApplicationDBContext context)
+		public BookingService(ApplicationDBContext context,  ILogger<BookingService> logger)
 		{
 			_context = context;
+			 _logger = logger;
+
 		}
 
 		public async Task<(bool IsAvailable, string Message)> CheckAvailability(string serviceType, DateTime desiredDateTime, string employeeId = null)
@@ -87,6 +90,67 @@ namespace api.Services
 
 			return servicePrice;
 		}
+		
+		//method to retrieve a booking by ID 
+		public async Task<Booking> GetBookingByIdAsync(int BookingId)
+		{
+			 try
+			 {
+				 return await _context.Bookings.FindAsync(BookingId);
+			 }
+			  catch (Exception ex)
+				{
+					  _logger.LogError(ex, $"Error retrieving booking with ID {BookingId}");
+						throw; 
+				}
+		}
+
+		// METHOD TO DELETE A BOOKING 
+
+		public async Task<bool> DeleteBookingByIdAsync( int BookingId)
+		{
+			   try 
+				 {
+					 var booking = await _context.Bookings.FindAsync(BookingId);
+					 if (booking == null)
+					 {
+						 _logger.LogWarning($"Attempted to delete a non-existing booking with ID {BookingId}");
+						 return false; //when booking is not found 
+					 }
+
+					 // business logic to check and ensure the booking is complete or not canceled 
+					 if (booking.BookingStatus == "Completed" || booking.BookingStatus == "Canceled")
+					 {
+						 _logger.LogWarning($"Attempted to delete a booking with ID {BookingId} that is {booking.BookingStatus}");
+						 return false; //if booking is not completed
+
+					 }
+
+					 _context.Bookings.Remove(booking);
+					 await _context.SaveChangesAsync();
+
+					 return true; //booking canceled
+				 }
+				  catch (Exception ex)
+					{
+						 _logger.LogError(ex, $"Error deleting booking with ID {BookingId}");
+						 throw;
+					}
+
+
+		}
+ // method for getting bookings for a particular user 
+ public async Task<IEnumerable<Booking>> GetAllBookingsForUserAsync( string UserId)
+ {
+	   return await _context.Bookings
+		   .Where(b => b.UserId == UserId) // filter by user ID
+            .ToListAsync(); // retrieve asynchronously
+		
+ }
+
+	
+
+
 
 	}
 }

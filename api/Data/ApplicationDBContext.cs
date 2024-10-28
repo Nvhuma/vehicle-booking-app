@@ -40,6 +40,10 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
 			 .Property(sp => sp.Price)
 			 .HasColumnType("decimal(18, 2)");
 
+			  modelBuilder.Entity<Booking>()
+        .Property(b => b.Price)
+        .HasColumnType("decimal(18, 2)"); 
+
 			modelBuilder.Entity<CardDetails>()
 			 .HasOne(cd => cd.AppUser)
 			 .WithMany(ua => ua.Cards)
@@ -84,7 +88,7 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
 					new VehicleModel { VehicleModelId = 7, Make = "Ford", Model = "Mustang", Year = 2022 },
 					new VehicleModel { VehicleModelId = 8, Make = "Ford", Model = "Mustang", Year = 2029 },
 					new VehicleModel { VehicleModelId = 9, Make = "Ford", Model = "F-150", Year = 2022 }
-					
+
 				);
 
 			modelBuilder.Entity<Employee>().HasData(employees);

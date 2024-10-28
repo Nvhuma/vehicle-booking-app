@@ -14,11 +14,23 @@ namespace api.Models
     public VehicleModel Vehicle { get; set; }
     public string ServiceType { get; set; }
     public DateTime DesiredDateTime { get; set; }
-    public string ? EmployeeId { get; set; } // Nullable
+    public string ? EmployeeId { get; set; }            // Nullable
    
     public string ? AdditionalNotes { get; set; }
-    public string BookingStatus { get; set; } // Pending, Confirmed, Cancelled
+		
+    public string BookingStatus { get; set; }          // Pending, Confirmed, Cancelled
 
 		public AppUser AppUser { get; set;}
+
+
+
+		//  public enum BookingStatus
+		// {
+		// 	 Pending,
+		// 	 Confirmed,
+		// 	 Canceled
+		// }
+
+
     }
 }

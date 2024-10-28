@@ -7,7 +7,7 @@ namespace api.Models
 {
     public class ServiceType
     {
-        public int ServiceTypeId { get; set; }
+    public int ServiceTypeId { get; set; }
 		public string? Name { get; set; }
 		public string? Description { get; set; }
 

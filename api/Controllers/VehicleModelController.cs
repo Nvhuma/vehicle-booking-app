@@ -28,7 +28,7 @@ namespace api.Controllers
     {
         var vehicleModels = await _context.VehicleModels.ToListAsync();
 
-        // Map to DTO
+        
         var vehicleModelDtos = vehicleModels.Select(vm => new VehicleModelDto
         {
             VehicleModelId = vm.VehicleModelId,
@@ -39,6 +39,7 @@ namespace api.Controllers
 
         return Ok(vehicleModelDtos);
     }
+		 
        
-    }
+  }
 }

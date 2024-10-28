@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using api.Data;
 
@@ -11,9 +12,11 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241024125842_prices")]
+    partial class prices
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,31 +54,31 @@ namespace api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3de4d097-9c07-4384-9366-f7e4a8106cc9",
+                            Id = "cd19e85d-b501-4b04-b277-e1f6f71af74d",
                             Name = "SuperUser",
                             NormalizedName = "SUPERUSER"
                         },
                         new
                         {
-                            Id = "2bd3e6d4-bad6-4ed8-8420-60c79a178850",
+                            Id = "4647865e-d042-41e3-9891-acda783cd198",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "f8678066-f553-4c06-b13f-83b58530d1ef",
+                            Id = "52f6270c-6ed8-4e5c-aa3d-345d678a93e6",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "e7c88889-9d4a-4717-9098-2a3115b4452d",
+                            Id = "a7d4ed4f-aada-4d17-9fb6-cb0aba442b20",
                             Name = "Executive",
                             NormalizedName = "EXECUTIVE"
                         },
                         new
                         {
-                            Id = "ecf94189-8921-4aee-9034-68fa5daa47c9",
+                            Id = "7c0170be-9c15-4cc2-9596-e1b554717f76",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -304,7 +307,7 @@ namespace api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ServiceType")
                         .IsRequired()
