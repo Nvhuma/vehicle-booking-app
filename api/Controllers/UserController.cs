@@ -89,7 +89,7 @@ namespace api.Controllers
             }
         }
 
-        [HttpPatch("Edit-user-details")]
+        [HttpPatch]
         [Authorize]
         public async Task<IActionResult> EditUserDetails([FromBody] EditUserDetailsDto editUserDetailsDto)
         {
@@ -140,17 +140,12 @@ namespace api.Controllers
                         {
                             return BadRequest("Male users are not allowed to change their Name or Surname. Contact Admin");
                         }
-
-                    }
-
-                    if (!string.IsNullOrWhiteSpace(editUserDetailsDto.UserName))
-                    {
-                        user.UserName = editUserDetailsDto.UserName;
                     }
 
                     if (!string.IsNullOrWhiteSpace(editUserDetailsDto.Email))
                     {
                         user.Email = editUserDetailsDto.Email.ToLower();
+                        user.UserName = editUserDetailsDto.Email.ToLower();
                     }
 
                     if (!string.IsNullOrWhiteSpace(editUserDetailsDto.PhoneNumber))
@@ -160,10 +155,9 @@ namespace api.Controllers
                 }
 
                 // Call the repository method to update user details
-                var updatedUser = await _userRepo.UpdateUserDetailsAsync(user.Id, editUserDetailsDto);
-
-                // Return success response
-                return Ok(new { message = "User details updated successfully", user = updatedUser });
+                var result = await _userRepo.UpdateUserDetailsAsync(user.Id, editUserDetailsDto);
+                var userDetails = result.ToGetUserDto();
+                return Ok(userDetails);
             }
             catch (UnauthorizedAccessException ex)
             {

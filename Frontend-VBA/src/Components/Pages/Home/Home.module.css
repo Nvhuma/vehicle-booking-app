@@ -1,3 +1,12 @@
 .home-container{
 	display: flex;
+
 }
+
+.main-content{
+	width: 100%;
+	padding: 0 var(--spacing-n);
+	max-height: 100svh;
+	overflow-y: scroll;
+}
+

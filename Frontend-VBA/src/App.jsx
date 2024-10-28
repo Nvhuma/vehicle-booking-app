@@ -15,6 +15,9 @@ import ProtectedRoutes from "./utils/Auth/ProtectedRoutes";
 import Profile from "./Components/Pages/Profile/Profile";
 import Home from "./Components/Pages/Home/Home";
 import CardManagement from "./Components/Pages/CardManagement/CardManagement";
+import { ToastContainer } from "react-toastify";
+import { Security } from "@mui/icons-material";
+import SecurityPage from "./Components/Pages/Security/SecurityPage";
 
 function App() {
   return (
@@ -28,14 +31,29 @@ function App() {
 
           <Route element={<ProtectedRoutes />}>
             <Route path="/home" element={<Navigate to="/" />} />
-            <Route path="/profile" element={<Navigate to="/" />} />
 
             {/* Home Route with Nested Routes */}
             <Route path="/" element={<Home />}>
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/dashboard" element={<Navigate to="/" />} />
               <Route path="billing" element={<CardManagement />} />
+              <Route path="security" element={<SecurityPage />} />
             </Route>
           </Route>
         </Routes>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+          transition:Bounce
+        />
       </div>
     </BrowserRouter>
   );

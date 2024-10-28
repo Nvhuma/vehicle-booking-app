@@ -70,14 +70,11 @@ namespace api.Repositories
                 user.Surname = _titleCaseService.ToTitleCase(editUserDetailsDto.Surname).Trim();
             }
 
-            if (!string.IsNullOrWhiteSpace(editUserDetailsDto.UserName))
-            {
-                user.UserName = editUserDetailsDto.UserName;
-            }
 
             if (!string.IsNullOrWhiteSpace(editUserDetailsDto.Email))
             {
                 user.Email = editUserDetailsDto.Email.ToLower();
+                user.UserName = editUserDetailsDto.Email.ToLower();
             }
 
             if (!string.IsNullOrWhiteSpace(editUserDetailsDto.PhoneNumber))

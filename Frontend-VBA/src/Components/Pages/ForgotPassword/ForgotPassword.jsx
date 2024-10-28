@@ -7,6 +7,7 @@ import { MailOutlined } from "@mui/icons-material";
 import Validation from '../../SubComponents/Validations/Validation';
 import { Link } from "react-router-dom";
 import CustomLogo from '../../SubComponents/CustomLogo/CustomLogo';
+import { toast } from 'react-toastify';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');

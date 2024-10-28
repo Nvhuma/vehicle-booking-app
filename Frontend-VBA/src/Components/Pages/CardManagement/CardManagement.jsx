@@ -7,6 +7,7 @@ import axios from 'axios';
 import { BASE_URL } from '../../../../config'; // Adjust this import if needed
 import { addCard, getCards } from '../../../utils/APIs/CardsApi'; // Adjust this import if needed
 import { GetUser } from '../../../utils/Auth/Auth'; // Adjust this import if needed
+import { toast } from 'react-toastify';
 
 const CardManagement = () => {
   const [cards, setCards] = useState([]);
@@ -91,6 +92,7 @@ const CardManagement = () => {
   return (
     <div className={styles['card-management']}>
       <h2>Manage Your Cards</h2>
+      
 
       {/* Toggle form visibility */}
       <button onClick={() => setIsAddingCard(!isAddingCard)}>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from "./Login.module.css";
 import InputField from "../../SubComponents/InputField/InputField";
@@ -136,9 +136,6 @@ const Login = () => {
         </Link>
 
       </div>
-      <ToastContainer
-        theme="colored"
-      />
     </div>
   );
 };

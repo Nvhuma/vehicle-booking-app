@@ -20,7 +20,7 @@ import styles from './InputField.module.css'; // Assuming your CSS is in InputFi
  * @returns {JSX.Element} - A styled input field element with optional icon and size adjustments based on the provided props.
  */
 
-const InputField = ({ type = 'text', size = 'medium', fullWidth = false, placeholder = '', icon = '', value, onChange }) => {
+const InputField = ({ type = 'text', size = 'medium', fullWidth = false, placeholder = '', icon = '', name = '', value, onChange, readOnly  }) => {
   // Function to render the icon dynamically
 
   // Create className string dynamically
@@ -31,11 +31,13 @@ const InputField = ({ type = 'text', size = 'medium', fullWidth = false, placeho
     <div className={containerClassNames}>
       {icon &&  <span className={styles.icon}>{icon}</span>  }
       <input
+        name={name}
         type={type}
         className={inputClassNames}
         placeholder={placeholder}
         value={value}  // Add value prop
         onChange={onChange}  // Add onChange prop
+        readOnly={readOnly}
       />
     </div>
   );

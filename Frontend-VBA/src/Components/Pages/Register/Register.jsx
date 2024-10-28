@@ -6,6 +6,7 @@ import Button from "../../SubComponents/Button/Button";
 import styles from './Register.module.css'; // Assuming you have your CSS file
 import CustomLogo from '../../SubComponents/CustomLogo/CustomLogo';
 import Validation from '../../SubComponents/Validations/Validation';
+import { toast } from 'react-toastify';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { RECAPTCHA_SITE_KEY } from '../../../../config';
 import { BASE_URL } from '../../../../config';

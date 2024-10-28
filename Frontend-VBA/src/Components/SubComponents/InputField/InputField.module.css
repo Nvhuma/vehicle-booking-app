@@ -37,6 +37,11 @@
   .input:focus {
 	border-color: var(--primary);
   }
+
+  .input:read-only{
+    background-color: var(--lite-grey);
+    color: var(--text-50);
+  }
   
   /* Optional Styling for Placeholder */
   .input::placeholder {
