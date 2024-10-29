@@ -29,6 +29,7 @@ public async Task<List<VehicleModelDto>> GetAllAsync()
             .ThenInclude(vmt => vmt.TrimLevel)
         .AsSplitQuery()
         .Select(vm => new VehicleModelDto
+				
         {
             VehicleModelId = vm.VehicleModelId,
             Make = vm.Make,

@@ -93,7 +93,7 @@ namespace api.Data
 				// Tesla
 				new VehicleModel { VehicleModelId = 5, Make = "Tesla", Model = "Model X", Year = 2024, HorsepowerRange = "670-1020 HP", TorqueRange = "713 lb-ft", MaxTowingCapacity = 5000, EmissionStandard = "Zero Emissions" },
 				new VehicleModel { VehicleModelId = 6, Make = "Tesla", Model = "Model 3", Year = 2024, HorsepowerRange = "258-310 HP", TorqueRange = "339-347 lb-ft", MaxTowingCapacity = 1500, EmissionStandard = "Zero Emissions" },
-
+         
 				// Honda
 				new VehicleModel { VehicleModelId = 7, Make = "Honda", Model = "Civic", Year = 2023, HorsepowerRange = "150-180 HP", TorqueRange = "160-177 lb-ft", MaxTowingCapacity = 0, EmissionStandard = "Euro 6" },
 				new VehicleModel { VehicleModelId = 8, Make = "Honda", Model = "CR-V", Year = 2024, HorsepowerRange = "190-240 HP", TorqueRange = "177-221 lb-ft", MaxTowingCapacity = 1500, EmissionStandard = "Euro 6" },
