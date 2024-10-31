@@ -3,13 +3,13 @@ namespace api.Models
 	public class VehicleModel
 	{
 		public int VehicleModelId { get; set; }
-		public string Make { get; set; }
-		public string Model { get; set; }
+		public required string Make { get; set; }
+		public  required string Model { get; set; }
 		public int Year { get; set; }
-		public string HorsepowerRange { get; set; }
-		public string TorqueRange { get; set; }
-		public int MaxTowingCapacity { get; set; }
-		public string EmissionStandard { get; set; }
+		public required  string HorsepowerRange { get; set; }
+		public required  string TorqueRange { get; set; }
+		public required  int MaxTowingCapacity { get; set; }
+		public required  string EmissionStandard { get; set; }
 
 		public ICollection<ServicePrice> ServicePrice { get; set; }
 		// Navigation properties for many-to-many relationships

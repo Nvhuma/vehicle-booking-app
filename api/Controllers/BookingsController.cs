@@ -53,7 +53,7 @@ public class BookingsController : ControllerBase
 
 		// Retrieve the service price for the selected vehicle model and service type
 
-
+		//changed the service type to an id 
 		var servicePrice = await _bookingService.GetServicePriceAsync(vehicleModel.VehicleModelId, int.Parse(request.ServiceType));
 
 		if (servicePrice == null)
@@ -125,23 +125,76 @@ public class BookingsController : ControllerBase
 	[HttpGet]
 	public async Task<IActionResult> GetAllBookings()
 	{
-		  //retrive the logged-in user
+		//retrive the logged-in user
 		var userEmail = User.FindFirstValue(ClaimTypes.Email);
-    var currentUser = await _userManager.FindByEmailAsync(userEmail);
+		var currentUser = await _userManager.FindByEmailAsync(userEmail);
 
-    if (currentUser == null)
-    {
-        return NotFound("User not found.");
-    }
+		if (currentUser == null)
+		{
+			return NotFound("User not found.");
+		}
 		//get all bookings for that particular-user
 		var bookings = await _bookingService.GetAllBookingsForUserAsync(currentUser.Id);
 
 		if (bookings == null || !bookings.Any())
 		{
-			 return NotFound("No Bookings found");
+			return NotFound("No Bookings found");
 		}
 
 		return Ok(bookings);
+	}
+	[HttpPut("{bookingId}")]
+	public async Task<IActionResult> UpdateBooking(int bookingId, [FromBody] BookingRequestModel request)
+	{
+		if (!ModelState.IsValid)
+		{
+			return BadRequest(ModelState);
+		}
+
+		// Fetch the booking to be updated
+		var booking = await _bookingService.GetBookingByIdAsync(bookingId);
+		if (booking == null)
+		{
+			return NotFound(new { message = "Booking not found." });
+		}
+
+		// Validate that the booking can be updated (e.g., within 12 hours)
+		var timeUntilBooking = booking.DesiredDateTime - DateTime.UtcNow;
+		if (timeUntilBooking < TimeSpan.FromHours(12))
+		{
+			return BadRequest(new { message = "Bookings can only be updated up to 12 hours before the scheduled time." });
+		}
+
+		// Check if the serviceType has changed
+		if (booking.ServiceType != request.ServiceType)
+		{
+			// Fetch the price for the updated service type and vehicle model
+			try
+			{
+				var servicePrice = await _bookingService.GetServicePriceAsync(booking.VehicleModelId, int.Parse(request.ServiceType));
+				booking.Price = servicePrice.Price; // Update the booking price with the new service price
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(new { message = ex.Message });
+			}
+		}
+
+		// Update other fields
+		booking.ServiceType = request.ServiceType;
+		booking.DesiredDateTime = request.DesiredDateTime;
+		booking.EmployeeId = request.EmployeeId;
+		booking.AdditionalNotes = request.AdditionalNotes;
+
+		// Save changes
+		var (success, message) = await _bookingService.UpdateBookingAsync(bookingId, request);
+
+		if (!success)
+		{
+			return BadRequest(new { message });
+		}
+
+		return Ok(new { message = "Booking updated successfully.", booking });
 	}
 
 }

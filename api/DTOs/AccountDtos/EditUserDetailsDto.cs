@@ -1,7 +1,9 @@
-using System.ComponentModel.DataAnnotations;
+
 
 namespace api.DTOs.AccountDtos
+
 {
+	using System.ComponentModel.DataAnnotations;
     public class EditUserDetailsDto
     {
         [Required]

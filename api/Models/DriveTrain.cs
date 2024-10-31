@@ -8,7 +8,7 @@ namespace api.Models
 	public class DriveTrain
 	{
 		public int DriveTrainId { get; set; }
-		public string DriveTrainName { get; set; }  // "FWD", "AWD", etc.
-		public ICollection<VehicleModelDriveTrain> VehicleModelDriveTrains { get; set; }
+		public required  string DriveTrainName { get; set; }  // "FWD", "AWD", etc.
+		public  ICollection<VehicleModelDriveTrain> VehicleModelDriveTrains { get; set; }
 	}
 }

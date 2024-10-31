@@ -1,4 +1,5 @@
 using api.Data;
+using api.DTOs.BookingsDtos;
 using api.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -136,9 +137,8 @@ namespace api.Services
 						 _logger.LogError(ex, $"Error deleting booking with ID {BookingId}");
 						 throw;
 					}
-
-
 		}
+
  // method for getting bookings for a particular user 
  public async Task<IEnumerable<Booking>> GetAllBookingsForUserAsync( string UserId)
  {
@@ -148,9 +148,45 @@ namespace api.Services
 		
  }
 
-	
+	// update 
 
+	public async Task<(bool Success, string Message)> UpdateBookingAsync(int BookingId, BookingRequestModel requestModel)
+	{
+		 //find the booking by id 
+		 var booking = await _context.Bookings.FindAsync(BookingId);
+		 if (booking == null)
+		 {
+			  return (false, "Booking not found");
+		 }
+
+		 // Check if the booking is scheduled within the next 12 hours
+    var timeDifference = booking.DesiredDateTime - DateTime.UtcNow;
+    if (timeDifference.TotalHours < 12)
+    {
+        return (false, "Booking cannot be updated less than 12 hours before the scheduled time.");
+    }
+		// Update the booking fields
+    booking.ServiceType = requestModel.ServiceType;
+    booking.DesiredDateTime = requestModel.DesiredDateTime;
+    booking.EmployeeId = requestModel.EmployeeId;
+    booking.AdditionalNotes = requestModel.AdditionalNotes;
+
+    // Save changes
+    try
+    {
+        await _context.SaveChangesAsync();
+        return (true, "Booking successfully updated.");
+    }
+    catch (Exception ex)
+    {
+        _logger.LogError(ex, $"Error updating booking with ID {BookingId}");
+        return (false, "An error occurred while updating the booking.");
+    }
+
+
+	}
 
 
 	}
 }
+
