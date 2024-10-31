@@ -18,8 +18,6 @@ namespace api.Models
 				// CVV
         public string BankName { get; set; } 
 				// Bank Name (optional)
-				
-				public decimal Balance { get; set; }
 
         // Foreign Key to UserAccount
         public string UserID { get; set; }
