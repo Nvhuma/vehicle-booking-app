@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react';
 import styles from './securityPage.module.css'
 import UserSpotlight from '../../SubComponents/UserSpotlight/UserSpotlight'
 import Button from '../../SubComponents/Button/Button'
 import { Edit } from '@mui/icons-material'
+import ChangePassword from '../../SubComponents/SecurityComponents/ChangePassword/ChangePassword'
 
 function SecurityPage() {
+
+	const [showChangePassword, setShowChangePassword] = useState(false);
+
+
 	return (
 		<div className={styles['security-container']}>
 			<span className={styles["page-identity"]}>Security</span>
@@ -19,9 +24,13 @@ function SecurityPage() {
 				<div className={styles["section-button-container"]}>
 					<Button
 					icon={<Edit />}
-					value="Change Password" />
+					value="Change Password"
+					onClick={() => setShowChangePassword(true)} /> {/* on click of this i want to show the component <ChangePassword /> */}
 				</div>
 			</div>
+			{showChangePassword && (
+        <ChangePassword onClose={() => setShowChangePassword(false)} />
+      )}
 		</div>
 	)
 }

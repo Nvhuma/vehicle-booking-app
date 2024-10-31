@@ -69,7 +69,7 @@ namespace api.Controllers
                     DateOfBirth = idExtractions.DateOfBirth,
                     IdentityNumber = registerDto.IdentityNumber,
                     CreatedDate = DateTime.Now,
-                    UserName = registerDto.UserName,
+                    UserName = registerDto.Email.ToLower(),
                     Email = registerDto.Email.ToLower(),
                     PhoneNumber = registerDto.PhoneNumber,
                     CitizenshipStatus = idExtractions.CitizenshipStatus,
@@ -212,10 +212,17 @@ namespace api.Controllers
                 var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
 
                 // checking if the current ACTIVE!!!! passwords match 
+
+                var currentPasswordVerificationResult = _userManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, changePasswordDto.CurrentPassword);
+                if (currentPasswordVerificationResult == PasswordVerificationResult.Failed)
+                {
+                    return BadRequest(new { message = new[] {"Current password is incorrect."} });
+                }
+
                 var passwordVerificationResult = _userManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, changePasswordDto.NewPassword);
                 if (passwordVerificationResult == PasswordVerificationResult.Success)
                 {
-                    return BadRequest(new { errors = new[] { "You cannot reuse your current password" } });
+                    return BadRequest(new { message = new[] {"You cannot reuse your current password."} });
                 }
 
                 var reusedPeriod = TimeSpan.FromDays(180);
@@ -239,7 +246,7 @@ namespace api.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred.");
-                return StatusCode(500, "An error occurred while processing your request. Please try again later.");
+                return StatusCode(500, $"An error occurred while processing your request. Please try again later: {ex} ");
             }
         }
 

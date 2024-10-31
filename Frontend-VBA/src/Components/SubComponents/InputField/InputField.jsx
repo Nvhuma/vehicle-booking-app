@@ -9,6 +9,7 @@ import styles from './InputField.module.css'; // Assuming your CSS is in InputFi
  * should occupy the full width of its container. Additionally, an optional icon can be provided
  * to display inside the input field.
  * 
+ * @param {string} id - The unique identifier for the input field.
  * @param {string} type - The type of the input field. Determines the type of input (e.g., 'text', 'password'). Default is 'text'.
  * @param {string} size - The size of the input field. Defines the input field's size. Acceptable values are 'small', 'medium', or 'large'. Default is 'medium'.
  * @param {boolean} fullWidth - A boolean value that, if true, makes the input field occupy 100% of its container's width. Default is false.
@@ -16,32 +17,74 @@ import styles from './InputField.module.css'; // Assuming your CSS is in InputFi
  * @param {ReactNode} [icon] - An optional icon to be displayed inside the input field. This can be a React component or an image.
  * @param {string} value - The current value of the input field. This is controlled by the parent component.
  * @param {Function} onChange - A function to handle changes to the input field's value. This is called when the user types into the input field.
+ * @param {string} pattern - A regular expression pattern that the input field must match. Default is '.*' which allows everything.
+ * @param {boolean} readOnly - If true, makes the input field read-only.
+ * @param {boolean} required - If true, the input field is required for form submission.
+ * @param {boolean} disabled - If true, disables the input field.
+ * @param {boolean} autoFocus - If true, automatically focuses the input field when the page loads.
+ * @param {string} autoComplete - Provides a hint to the browser to enable or disable autocomplete. Default is 'on'.
+ * @param {number} minLength - Specifies the minimum number of characters required.
+ * @param {number} maxLength - Specifies the maximum number of characters allowed.
+ * @param {string} ariaLabel - Provides an accessible label for screen readers when the label is not visible.
+ * @param {string} ariaDescribedBy - Associates the input with an element that provides additional description.
+ * @param {string} ariaLabelledBy - Associates the input with a visible label by ID for accessibility.
  * 
  * @returns {JSX.Element} - A styled input field element with optional icon and size adjustments based on the provided props.
  */
 
-const InputField = ({ type = 'text', size = 'medium', fullWidth = false, placeholder = '', icon = '', name = '', value, onChange, readOnly  }) => {
-  // Function to render the icon dynamically
-
+const InputField = ({ 
+  id, 
+  type = 'text', 
+  size = 'medium', 
+  fullWidth = false, 
+  placeholder = '', 
+  icon = '', 
+  name = '', 
+  value,
+  title,
+  onChange, 
+  readOnly = false, 
+  pattern = '.*',  // Default pattern allows everything
+  required = false, 
+  disabled = false, 
+  autoFocus = false, 
+  autoComplete = 'off', 
+  minLength, 
+  maxLength, 
+  ariaLabel, 
+  ariaDescribedBy, 
+  ariaLabelledBy 
+}) => {
   // Create className string dynamically
   const inputClassNames = `${styles.input} ${styles[`input_${size}`]} ${fullWidth ? styles.input_fullWidth : ''} ${icon ? `${styles.input_with_icon}` : ''}`;
   const containerClassNames = `${styles.input_container} ${icon ? `${styles.input_container_with_icon}` : ''}`;
 
   return (
     <div className={containerClassNames}>
-      {icon &&  <span className={styles.icon}>{icon}</span>  }
+      {icon && <span className={styles.icon}>{icon}</span>}
       <input
+        id={id}
         name={name}
         type={type}
         className={inputClassNames}
         placeholder={placeholder}
-        value={value}  // Add value prop
-        onChange={onChange}  // Add onChange prop
+        value={value}
+        title={title}
+        onChange={onChange}
         readOnly={readOnly}
+        pattern={pattern}
+        required={required}
+        disabled={disabled}
+        autoFocus={autoFocus}
+        autoComplete={autoComplete}
+        minLength={minLength}
+        maxLength={maxLength}
+        aria-label={ariaLabel}
+        aria-describedby={ariaDescribedBy}
+        aria-labelledby={ariaLabelledBy}
       />
     </div>
   );
 };
-
 
 export default InputField;

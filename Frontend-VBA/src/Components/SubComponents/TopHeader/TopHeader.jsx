@@ -17,8 +17,11 @@ function TopHeader() {
     };
 
     fetchUserData();
-  }, [user]);
+  }, []); 
 
+	/* if user does not update then put user inside the dependency array but that causes an
+	 * infinite loop in certain other conditions so try look for solutions
+	 */
 
   return (
 	<div className={styles['top-header-container']}>

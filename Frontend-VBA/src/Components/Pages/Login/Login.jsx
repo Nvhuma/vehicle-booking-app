@@ -77,7 +77,6 @@ const Login = () => {
         <form className={styles['login-form']} onSubmit={handleLogin}>
           <h3 className={styles["page-identity"]}>Login</h3>
           <div className={styles["input-group"]}>
-            <Validation value={''} />
             <InputField
               type="email"
               fullWidth
@@ -85,11 +84,11 @@ const Login = () => {
               value={email}
               icon={<MailOutline />}
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
 
           <div className={styles["input-group"]}>
-            <Validation value={''} />
             <InputField
               type="password"
               fullWidth
@@ -97,6 +96,7 @@ const Login = () => {
               value={password}
               icon={<LockOutlined />}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
 
