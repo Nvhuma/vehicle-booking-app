@@ -1,13 +1,13 @@
 // CardManagement.js
-import React, { useEffect, useState } from 'react';
-import InputField from '../../SubComponents/InputField/InputField'; // Adjust path as necessary
-import Button from '../../SubComponents/Button/Button'; // Adjust path as necessary
-import styles from './CardManagement.module.css'; // Create this file for styles if needed
-import axios from 'axios';
-import { BASE_URL } from '../../../../config'; // Adjust this import if needed
-import { addCard, getCards } from '../../../utils/APIs/CardsApi'; // Adjust this import if needed
-import { GetUser } from '../../../utils/Auth/Auth'; // Adjust this import if needed
-import { toast } from 'react-toastify';
+import React, { useEffect, useState } from "react";
+import InputField from "../../SubComponents/InputField/InputField"; // Adjust path as necessary
+import Button from "../../SubComponents/Button/Button"; // Adjust path as necessary
+import styles from "./CardManagement.module.css"; // Create this file for styles if needed
+import axios from "axios";
+import { BASE_URL } from "../../../../config"; // Adjust this import if needed
+import { addCard, getCards } from "../../../utils/APIs/CardsApi"; // Adjust this import if needed
+import { GetUser } from "../../../utils/Auth/Auth"; // Adjust this import if needed
+import { toast } from "react-toastify";
 
 const CardManagement = () => {
   const [cards, setCards] = useState([]);
@@ -30,7 +30,10 @@ const CardManagement = () => {
       const fetchedCards = await getCards();
       setCards(fetchedCards);
     } catch (error) {
-      console.error('Failed to fetch cards:', error.response ? error.response.data : error.message);
+      console.error(
+        "Failed to fetch cards:",
+        error.response ? error.response.data : error.message
+      );
     }
   };
 
@@ -45,17 +48,17 @@ const CardManagement = () => {
   const handleAddCard = async () => {
     const newCard = {
       cardHolder,
-	  cardNumber,
-	  cvv,
-	  bankName,
-	  expiryDate,
+      cardNumber,
+      cvv,
+      bankName,
+      expiryDate,
     };
 
     try {
       const results = await axios.post(`${BASE_URL}/api/card`, newCard, {
         headers: {
           Authorization: `Bearer ${user.token}`,
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
 
@@ -64,14 +67,14 @@ const CardManagement = () => {
 
       // Reset input fields after adding a card
       setInputFields({
-        cardHolder: '',
-        cardNumber: '',
-        cvv: '',
-        bankName: '',
-        expiryDate: '',
+        cardHolder: "",
+        cardNumber: "",
+        cvv: "",
+        bankName: "",
+        expiryDate: "",
       });
     } catch (error) {
-      console.error('Error saving card:', error);
+      console.error("Error saving card:", error);
     }
   };
 
@@ -85,23 +88,22 @@ const CardManagement = () => {
       });
       fetchCards(); // Refresh card list
     } catch (error) {
-      console.error('Failed to delete card:', error);
+      console.error("Failed to delete card:", error);
     }
   };
 
   return (
-    <div className={styles['card-management']}>
+    <div className={styles["card-management"]}>
       <h2>Manage Your Cards</h2>
-      
 
       {/* Toggle form visibility */}
       <button onClick={() => setIsAddingCard(!isAddingCard)}>
-        {isAddingCard ? 'Cancel' : 'Add Card'}
+        {isAddingCard ? "Cancel" : "Add Card"}
       </button>
 
       {/* Conditionally render the add card form */}
       {isAddingCard && (
-        <div className={styles['card-form']}>
+        <div className={styles["card-form"]}>
           <InputField
             type="text"
             placeholder="Card Holder"
@@ -144,11 +146,14 @@ const CardManagement = () => {
       <button onClick={fetchCards}>View Cards</button>
 
       {/* Render card list */}
-      <ul className={styles['card-list']}>
+      <ul className={styles["card-list"]}>
         {cards.map((card) => (
-          <li key={card.id} className={styles['card-item']}>
+          <li key={card.id} className={styles["card-item"]}>
             {card.cardNumber} - {card.expiryDate}
-            <button onClick={() => handleDeleteCard(card.id)} className={styles['delete-button']}>
+            <button
+              onClick={() => handleDeleteCard(card.id)}
+              className={styles["delete-button"]}
+            >
               Delete
             </button>
           </li>

@@ -48,7 +48,7 @@ namespace api.Repositories
 
             if (card.UserID != userId)
             {
-                throw new UnauthorizedAccessException("User not autherized to delete this card.");
+                throw new UnauthorizedAccessException("User not authorized to delete this card.");
             }
 
             _context.CardDetails.Remove(card);

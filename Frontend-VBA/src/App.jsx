@@ -16,8 +16,8 @@ import Profile from "./Components/Pages/Profile/Profile";
 import Home from "./Components/Pages/Home/Home";
 import CardManagement from "./Components/Pages/CardManagement/CardManagement";
 import { ToastContainer } from "react-toastify";
-import { Security } from "@mui/icons-material";
 import SecurityPage from "./Components/Pages/Security/SecurityPage";
+import Booking from "./Components/Pages/Booking/Booking";
 
 function App() {
   return (
@@ -38,6 +38,7 @@ function App() {
               <Route path="/dashboard" element={<Navigate to="/" />} />
               <Route path="billing" element={<CardManagement />} />
               <Route path="security" element={<SecurityPage />} />
+              <Route path="bookings" element={<Booking />} />
             </Route>
           </Route>
         </Routes>
