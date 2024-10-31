@@ -8,11 +8,18 @@ namespace api.Models
     public class CardDetails
     {
         public int Id { get; set;}
-        public string CardHolder { get; set; } // Card Holder Name
-        public string CardNumber { get; set; } // Card Number
-        public DateTime ExpiryDate { get; set; } // Expiry Date
-        public string CVV { get; set; } // CVV
-        public string BankName { get; set; } // Bank Name (optional)
+        public string CardHolder { get; set; } 
+				// Card Holder Name
+        public string CardNumber { get; set; } 
+				// Card Number
+        public DateTime ExpiryDate { get; set; } 
+				// Expiry Date
+        public string CVV { get; set; } 
+				// CVV
+        public string BankName { get; set; } 
+				// Bank Name (optional)
+				
+				public decimal Balance { get; set; }
 
         // Foreign Key to UserAccount
         public string UserID { get; set; }

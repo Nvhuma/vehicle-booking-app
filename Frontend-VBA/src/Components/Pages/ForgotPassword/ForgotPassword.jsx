@@ -54,9 +54,6 @@ const ForgotPassword = () => {
         <h3 className={styles["page-identity"]}>Forgot Password</h3>
         <p className={styles["page-instructions"]}>Enter your email address and we will send you a link to reset your password.</p>
           <div className={styles["input-group"]}>
-            <Validation
-              value={"Your email does not exist"}
-            />
             <InputField
               type="email"
               fullWidth
@@ -64,6 +61,7 @@ const ForgotPassword = () => {
               value={email}
               icon={<MailOutlined />}
               onChange={(e) => setEmail(e.target.value)}
+							required
             />
           </div>
           <Link to="/" className={styles["back-to-login"]}>

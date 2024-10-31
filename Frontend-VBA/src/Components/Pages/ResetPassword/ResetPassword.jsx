@@ -92,6 +92,10 @@ const ResetPassword = () => {
               value={newPassword}
               icon={<LockOutlined />}
               onChange={(e) => setNewPassword(e.target.value)}
+							pattern={"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&])[A-Za-z0-9@$!%*?&]{8,}$"} 
+							// Regex code to ensure password requirements are met
+           
+              required
             />
           </div>
 
@@ -104,6 +108,9 @@ const ResetPassword = () => {
               value={confirmPassword}
               icon={<LockOutlined />}
               onChange={(e) => setConfirmPassword(e.target.value)}
+							pattern={"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&])[A-Za-z0-9@$!%*?&]{8,}$"} // Regex code to ensure password requirements are met
+           
+              required
             />
           </div>
           <Link to="/" className={styles["back-to-login"]}>
