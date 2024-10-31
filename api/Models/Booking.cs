@@ -20,5 +20,6 @@ namespace api.Models
     public string BookingStatus { get; set; } // Pending, Confirmed, Cancelled
 
 		public AppUser AppUser { get; set;}
+    
     }
 }

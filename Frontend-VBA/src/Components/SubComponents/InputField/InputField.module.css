@@ -32,6 +32,7 @@
   .input_fullWidth {
 	width: 100%;
   }
+
   
   /* Input States */
   .input:focus {
@@ -42,11 +43,30 @@
     background-color: var(--lite-grey);
     color: var(--text-50);
   }
+
+
+  .input:valid{
+    border-color: var(--success);
+  }
+
+  .input:invalid:not(:placeholder-shown){
+    border-color: var(--danger);
+  }
+
+  .input:invalid:focus{
+    border-color: var(--warning);
+  }
+
+
+
+
   
   /* Optional Styling for Placeholder */
   .input::placeholder {
 	color: var(--text-50);
   }
+
+
   
   /* Input Sizes */
   .input_small {
@@ -60,6 +80,9 @@
   .input_large {
 	font-size: 1.25rem; /* 20px */
   }
+
+
+
   
   /* Remove default search input clear button */
   input[type="search"]::-webkit-search-cancel-button {

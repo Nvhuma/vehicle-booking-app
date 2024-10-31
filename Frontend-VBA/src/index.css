@@ -194,6 +194,11 @@
     --text-on-primary: var(--light-text-on-primary);
     --text-on-secondary: var(--light-text-on-secondary);
 
+    --warning: var(--light-warning);
+    --success: var(--light-success);
+    --danger: var(--light-danger);
+    --info: var(--light-info);
+
     --background: var(--light-background);
     --card-background:var(--white);
 
