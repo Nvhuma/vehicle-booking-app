@@ -59,7 +59,7 @@
 }
 
 .card-number{
-	font-size: var(--font-size-h5);  /* font size h3*/
+	font-size: var(--font-size-h4);  /* font size h3*/
 }
 
 .name-on-card{
