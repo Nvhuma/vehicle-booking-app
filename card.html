@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My Website</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+    <style>
+      /* Inline styles for main section */
+      main {
+        background-color: rgb(44, 44, 44);
+        min-height: 100vh;
+        width: 100vw;
+        display: flex;  /* Center content */
+        justify-content: center;  /* Center content horizontally */
+        align-items: center;  /* Center content vertically */
+      }
+
+      /* Styles for the bank card */
+      .bank-card {
+        background-color: white; /* Set a background color for the card */
+        padding: 1.5rem; /* Add padding for some space inside the card */
+        border-radius: 10px; /* Rounded corners */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+				width: 300px;
+				display: flex;
+				flex-direction: column;
+				aspect-ratio: 1.585;
+      }
+
+			.green-card{
+				background-image: linear-gradient(to right top, #007a33, #009a36, #00bb34, #1add2c, #39ff14);
+			}
+
+			.purple-card{
+				background-image: linear-gradient(to right top, #00bfff, #5eb2ff, #a0a0ff, #d788f0, #ff6ec7);
+			}
+
+			.red-card{
+				background-image: linear-gradient(to right top, #ff0000, #ff201c, #ff312e, #ff403e, #ff4c4c);
+				color: white;
+			}
+
+			.silver-card{
+				background-image: linear-gradient(to right top, #333333, #535353, #767676, #9a9a9a, #c0c0c0);
+				color: white;
+			}
+
+			.blue-card{
+				background-image: linear-gradient(to right top, #003b5c, #075983, #0d79ab, #0d9bd5, #00bfff);
+			}
+
+
+
+			.bank-name{
+				align-self: flex-end;
+				font-size: 1.25rem;
+				font-weight: 600;
+			}
+
+			.tap-and-chip-wrapper,
+			.holder-and-type-wrapper{
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin: .5rem 0;
+			}
+
+			.chip-image-container,
+			.tap-sign{
+				height: 50px;
+			}
+
+			.chip-image-container img,
+			.tap-sign img{
+				height: 100%;
+			}
+
+			.card-number{
+				font-size: 2rem;  /* font size h3*/
+			}
+
+			.name-on-card{
+				font-weight: 600;
+			}
+
+			.card-type-container{
+				height: 35px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			.card-type-container img{
+				height: 100%;
+			}
+
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="bank-card silver-card">
+        <span class="bank-name">Some long Bankname</span>
+				<div class="tap-and-chip-wrapper">
+					<div class="chip-image-container"><img src="chip.png" alt=""></div>
+					<div class="tap-sign"><img src="contactless.png" alt=""></div>
+				</div>
+				<span class="card-number">4111 1111 1111 1111 </span>
+				<span class="expiery-date">12/24</span>
+				<div class="holder-and-type-wrapper">
+					<span class="name-on-card">MR J BIDEN</span>
+					<div class="card-type-container"><img src="visa.png" alt="card-type"></div>
+				</div>
+      </div>
+    </main>
+    <script src="index.js"></script>
+  </body>
+</html>

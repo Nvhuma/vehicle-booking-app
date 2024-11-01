@@ -18,7 +18,8 @@ namespace api.Mappers.CardMappers
                 CardHolder = cardDetails.CardHolder,
                 CardNumber = cardDetails.CardNumber,
                 CVV = cardDetails.CVV,
-                ExpiryDate = cardDetails.ExpiryDate
+                ExpiryDate = cardDetails.ExpiryDate,
+                BankName = cardDetails.BankName
             };
         }
     }

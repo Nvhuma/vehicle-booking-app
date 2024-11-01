@@ -41,6 +41,7 @@ const InputField = ({
   icon = '', 
   name = '', 
   value,
+  options,
   title,
   onChange, 
   readOnly = false, 
@@ -69,6 +70,7 @@ const InputField = ({
         className={inputClassNames}
         placeholder={placeholder}
         value={value}
+        options={options}
         title={title}
         onChange={onChange}
         readOnly={readOnly}

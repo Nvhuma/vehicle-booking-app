@@ -8,6 +8,8 @@ import { BASE_URL } from "../../../../config"; // Adjust this import if needed
 import { addCard, getCards } from "../../../utils/APIs/CardsApi"; // Adjust this import if needed
 import { GetUser } from "../../../utils/Auth/Auth"; // Adjust this import if needed
 import { toast } from "react-toastify";
+import BankCard from "../../SubComponents/CardDetailsComponents/BankCard/BankCard";
+import bankList from './BankNames.json'
 
 const CardManagement = () => {
   const [cards, setCards] = useState([]);
@@ -17,6 +19,7 @@ const CardManagement = () => {
   const [bankName, setBankName] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [isAddingCard, setIsAddingCard] = useState(false);
+  const banks = bankList;
   const user = GetUser();
 
   // Fetch cards on component mount
@@ -144,23 +147,23 @@ const CardManagement = () => {
 
       {/* Button to view cards */}
       <button onClick={fetchCards}>View Cards</button>
+      {cards.map((card) => (
+      <div key={card.id} className="card-item-container">
+        < BankCard card={card} />
 
-      {/* Render card list */}
-      <ul className={styles["card-list"]}>
-        {cards.map((card) => (
-          <li key={card.id} className={styles["card-item"]}>
-            {card.cardNumber} - {card.expiryDate}
-            <button
+        <button
               onClick={() => handleDeleteCard(card.id)}
               className={styles["delete-button"]}
             >
               Delete
-            </button>
-          </li>
-        ))}
-      </ul>
+        </button>
+      </div>
+       ))}
     </div>
+    
   );
 };
 
 export default CardManagement;
+
+

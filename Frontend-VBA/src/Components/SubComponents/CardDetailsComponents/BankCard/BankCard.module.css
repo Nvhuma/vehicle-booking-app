@@ -1,0 +1,78 @@
+.bank-card {
+	background-color: #C0C0C0; /* Set a befault background color for the card */
+	padding: 1rem; /* Add padding for some space inside the card */
+	border-radius: 10px; /* Rounded corners */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+	width: 330px;
+	display: flex;
+	flex-direction: column;
+	aspect-ratio: 1.585/1;
+	margin: 1rem;
+}
+
+.green-card{
+	background-image: linear-gradient(to right top, #007a33, #009a36, #00bb34, #1add2c, #39ff14);
+}
+
+.purple-card{
+	background-image: linear-gradient(to right top, #00bfff, #5eb2ff, #a0a0ff, #d788f0, #ff6ec7);
+}
+
+.red-card{
+	background-image: linear-gradient(to right top, #ff0000, #ff201c, #ff312e, #ff403e, #ff4c4c);
+	color: white;
+}
+
+.silver-card{
+	background-image: linear-gradient(to right top, #333333, #535353, #767676, #9a9a9a, #c0c0c0);
+	color: white;
+}
+
+.blue-card{
+	background-image: linear-gradient(to right top, #003b5c, #075983, #0d79ab, #0d9bd5, #00bfff);
+}
+
+
+
+.bank-name{
+	align-self: flex-end;
+	font-size: 1.25rem;
+	font-weight: 600;
+}
+
+.tap-and-chip-wrapper,
+.holder-and-type-wrapper{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: .5rem 0;
+}
+
+.chip-image-container,
+.tap-sign{
+	height: 50px;
+}
+
+.chip-image-container img,
+.tap-sign img{
+	height: 100%;
+}
+
+.card-number{
+	font-size: var(--font-size-h5);  /* font size h3*/
+}
+
+.name-on-card{
+	font-weight: 600;
+}
+
+.card-type-container{
+	height: 35px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.card-type-container img{
+	height: 100%;
+}
