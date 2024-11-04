@@ -10,5 +10,7 @@ namespace api.DTOs.CardDtos
         public string CVV { get; set; } // CVV
         public string BankName { get; set; } // Bank Name (optional)
 
+				public decimal Balance { get; set; }
+
     }
 }

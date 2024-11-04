@@ -1,3 +1,4 @@
+using api.DTOs.CardDtos;
 using api.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -26,6 +27,8 @@ namespace api.Data
 		public DbSet<DriveTrain> DriveTrains { get; set; }
 		public DbSet<FuelType> FuelTypes { get; set; }
 		public DbSet<TrimLevel> TrimLevels { get; set; }
+
+		    public DbSet<PaymentRequest> PaymentRequests { get; set; }
 
 		public DbSet<VehicleModelEngineType> VehicleModelEngineTypes { get; set; }
 		public DbSet<VehicleModelTransmissionType> VehicleModelTransmissionTypes { get; set; }

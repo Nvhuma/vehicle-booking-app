@@ -25,6 +25,8 @@ namespace api.DTOs.CardDtos
         [DataType(DataType.Date)]
         public DateTime ExpiryDate { get; set; }
 
+				public decimal Balance { get; set; }
+
         // UserID should not be in the DTO  it is retrieved from the logged-in user’s claims
         //card id is auto generated 
     }

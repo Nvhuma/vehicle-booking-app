@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using api.DTOs.BookingsDtos;
+using api.Interfaces;
 using api.Models;
 using api.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -11,139 +12,99 @@ using Microsoft.AspNetCore.Mvc;
 [Authorize]
 public class BookingsController : ControllerBase
 {
-	private readonly BookingService _bookingService;
-	private readonly UserManager<AppUser> _userManager;
+    private readonly BookingService _bookingService;
+	  private readonly IEmailService _emailService;
+    private readonly UserManager<AppUser> _userManager;
 
-	public BookingsController(BookingService bookingService, UserManager<AppUser> userManager)
-	{
-		_bookingService = bookingService;
-		_userManager = userManager;
-	}
-	[HttpPost]
-	public async Task<IActionResult> CreateBooking([FromBody] BookingRequestModel request)
-	{
-		if (request == null)
-		{
-			return BadRequest("Invalid request.");
-		}
+    public BookingsController(BookingService bookingService, UserManager<AppUser> userManager,   IEmailService emailService)
+    {
+        _bookingService = bookingService;
+        _userManager = userManager;
+				  _emailService = emailService;
 
-		// Retrieve the logged-in user's ID from the JWT token
-		var userEmail = User.FindFirstValue(ClaimTypes.Email);
-		var currentUser = await _userManager.FindByEmailAsync(userEmail);
+    }
+[HttpPost]
+public async Task<IActionResult> CreateBooking([FromBody] BookingRequestModel request)
+{
+    if (request == null)
+    {
+        return BadRequest("Invalid request.");
+    }
 
-		if (currentUser == null)
-		{
-			return NotFound("User not found.");
-		}
+    // Retrieve the logged-in user's ID from the JWT token
+    var userEmail = User.FindFirstValue(ClaimTypes.Email);
+    var currentUser = await _userManager.FindByEmailAsync(userEmail);
 
-		// Check service and employee availability
-		var (isAvailable, message) = await _bookingService.CheckAvailability(request.ServiceType, request.DesiredDateTime, request.EmployeeId);
+    if (currentUser == null)
+    {
+        return NotFound("User not found.");
+    }
 
-		if (!isAvailable)
-		{
-			return BadRequest(new { message });
-		}
+    // Check service and employee availability
+    var (isAvailable, message) = await _bookingService.CheckAvailability(request.ServiceType, request.DesiredDateTime, request.EmployeeId);
+    if (!isAvailable)
+    {
+        return BadRequest(new { message });
+    }
 
-		// Retrieve the vehicle model from the database based on the request
-		var vehicleModel = await _bookingService.GetVehicleModelAsync(request.VehicleModelId);
-		if (vehicleModel == null)
-		{
-			return NotFound("Vehicle model not found.");
-		}
+    // Retrieve the vehicle model from the database based on the request
+    var vehicleModel = await _bookingService.GetVehicleModelAsync(request.VehicleModelId);
+    if (vehicleModel == null)
+    {
+        return NotFound("Vehicle model not found.");
+    }
 
-		// Retrieve the service price for the selected vehicle model and service type
+    // Retrieve the service price for the selected vehicle model and service type
+    var servicePrice = await _bookingService.GetServicePriceAsync(vehicleModel.VehicleModelId, int.Parse(request.ServiceType));
+    if (servicePrice == null)
+    {
+        return BadRequest("No price available for the selected vehicle model and service type.");
+    }
 
-		//changed the service type to an id 
-		var servicePrice = await _bookingService.GetServicePriceAsync(vehicleModel.VehicleModelId, int.Parse(request.ServiceType));
+    // Create the booking object
+    var booking = new Booking
+    {
+        UserId = currentUser.Id,
+        VehicleModelId = vehicleModel.VehicleModelId,
+        ServiceType = request.ServiceType,
+        DesiredDateTime = request.DesiredDateTime,
+        EmployeeId = request.EmployeeId,
+        AdditionalNotes = request.AdditionalNotes,
+        BookingStatus = "Pending",
+        Price = servicePrice.Price
+    };
 
-		if (servicePrice == null)
-		{
-			return BadRequest("No price available for the selected vehicle model and service type.");
-		}
+    // Persist the booking
+    var createdBooking = await _bookingService.CreateBooking(booking);
 
-		// Create the booking object
-		var booking = new Booking
-		{
-			UserId = currentUser.Id,  // Set the UserId to the current user's ID
-			VehicleModelId = vehicleModel.VehicleModelId, // Link the VehicleModel to the Booking
-			ServiceType = request.ServiceType,
-			DesiredDateTime = request.DesiredDateTime,
-			EmployeeId = request.EmployeeId,
-			AdditionalNotes = request.AdditionalNotes,
-			BookingStatus = "Pending",
-			Price = servicePrice.Price  // Track the price from the ServicePrices table
-		};
+    // Send booking confirmation email
+    await _emailService.SendBookingConfirmationEmailAsync(
+        email: currentUser.Email,
+        subject: "Booking Confirmation",
+        userName: currentUser.UserName,
+        templateName: "BookingConfirmation",
+        vehicleMake: vehicleModel.Make,
+        vehicleModel: vehicleModel.Model,
+        vehicleYear: vehicleModel.Year.ToString("yyyy-MM-dd HH:mm"),
+        serviceType: booking.ServiceType,
+        desiredDateTime: booking.DesiredDateTime.ToString("yyyy-MM-dd HH:mm"),
+        employeeId: booking.EmployeeId,
+        additionalNotes: booking.AdditionalNotes
+    );
 
-		// Persist the booking
-		var createdBooking = await _bookingService.CreateBooking(booking);
+    return Ok(new
+    {
+        BookingId = createdBooking.BookingId,
+        Message = "Booking successfully created",
+        createdBooking.BookingStatus,
+        Price = createdBooking.Price
+    });
+}
 
-		return Ok(new
-		{
-			BookingId = createdBooking.BookingId,
-			Message = "Booking successfully created",
-			createdBooking.BookingStatus,
-			Price = createdBooking.Price  // Return the price in the response
-		});
-	}
 
-	[HttpDelete]
-	public async Task<IActionResult> DeleteBooking(int BookingId)
-	{
-		// retrieve the logged-in userID
-		var userEmail = User.FindFirstValue(ClaimTypes.Email);
-		var currentUser = await _userManager.FindByEmailAsync(userEmail);
 
-		if (currentUser == null)
 
-		{
-			return NotFound("User not found.");
-		}
-
-		//retrieve booking 
-		var booking = await _bookingService.GetBookingByIdAsync(BookingId);
-		if (booking == null)
-		{
-			return NotFound("Booking not found");
-		}
-
-		//ensure the booking belongs to the current user
-		if (booking.UserId != currentUser.Id)
-		{
-			return Forbid("You do not have permission to delete this booking.");
-		};
-
-		//proceed to delete the booking
-		var result = await _bookingService.DeleteBookingByIdAsync(BookingId);
-		if (!result)
-		{
-			return StatusCode(500, "An error occurred while deleting the booking.");
-		}
-		return Ok(new { message = "Booking successfully deleted." });
-
-	}
-
-	[HttpGet]
-	public async Task<IActionResult> GetAllBookings()
-	{
-		//retrive the logged-in user
-		var userEmail = User.FindFirstValue(ClaimTypes.Email);
-		var currentUser = await _userManager.FindByEmailAsync(userEmail);
-
-		if (currentUser == null)
-		{
-			return NotFound("User not found.");
-		}
-		//get all bookings for that particular-user
-		var bookings = await _bookingService.GetAllBookingsForUserAsync(currentUser.Id);
-
-		if (bookings == null || !bookings.Any())
-		{
-			return NotFound("No Bookings found");
-		}
-
-		return Ok(bookings);
-	}
-	[HttpPut("{bookingId}")]
+[HttpPut("{bookingId}")]
 	public async Task<IActionResult> UpdateBooking(int bookingId, [FromBody] BookingRequestModel request)
 	{
 		if (!ModelState.IsValid)
@@ -196,6 +157,6 @@ public class BookingsController : ControllerBase
 
 		return Ok(new { message = "Booking updated successfully.", booking });
 	}
-
-}
+    
+    }
 
