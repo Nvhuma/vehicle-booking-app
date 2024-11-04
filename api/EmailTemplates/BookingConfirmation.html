@@ -1,0 +1,54 @@
+<html lang="en" style="margin: 0; padding: 0;">
+  <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; color: #333; background-color: #f8f9fa;">
+
+    <header style="padding: 20px; background-color: #2187AB; color: #E9F5F9; text-align: center;">
+      <img src="https://i.ibb.co/3Mr2PNB/Logo-1-white.png" alt="Company Logo" style="height: 60px;">
+      <h2 style="margin: 0; font-weight: normal;">Booking Confirmation</h2>
+    </header>
+
+    <main style="padding: 20px; max-width: 600px; margin: 20px auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+      <h3 style="color: #2187AB;">Dear {nameOfUser},</h3>
+      <p>Thank you for scheduling a service with us! Here are the details of your upcoming booking:</p>
+
+      <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+        <tr>
+          <td style="padding: 8px; background-color: #f1f1f1; font-weight: bold;">Service Type:</td>
+          <td style="padding: 8px; text-align: right;">{serviceType}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; background-color: #f1f1f1; font-weight: bold;">Date:</td>
+          <td style="padding: 8px; text-align: right;">{desiredDateTime}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; background-color: #f1f1f1; font-weight: bold;">Vehicle:</td>
+          <td style="padding: 8px; text-align: right;">{vehicle.make} {vehicle.model} ({vehicle.year})</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; background-color: #f1f1f1; font-weight: bold;">Assigned Employee:</td>
+          <td style="padding: 8px; text-align: right;">{employeeId}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; background-color: #f1f1f1; font-weight: bold;">Additional Notes:</td>
+          <td style="padding: 8px; text-align: right;">{additionalNotes}</td>
+        </tr>
+      </table>
+
+      <p>Your booking is currently awaiting confirmation from our team. We will notify you once it has been confirmed.</p>
+      
+      <div style="text-align: center; margin: 20px 0;">
+        <a href="{bookingDetailsLink}" style="display: inline-block; padding: 10px 20px; background-color: #2187AB; color: #ffffff; text-decoration: none; border-radius: 4px;">View Booking Status</a>
+      </div>
+
+      <p>If you have any questions or need to reschedule, feel free to contact us. Thank you for choosing us for your vehicle service needs!</p>
+
+      <p>Best regards,</p>
+      <p>The Vehicle Booking App Team</p>
+    </main>
+
+    <footer style="padding: 20px; background-color: #2187AB; color: #E9F5F9; text-align: center;">
+      <p style="margin: 5px;">© 2024 Vehicle Booking App. All rights reserved.</p>
+      <p style="margin: 5px;">Need help? <a href="mailto:support@vehiclebookingapp.com" style="color: #E9F5F9; text-decoration: underline;">Contact Support</a></p>
+    </footer>
+
+  </body>
+</html>

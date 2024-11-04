@@ -21,6 +21,8 @@ namespace api.Models
 
         // Foreign Key to UserAccount
         public string UserID { get; set; }
+					public decimal Balance { get; set;}
+
 
         // Navigation property to the UserAccount
         public AppUser AppUser { get; set; }

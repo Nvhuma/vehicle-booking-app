@@ -17,6 +17,7 @@ namespace api.Models
 		public string? EmployeeId { get; set; }            
 		public string? AdditionalNotes { get; set; }
 
+	
 		public string BookingStatus { get; set; } = StatusPending;
 
 		// Define status values as constants

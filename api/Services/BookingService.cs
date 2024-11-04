@@ -186,7 +186,10 @@ namespace api.Services
 
 	}
 
-
+		internal async Task UpdateBookingAsync(Booking booking)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
 

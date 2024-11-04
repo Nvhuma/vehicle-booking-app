@@ -106,8 +106,15 @@ builder.Services.AddScoped<ICardRepository, CardRepository>();
 builder.Services.AddScoped<IEncryptionService, EncryptionService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IVehicleModelRepository, VehicleModelRepository>();
+
+builder.Services.AddScoped<IPaymentProcessor, MockPaymentProcessor>();
+
+
+
 builder.Services.AddScoped<AdminService>();
+builder.Services.AddScoped<ICardDetailsService, CardDetailsService>();
 builder.Services.AddScoped<BookingService>(); // Add BookingService
+
 
 var app = builder.Build();
 
