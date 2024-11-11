@@ -1,11 +1,14 @@
+namespace api.Controllers
+
+{
+  
+
 using api.Data;
 using api.Interfaces;
 using api.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace api.Controllers
-{
-    [Route("api/[controller]")]
+  [Route("api/[controller]")]
 	[ApiController]
 	public class VehicleModelController : ControllerBase
 	{

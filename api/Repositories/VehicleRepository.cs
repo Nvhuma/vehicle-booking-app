@@ -1,10 +1,12 @@
+namespace api.Repositories
+{
+
 using api.Data;
 using api.DTOs.VehicleModelDtos;
 using api.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace api.Repositories
-{
+
     public class VehicleModelRepository : IVehicleModelRepository
 	{
 		private readonly ApplicationDBContext _context;

@@ -1,3 +1,8 @@
+
+namespace api.Controllers
+
+{
+
 using System.Web;
 using api.DTOs.AccountDtos;
 using api.Interfaces;
@@ -8,8 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using api.Extensions;
 
 
-namespace api.Controllers
-{
+
     [ApiController]
     [Route("api/[controller]")]
     public class AccountController : ControllerBase
@@ -102,10 +106,11 @@ namespace api.Controllers
 
                     try
                     {
-                        await _emailService.SendEmailAsync(recipientEmail, subject, fullName, link, "WelcomeEmail");
+                        await _emailService.SendEmailAsync(recipientEmail, subject, fullName, link ??"", "WelcomeEmail");
                     }
                     catch (Exception ex)
                     {
+											    _logger.LogError(ex, "An error occurred");
                         await _userManager.DeleteAsync(appUser); // Cleanup by deleting the created user
                         return StatusCode(500, $"An error occurred while sending the confirmation email. Please try again.");
                     }

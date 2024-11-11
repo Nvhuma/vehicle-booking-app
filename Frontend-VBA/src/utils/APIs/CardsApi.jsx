@@ -65,17 +65,24 @@ export const getCards = async () => {
 // DELETE: Delete a card by ID
 export const deleteCard = async (cardId) => {
   try {
-    const config = getUserConfig(); // Get token in headers
-    console.log("deleteCard ID:", cardId); // Log the card ID being deleted
-    console.log("deleteCard config:", config); // Log headers including token
+    const config = getUserConfig(); 
+		// Get token in headers
+    console.log("deleteCard ID:", cardId); 
+		// Log the card ID being deleted
+    console.log("deleteCard config:", config); 
+		// Log headers including token
 
     // Send DELETE request to delete a card
     const response = await axios.delete(`${API_CARDS_URL}/${cardId}`, config);
 
-    console.log("deleteCard response:", response.data); // Log success response data
+		// Log success response data
+
+    console.log("deleteCard response:", response.data); 
     // Return a success message or response data
     return response.data;
+		
   } catch (error) {
+
     // Log full error details for better debugging
     console.error('Error deleting card:', error.response?.data || error.message);
     throw new Error(error.response?.data || 'An error occurred while deleting the card');

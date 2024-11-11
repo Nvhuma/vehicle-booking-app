@@ -1,8 +1,10 @@
+namespace api.Mappers.CardMappers
+{
+	
 using api.DTOs.CardDtos;
 using api.Models;
 
-namespace api.Mappers.CardMappers
-{
+
     public static class CardMapper
     {
         public static GetCardDto ToGetCardDto (this CardDetails cardDetails)

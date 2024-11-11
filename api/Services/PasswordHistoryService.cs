@@ -1,11 +1,13 @@
+namespace api.Services
+{
+
 using api.Data;
 using api.Interfaces;
 using api.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace api.Services
-{
+
     public class PasswordHistoryService : IPasswordHistoryService
     {
         private readonly ApplicationDBContext _dbContext;

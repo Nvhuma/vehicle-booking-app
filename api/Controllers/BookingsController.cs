@@ -23,6 +23,7 @@ public class BookingsController : ControllerBase
 				  _emailService = emailService;
 
     }
+		
 [HttpPost]
 public async Task<IActionResult> CreateBooking([FromBody] BookingRequestModel request)
 {
@@ -55,10 +56,22 @@ public async Task<IActionResult> CreateBooking([FromBody] BookingRequestModel re
     }
 
     // Retrieve the service price for the selected vehicle model and service type
-    var servicePrice = await _bookingService.GetServicePriceAsync(vehicleModel.VehicleModelId, int.Parse(request.ServiceType));
+    if (!int.TryParse(request.ServiceType, out int parsedServiceType))
+    {
+        return BadRequest("Invalid service type format.");
+    }
+
+    var servicePrice = await _bookingService.GetServicePriceAsync(vehicleModel.VehicleModelId, parsedServiceType);
     if (servicePrice == null)
     {
         return BadRequest("No price available for the selected vehicle model and service type.");
+    }
+
+    // Fetch the employee details based on the provided EmployeeId
+    var employee = await _bookingService.GetEmployeeByIdAsync(request.EmployeeId);
+    if (employee == null)
+    {
+        return NotFound("Employee not found.");
     }
 
     // Create the booking object
@@ -77,29 +90,22 @@ public async Task<IActionResult> CreateBooking([FromBody] BookingRequestModel re
     // Persist the booking
     var createdBooking = await _bookingService.CreateBooking(booking);
 
-    // Send booking confirmation email
+    // Send booking confirmation email with modelId and employeeId for database lookup
     await _emailService.SendBookingConfirmationEmailAsync(
         email: currentUser.Email,
         subject: "Booking Confirmation",
         userName: currentUser.UserName,
         templateName: "BookingConfirmation",
-        vehicleMake: vehicleModel.Make,
-        vehicleModel: vehicleModel.Model,
-        vehicleYear: vehicleModel.Year.ToString("yyyy-MM-dd HH:mm"),
+        VehicleModelId: vehicleModel.VehicleModelId,       // Pass modelId for vehicle details
         serviceType: booking.ServiceType,
         desiredDateTime: booking.DesiredDateTime.ToString("yyyy-MM-dd HH:mm"),
-        employeeId: booking.EmployeeId,
-        additionalNotes: booking.AdditionalNotes
+        employeeId: employee.EmployeeId,                    // Pass employeeId for employee details
+        additionalNotes: request.AdditionalNotes
     );
 
-    return Ok(new
-    {
-        BookingId = createdBooking.BookingId,
-        Message = "Booking successfully created",
-        createdBooking.BookingStatus,
-        Price = createdBooking.Price
-    });
+    return Ok(new { Message = "Booking created successfully.", BookingId = createdBooking.BookingId });
 }
+
 
 
 
@@ -159,4 +165,3 @@ public async Task<IActionResult> CreateBooking([FromBody] BookingRequestModel re
 	}
     
     }
-

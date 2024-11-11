@@ -1,3 +1,6 @@
+namespace api.Mappers.UserMappers
+{
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,8 +8,7 @@ using System.Threading.Tasks;
 using api.DTOs.UserDtos;
 using api.Models;
 
-namespace api.Mappers.UserMappers
-{
+
     public static class UserMapper
     {
         public static GetUserDto ToGetUserDto (this AppUser userDetails)

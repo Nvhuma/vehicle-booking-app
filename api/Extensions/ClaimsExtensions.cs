@@ -1,7 +1,9 @@
-using System.Security.Claims;
-
 namespace api.Extensions
 {
+
+using System.Security.Claims;
+
+
     public static class ClaimsExtensions
     {
         public static string GetUserEmail(this ClaimsPrincipal user)

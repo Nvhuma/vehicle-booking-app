@@ -28,8 +28,8 @@ namespace api.Models
             Price = adjustedPrice;
         }
 
-    public VehicleModel VehicleModel { get; set; }
-    public ServiceType ServiceType { get; set; }
+    public VehicleModel ? VehicleModel { get; set; }
+    public ServiceType ? ServiceType { get; set; }
 
     }
 }

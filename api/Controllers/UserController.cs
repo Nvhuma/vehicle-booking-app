@@ -1,6 +1,7 @@
+namespace api.Controllers
+{
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using api.Data;
 using api.DTOs.AccountDtos;
@@ -11,10 +12,9 @@ using api.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace api.Controllers
-{
+
+
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase

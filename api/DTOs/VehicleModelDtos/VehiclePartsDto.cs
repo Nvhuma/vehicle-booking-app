@@ -1,10 +1,12 @@
+namespace api.DTOs.VehicleModelDtos
+{
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace api.DTOs.VehicleModelDtos
-{
+
 	public class EngineTypeDto
 	{
 		public int EngineTypeId { get; set; }

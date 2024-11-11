@@ -1,15 +1,17 @@
-using Microsoft.AspNetCore.Identity;
-
 namespace api.Models
 {
+
+using Microsoft.AspNetCore.Identity;
+
+
     public class AppUser : IdentityUser
     {
-        public string Name { get; set; }
-        public string Surname { get; set; }
+        public required string  Name { get; set; }
+        public required string  Surname { get; set; }
         public DateTime DateOfBirth { get; set; }
-        public string IdentityNumber { get; set; }
-        public string Gender { get; set; }
-        public string CitizenshipStatus { get; set; }
+        public required string  IdentityNumber { get; set; }
+        public required string  Gender { get; set; }
+        public required string  CitizenshipStatus { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 				
         public List<UserPasswordHistory> UserPasswordHistories  { get; set; } = new List<UserPasswordHistory>();

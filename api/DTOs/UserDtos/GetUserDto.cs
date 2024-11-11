@@ -1,10 +1,11 @@
+namespace api.DTOs.UserDtos
+{
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace api.DTOs.UserDtos
-{
     public class GetUserDto
     {
        public string Name { get; set; }

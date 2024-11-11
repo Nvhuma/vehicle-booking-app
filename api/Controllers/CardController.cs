@@ -1,3 +1,7 @@
+namespace api.Controllers
+{
+
+
 using Microsoft.AspNetCore.Mvc;
 using api.DTOs.CardDtos;
 using Microsoft.AspNetCore.Identity;
@@ -9,8 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 using api.Mappers.CardMappers;
 
 
-namespace api.Controllers
-{
+
     [ApiController]
     [Route("api/[controller]")]
     public class CardController : ControllerBase

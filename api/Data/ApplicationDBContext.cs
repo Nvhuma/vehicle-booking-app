@@ -17,6 +17,8 @@ namespace api.Data
 		public DbSet<UserPasswordHistory> PasswordHistories { get; set; }
 		public DbSet<CardDetails> CardDetails { get; set; }
 
+		public DbSet<Employee> Employee { get; set; }
+
 		public DbSet<VehicleModel> VehicleModels { get; set; }
 		public DbSet<ServiceType> ServiceTypes { get; set; }
 		public DbSet<ServicePrice> ServicePrices { get; set; }
@@ -67,6 +69,18 @@ namespace api.Data
 				new Employee { EmployeeId = 1, Name = "Vusi Vusimusi", ServiceSpecialty = "Oil Change",   IsAvailable = true },
 				new Employee { EmployeeId = 2, Name = "Jane Smith" ,ServiceSpecialty = "Tire Rotation" ,   IsAvailable = true},
 				new Employee { EmployeeId = 3, Name = "Bob Johnson" , ServiceSpecialty = "Break pads",  IsAvailable = true },
+
+				
+				 new Employee
+        {
+            EmployeeId = 4,
+            Name = "John Doe",
+            ServiceSpecialty = "General Mechanic",
+            IsAvailable = true,
+            ServiceTypes = new List<string> { "oil change", "tire rotation" }, // Adjust these to match your service requirements
+            Bookings = new List<Booking>() // Empty list to indicate availability
+        }
+				
 			};
 
 			modelBuilder.Entity<ServiceType>().HasData(
@@ -244,11 +258,16 @@ namespace api.Data
 
 			// Seed data for DriveTrains
 			modelBuilder.Entity<DriveTrain>().HasData(
-				new DriveTrain { DriveTrainId = 1, DriveTrainName = "FWD" },  // Front Wheel Drive
-				new DriveTrain { DriveTrainId = 2, DriveTrainName = "RWD" },  // Rear Wheel Drive
-				new DriveTrain { DriveTrainId = 3, DriveTrainName = "AWD" },  // All Wheel Drive
-				new DriveTrain { DriveTrainId = 4, DriveTrainName = "4WD" },  // Four Wheel Drive
-				new DriveTrain { DriveTrainId = 5, DriveTrainName = "2WD" }   // Two Wheel Drive
+				new DriveTrain { DriveTrainId = 1, DriveTrainName = "FWD" }, 
+				 // Front Wheel Drive
+				new DriveTrain { DriveTrainId = 2, DriveTrainName = "RWD" }, 
+				 // Rear Wheel Drive
+				new DriveTrain { DriveTrainId = 3, DriveTrainName = "AWD" }, 
+				 // All Wheel Drive
+				new DriveTrain { DriveTrainId = 4, DriveTrainName = "4WD" },  
+				// Four Wheel Drive
+				new DriveTrain { DriveTrainId = 5, DriveTrainName = "2WD" }   
+				// Two Wheel Drive
 			);
 
 			// Seed data for FuelTypes
@@ -271,72 +290,122 @@ namespace api.Data
 
 			// Seed data for VehicleModelEngineType relationships
 			modelBuilder.Entity<VehicleModelEngineType>().HasData(
-				new VehicleModelEngineType { VehicleModelId = 1, EngineTypeId = 3 }, // Toyota Camry -> Inline-4
-				new VehicleModelEngineType { VehicleModelId = 2, EngineTypeId = 3 }, // Toyota Corolla -> Inline-4
-				new VehicleModelEngineType { VehicleModelId = 3, EngineTypeId = 2 }, // Ford F-150 -> V8
-				new VehicleModelEngineType { VehicleModelId = 4, EngineTypeId = 2 }, // Ford Mustang -> V8
-				new VehicleModelEngineType { VehicleModelId = 5, EngineTypeId = 4 }, // Tesla Model X -> Electric
-				new VehicleModelEngineType { VehicleModelId = 6, EngineTypeId = 4 }, // Tesla Model 3 -> Electric
-				new VehicleModelEngineType { VehicleModelId = 7, EngineTypeId = 3 }, // Honda Civic -> Inline-4
-				new VehicleModelEngineType { VehicleModelId = 8, EngineTypeId = 5 }, // Honda CR-V -> Hybrid
-				new VehicleModelEngineType { VehicleModelId = 9, EngineTypeId = 3 }, // Hyundai Elantra -> Inline-4
-				new VehicleModelEngineType { VehicleModelId = 10, EngineTypeId = 5 } // Hyundai Santa Fe -> Hybrid
+				new VehicleModelEngineType { VehicleModelId = 1, EngineTypeId = 3 }, 
+				// Toyota Camry -> Inline-4
+				new VehicleModelEngineType { VehicleModelId = 2, EngineTypeId = 3 }, 
+				// Toyota Corolla -> Inline-4
+				new VehicleModelEngineType { VehicleModelId = 3, EngineTypeId = 2 }, 
+				// Ford F-150 -> V8
+				new VehicleModelEngineType { VehicleModelId = 4, EngineTypeId = 2 },
+				 // Ford Mustang -> V8
+				new VehicleModelEngineType { VehicleModelId = 5, EngineTypeId = 4 },
+				 // Tesla Model X -> Electric
+				new VehicleModelEngineType { VehicleModelId = 6, EngineTypeId = 4 }, 
+				// Tesla Model 3 -> Electric
+				new VehicleModelEngineType { VehicleModelId = 7, EngineTypeId = 3 }, 
+				// Honda Civic -> Inline-4
+				new VehicleModelEngineType { VehicleModelId = 8, EngineTypeId = 5 }, 
+				// Honda CR-V -> Hybrid
+				new VehicleModelEngineType { VehicleModelId = 9, EngineTypeId = 3 }, 
+				// Hyundai Elantra -> Inline-4
+				new VehicleModelEngineType { VehicleModelId = 10, EngineTypeId = 5 } 
+				// Hyundai Santa Fe -> Hybrid
 			);
 
 			// Seed data for VehicleModelTransmissionType relationships
 			modelBuilder.Entity<VehicleModelTransmissionType>().HasData(
-				new VehicleModelTransmissionType { VehicleModelId = 1, TransmissionTypeId = 2 }, // Toyota Camry -> Automatic
-				new VehicleModelTransmissionType { VehicleModelId = 2, TransmissionTypeId = 3 }, // Toyota Corolla -> CVT
-				new VehicleModelTransmissionType { VehicleModelId = 3, TransmissionTypeId = 2 }, // Ford F-150 -> Automatic
-				new VehicleModelTransmissionType { VehicleModelId = 4, TransmissionTypeId = 2 }, // Ford Mustang -> Automatic
-				new VehicleModelTransmissionType { VehicleModelId = 5, TransmissionTypeId = 4 }, // Tesla Model X -> Dual-clutch
-				new VehicleModelTransmissionType { VehicleModelId = 6, TransmissionTypeId = 4 }, // Tesla Model 3 -> Dual-clutch
-				new VehicleModelTransmissionType { VehicleModelId = 7, TransmissionTypeId = 1 }, // Honda Civic -> Manual
-				new VehicleModelTransmissionType { VehicleModelId = 8, TransmissionTypeId = 2 }, // Honda CR-V -> Automatic
-				new VehicleModelTransmissionType { VehicleModelId = 9, TransmissionTypeId = 3 }, // Hyundai Elantra -> CVT
-				new VehicleModelTransmissionType { VehicleModelId = 10, TransmissionTypeId = 2 } // Hyundai Santa Fe -> Automatic
+				new VehicleModelTransmissionType { VehicleModelId = 1, TransmissionTypeId = 2 }, 
+				// Toyota Camry -> Automatic
+				new VehicleModelTransmissionType { VehicleModelId = 2, TransmissionTypeId = 3 }, 
+				// Toyota Corolla -> CVT
+				new VehicleModelTransmissionType { VehicleModelId = 3, TransmissionTypeId = 2 }, 
+				// Ford F-150 -> Automatic
+				new VehicleModelTransmissionType { VehicleModelId = 4, TransmissionTypeId = 2 },
+				 // Ford Mustang -> Automatic
+				new VehicleModelTransmissionType { VehicleModelId = 5, TransmissionTypeId = 4 }, 
+				// Tesla Model X -> Dual-clutch
+				new VehicleModelTransmissionType { VehicleModelId = 6, TransmissionTypeId = 4 }, 
+				// Tesla Model 3 -> Dual-clutch
+				new VehicleModelTransmissionType { VehicleModelId = 7, TransmissionTypeId = 1 }, 
+				// Honda Civic -> Manual
+				new VehicleModelTransmissionType { VehicleModelId = 8, TransmissionTypeId = 2 }, 
+				// Honda CR-V -> Automatic
+				new VehicleModelTransmissionType { VehicleModelId = 9, TransmissionTypeId = 3 }, 
+				// Hyundai Elantra -> CVT
+				new VehicleModelTransmissionType { VehicleModelId = 10, TransmissionTypeId = 2 } 
+				// Hyundai Santa Fe -> Automatic
 			);
 
 			// Seed data for VehicleModelDriveTrain relationships
 			modelBuilder.Entity<VehicleModelDriveTrain>().HasData(
-				new VehicleModelDriveTrain { VehicleModelId = 1, DriveTrainId = 1 }, // Toyota Camry -> FWD
-				new VehicleModelDriveTrain { VehicleModelId = 2, DriveTrainId = 1 }, // Toyota Corolla -> FWD
-				new VehicleModelDriveTrain { VehicleModelId = 3, DriveTrainId = 4 }, // Ford F-150 -> 4WD
-				new VehicleModelDriveTrain { VehicleModelId = 4, DriveTrainId = 2 }, // Ford Mustang -> RWD
-				new VehicleModelDriveTrain { VehicleModelId = 5, DriveTrainId = 3 }, // Tesla Model X -> AWD
-				new VehicleModelDriveTrain { VehicleModelId = 6, DriveTrainId = 3 }, // Tesla Model 3 -> AWD
-				new VehicleModelDriveTrain { VehicleModelId = 7, DriveTrainId = 1 }, // Honda Civic -> FWD
-				new VehicleModelDriveTrain { VehicleModelId = 8, DriveTrainId = 3 }, // Honda CR-V -> AWD
-				new VehicleModelDriveTrain { VehicleModelId = 9, DriveTrainId = 1 }, // Hyundai Elantra -> FWD
-				new VehicleModelDriveTrain { VehicleModelId = 10, DriveTrainId = 3 } // Hyundai Santa Fe -> AWD
+				new VehicleModelDriveTrain { VehicleModelId = 1, DriveTrainId = 1 }, 
+				// Toyota Camry -> FWD
+				new VehicleModelDriveTrain { VehicleModelId = 2, DriveTrainId = 1 }, 
+				// Toyota Corolla -> FWD
+				new VehicleModelDriveTrain { VehicleModelId = 3, DriveTrainId = 4 }, 
+				// Ford F-150 -> 4WD
+				new VehicleModelDriveTrain { VehicleModelId = 4, DriveTrainId = 2 },
+				 // Ford Mustang -> RWD
+				new VehicleModelDriveTrain { VehicleModelId = 5, DriveTrainId = 3 }, 
+				// Tesla Model X -> AWD
+				new VehicleModelDriveTrain { VehicleModelId = 6, DriveTrainId = 3 }, 
+				// Tesla Model 3 -> AWD
+				new VehicleModelDriveTrain { VehicleModelId = 7, DriveTrainId = 1 }, 
+				// Honda Civic -> FWD
+				new VehicleModelDriveTrain { VehicleModelId = 8, DriveTrainId = 3 }, 
+				// Honda CR-V -> AWD
+				new VehicleModelDriveTrain { VehicleModelId = 9, DriveTrainId = 1 }, 
+				// Hyundai Elantra -> FWD
+				new VehicleModelDriveTrain { VehicleModelId = 10, DriveTrainId = 3 }
+				 // Hyundai Santa Fe -> AWD
 			);
 
 			// Seed data for VehicleModelFuelType relationships
 			modelBuilder.Entity<VehicleModelFuelType>().HasData(
-				new VehicleModelFuelType { VehicleModelId = 1, FuelTypeId = 1 }, // Toyota Camry -> Petrol
-				new VehicleModelFuelType { VehicleModelId = 2, FuelTypeId = 1 }, // Toyota Corolla -> Petrol
-				new VehicleModelFuelType { VehicleModelId = 3, FuelTypeId = 1 }, // Ford F-150 -> Petrol
-				new VehicleModelFuelType { VehicleModelId = 4, FuelTypeId = 1 }, // Ford Mustang -> Petrol
-				new VehicleModelFuelType { VehicleModelId = 5, FuelTypeId = 3 }, // Tesla Model X -> Electric
-				new VehicleModelFuelType { VehicleModelId = 6, FuelTypeId = 3 }, // Tesla Model 3 -> Electric
-				new VehicleModelFuelType { VehicleModelId = 7, FuelTypeId = 1 }, // Honda Civic -> Petrol
-				new VehicleModelFuelType { VehicleModelId = 8, FuelTypeId = 4 }, // Honda CR-V -> Hybrid
-				new VehicleModelFuelType { VehicleModelId = 9, FuelTypeId = 1 }, // Hyundai Elantra -> Petrol
-				new VehicleModelFuelType { VehicleModelId = 10, FuelTypeId = 4 } // Hyundai Santa Fe -> Hybrid
+				new VehicleModelFuelType { VehicleModelId = 1, FuelTypeId = 1 },
+				 // Toyota Camry -> Petrol
+				new VehicleModelFuelType { VehicleModelId = 2, FuelTypeId = 1 },
+				 // Toyota Corolla -> Petrol
+				new VehicleModelFuelType { VehicleModelId = 3, FuelTypeId = 1 }, 
+				// Ford F-150 -> Petrol
+				new VehicleModelFuelType { VehicleModelId = 4, FuelTypeId = 1 }, 
+				// Ford Mustang -> Petrol
+				new VehicleModelFuelType { VehicleModelId = 5, FuelTypeId = 3 }, 
+				// Tesla Model X -> Electric
+				new VehicleModelFuelType { VehicleModelId = 6, FuelTypeId = 3 }, 
+				// Tesla Model 3 -> Electric
+				new VehicleModelFuelType { VehicleModelId = 7, FuelTypeId = 1 }, 
+				// Honda Civic -> Petrol
+				new VehicleModelFuelType { VehicleModelId = 8, FuelTypeId = 4 }, 
+				// Honda CR-V -> Hybrid
+				new VehicleModelFuelType { VehicleModelId = 9, FuelTypeId = 1 }, 
+				// Hyundai Elantra -> Petrol
+				new VehicleModelFuelType { VehicleModelId = 10, FuelTypeId = 4 }
+				 // Hyundai Santa Fe -> Hybrid
 			);
 
 			// Seed data for VehicleModelTrimLevel relationships
 			modelBuilder.Entity<VehicleModelTrimLevel>().HasData(
-				new VehicleModelTrimLevel { VehicleModelId = 1, TrimLevelId = 1 }, // Toyota Camry -> Base
-				new VehicleModelTrimLevel { VehicleModelId = 2, TrimLevelId = 2 }, // Toyota Corolla -> Sport
-				new VehicleModelTrimLevel { VehicleModelId = 3, TrimLevelId = 4 }, // Ford F-150 -> Premium
-				new VehicleModelTrimLevel { VehicleModelId = 4, TrimLevelId = 3 }, // Ford Mustang -> Luxury
-				new VehicleModelTrimLevel { VehicleModelId = 5, TrimLevelId = 5 }, // Tesla Model X -> Limited
-				new VehicleModelTrimLevel { VehicleModelId = 6, TrimLevelId = 4 }, // Tesla Model 3 -> Premium
-				new VehicleModelTrimLevel { VehicleModelId = 7, TrimLevelId = 1 }, // Honda Civic -> Base
-				new VehicleModelTrimLevel { VehicleModelId = 8, TrimLevelId = 3 }, // Honda CR-V -> Luxury
-				new VehicleModelTrimLevel { VehicleModelId = 9, TrimLevelId = 1 }, // Hyundai Elantra -> Base
-				new VehicleModelTrimLevel { VehicleModelId = 10, TrimLevelId = 5 } // Hyundai Santa Fe -> Limited
+				new VehicleModelTrimLevel { VehicleModelId = 1, TrimLevelId = 1 },
+				 // Toyota Camry -> Base
+				new VehicleModelTrimLevel { VehicleModelId = 2, TrimLevelId = 2 }, 
+				// Toyota Corolla -> Sport
+				new VehicleModelTrimLevel { VehicleModelId = 3, TrimLevelId = 4 }, 
+				// Ford F-150 -> Premium
+				new VehicleModelTrimLevel { VehicleModelId = 4, TrimLevelId = 3 },
+				 // Ford Mustang -> Luxury
+				new VehicleModelTrimLevel { VehicleModelId = 5, TrimLevelId = 5 }, 
+				// Tesla Model X -> Limited
+				new VehicleModelTrimLevel { VehicleModelId = 6, TrimLevelId = 4 },
+				 // Tesla Model 3 -> Premium
+				new VehicleModelTrimLevel { VehicleModelId = 7, TrimLevelId = 1 }, 
+				// Honda Civic -> Base
+				new VehicleModelTrimLevel { VehicleModelId = 8, TrimLevelId = 3 }, 
+				// Honda CR-V -> Luxury
+				new VehicleModelTrimLevel { VehicleModelId = 9, TrimLevelId = 1 }, 
+				// Hyundai Elantra -> Base
+				new VehicleModelTrimLevel { VehicleModelId = 10, TrimLevelId = 5 } 
+				// Hyundai Santa Fe -> Limited
 			);
 		}
 	}

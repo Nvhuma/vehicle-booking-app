@@ -1,4 +1,6 @@
-
+namespace api.Service
+{
+	
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -6,8 +8,7 @@ using api.Interfaces;
 using api.Models;
 using Microsoft.IdentityModel.Tokens;
 
-namespace api.Service
-{
+
     public class TokenService : ITokenService
     {
         private readonly IConfiguration _config;

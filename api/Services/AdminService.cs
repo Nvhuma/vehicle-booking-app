@@ -1,15 +1,18 @@
+namespace api.Services
+{
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+
 using api.Data;
 using api.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace api.Services
-{
+
 	public class AdminService
 	{
 		private readonly ApplicationDBContext _context;

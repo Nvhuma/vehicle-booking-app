@@ -1,11 +1,13 @@
+namespace api.Repositories
+{
+
 using api.Data;
 using api.DTOs.CardDtos;
 using api.Interfaces;
 using api.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace api.Repositories
-{
+
     public class CardRepository : ICardRepository
     {
         private readonly IEncryptionService _encryptionService;

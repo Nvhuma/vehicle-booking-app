@@ -1,7 +1,9 @@
-using api.Interfaces;
-
 namespace api.Services
 {
+
+using api.Interfaces;
+
+
     public class TitleCaseService : ITitleCaseService
     {
         public string ToTitleCase(string input)

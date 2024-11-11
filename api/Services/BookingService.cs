@@ -17,53 +17,47 @@ namespace api.Services
 
 		}
 
-		public async Task<(bool IsAvailable, string Message)> CheckAvailability(string serviceType, DateTime desiredDateTime, string employeeId = null)
-		{
-			// Check for conflicts for the selected service type
-			var conflictingServiceBooking = await _context.Bookings
-					.AnyAsync(b => b.ServiceType == serviceType && b.DesiredDateTime == desiredDateTime);
+public async Task<(bool IsAvailable, string Message)> CheckAvailability(string serviceType, DateTime desiredDateTime, int employeeId)
+{
+    // Check for conflicts for the selected service type
+    var conflictingServiceBooking = await _context.Bookings
+        .AnyAsync(b => b.ServiceType == serviceType && b.DesiredDateTime == desiredDateTime);
 
-			if (conflictingServiceBooking)
-			{
-				return (false, "Time slot is unavailable for the selected service.");
-			}
+    if (conflictingServiceBooking)
+    {
+        return (false, "Time slot is unavailable for the selected service.");
+    }
 
-			// If an employee ID is provided, check for conflicts with that specific employee
-			if (!string.IsNullOrEmpty(employeeId))
-			{
-				var employeeConflict = await _context.Bookings
-						.AnyAsync(b => b.EmployeeId == employeeId && b.DesiredDateTime == desiredDateTime && b.ServiceType == serviceType); // you need to fix here .. same service same employee ?? 
+    // Check for conflicts with the specific employee
+    var employeeConflict = await _context.Bookings
+        .AnyAsync(b => b.EmployeeId == employeeId && b.DesiredDateTime == desiredDateTime && b.ServiceType == serviceType);
 
-				if (employeeConflict)
-				{
-					return (false, "The selected employee is not available at the requested time for this service.");
-				}
+    if (employeeConflict)
+    {
+        return (false, "The selected employee is not available at the requested time for this service.");
+    }
 
+    // Optional: Check if the employee is available for any other service at that time
+    var employeeAvailableForOtherServices = await _context.Bookings
+        .AnyAsync(b => b.EmployeeId == employeeId && b.DesiredDateTime == desiredDateTime);
 
-				// Optional: Check if the employee is available for any other service at that time
-				var employeeAvailableForOtherServices = await _context.Bookings
-						.AnyAsync(b => b.EmployeeId == employeeId && b.DesiredDateTime == desiredDateTime);
+    if (employeeAvailableForOtherServices)
+    {
+        // You could return a message stating that the employee is booked for another service
+        return (false, "Selected employee is not available at the requested time.");
+    }
 
-				if (employeeAvailableForOtherServices)
-				{
-					// You could return a message stating that the employee is booked for another service
+    return (true, "Time slot is available.");
+}
 
-					return (false, "Selected employee is not available at the requested time.");
-
-				}
-			}
-
-			return (true, "Time slot is available.");
-
-		}
-
-		public async Task<Booking> CreateBooking(Booking booking)
+public async Task<Booking> CreateBooking(Booking booking)
 
 		{
 			_context.Bookings.Add(booking);
 			await _context.SaveChangesAsync();
 			return booking;
 		}
+
 
 		public async Task<VehicleModel> GetVehicleModelAsync(int vehicleModelId)
 		{
@@ -138,6 +132,10 @@ namespace api.Services
 						 throw;
 					}
 		}
+		 public async Task<Employee> GetEmployeeByIdAsync(int employeeId)
+    {
+        return await _context.Employee.FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
+    }
 
  // method for getting bookings for a particular user 
  public async Task<IEnumerable<Booking>> GetAllBookingsForUserAsync( string UserId)
@@ -186,10 +184,7 @@ namespace api.Services
 
 	}
 
-		internal async Task UpdateBookingAsync(Booking booking)
-		{
-			throw new NotImplementedException();
-		}
+		
 	}
 }
 

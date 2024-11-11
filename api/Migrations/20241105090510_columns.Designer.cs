@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using api.Data;
 
@@ -11,9 +12,11 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241105090510_columns")]
+    partial class columns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,31 +54,31 @@ namespace api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "36a07f22-d922-4b17-afc4-ece81c8e6f26",
+                            Id = "ff69ba82-5b03-4b39-9bdf-c1dad29f9d6f",
                             Name = "SuperUser",
                             NormalizedName = "SUPERUSER"
                         },
                         new
                         {
-                            Id = "16a710fc-d60a-4a99-9cd6-e3ab25b819cc",
+                            Id = "2abcb290-1782-41c9-baa3-15f5bdb31b0f",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "493b95e7-01fa-492b-88c4-850b8aacc780",
+                            Id = "bcf5a598-2db1-4e73-854b-be94343e5e47",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "2caee593-45f7-4243-9f3e-4e62114e82c6",
+                            Id = "a29f6d5b-7694-47e6-8c38-9eedfaaacd38",
                             Name = "Executive",
                             NormalizedName = "EXECUTIVE"
                         },
                         new
                         {
-                            Id = "6c75d445-3401-4b10-99f6-f39021465d0f",
+                            Id = "9ede0e68-8cc4-4afd-a51a-c29dc50e5332",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -488,14 +491,6 @@ namespace api.Migrations
                             IsAvailable = true,
                             Name = "Bob Johnson",
                             ServiceSpecialty = "Break pads"
-                        },
-                        new
-                        {
-                            EmployeeId = 4,
-                            IsAvailable = true,
-                            Name = "John Doe",
-                            ServiceSpecialty = "General Mechanic",
-                            ServiceTypes = "[\"oil change\",\"tire rotation\"]"
                         });
                 });
 

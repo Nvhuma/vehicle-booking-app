@@ -1,9 +1,11 @@
+
+namespace api.Services
+{
+
 using System.Security.Cryptography;
 using System.Text;
 using api.Interfaces;
 
-namespace api.Services
-{
 
     public class EncryptionService : IEncryptionService
     {
@@ -11,8 +13,13 @@ namespace api.Services
 
         public EncryptionService()
         {
+					
+					
             string encryptionKey = Environment.GetEnvironmentVariable("CARD_ENCRYPTION_KEY");
+
+						
             _key = SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(encryptionKey)); // Produces a 32-byte (256-bit) key
+
         }
 
         public string Encrypt(string plainText)

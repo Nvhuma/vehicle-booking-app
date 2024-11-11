@@ -1,3 +1,7 @@
+namespace api.Services
+{
+
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,8 +10,7 @@ using api.DTOs.CardDtos;
 using api.Interfaces;
 using api.Models;
 
-namespace api.Services
-{
+
 	public class MockPaymentProcessor : IPaymentProcessor
 	{
 		public  async Task<PaymentResult> ProcessPaymentAsync(PaymentRequest paymentRequest)

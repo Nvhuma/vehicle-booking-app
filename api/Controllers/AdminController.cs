@@ -1,3 +1,7 @@
+namespace api.Controllers
+
+{
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using api.Models;
@@ -5,8 +9,7 @@ using api.Services;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
-namespace api.Controllers
-{
+
 	[ApiController]
 	[Route("api/[controller]")]
 	[Authorize] // Ensuring  the user is logged in to access this controller, so i d can be extracted 

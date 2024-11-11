@@ -1,4 +1,4 @@
-// userApi.js
+
 import axios from "axios";
 import { toast } from "react-toastify";
 import { BASE_URL } from "../../../config";
@@ -15,8 +15,10 @@ export const getPersonalInfo = async (token, showToast = true) => {
     });
     
     if (showToast) {
-      toast.dismiss(loadToastId); // Close the loading toast
-      toast.success("User data loaded successfully!"); // Show success toast
+      toast.dismiss(loadToastId);
+			 // Close the loading toast
+      toast.success("User data loaded successfully!"); 
+			// Show success toast
     }
     
     return response.data;
@@ -39,11 +41,16 @@ export const updatePersonalInfo = async (token, updatedData) => {
 
   // Transform the updatedData to match the API's expected structure
   const transformedData = {
-    name: updatedData["First Name"], // Maps "First Name" to "name"
-    surname: updatedData["Last Name"], // Maps "Last Name" to "surname"
-    userName: updatedData["Email Address"], // Maps "Email Address" to "userName"
-    email: updatedData["Email Address"], // Maps "Email Address" to "email"
-    phoneNumber: updatedData["Phone"], // Maps "Phone" to "phoneNumber"
+    name: updatedData["First Name"], 
+		// Maps "First Name" to "name"
+    surname: updatedData["Last Name"], 
+		// Maps "Last Name" to "surname"
+    userName: updatedData["Email Address"], 
+		// Maps "Email Address" to "userName"
+    email: updatedData["Email Address"],
+		 // Maps "Email Address" to "email"
+    phoneNumber: updatedData["Phone"], 
+		// Maps "Phone" to "phoneNumber"
   };
 
   try {

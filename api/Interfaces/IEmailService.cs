@@ -8,18 +8,17 @@ namespace api.Interfaces
 
         Task sendEmailDeleteAsync(string email, string subject, string nameOfUser, string maskedCardNumber, string templateName);
 
-        Task SendBookingConfirmationEmailAsync(
-        string email,
-        string subject,
-        string userName,
-        string templateName,
-        string vehicleMake,
-        string vehicleModel,
-        string vehicleYear,
-        string serviceType,
-        string desiredDateTime,
-        string employeeId,
-        string additionalNotes);
-        
+Task SendBookingConfirmationEmailAsync(
+    string email,
+    string subject,
+    string userName,
+    string templateName,
+    int  VehicleModelId,           // modelId to fetch vehicle details
+    string serviceType,
+    string desiredDateTime,
+    int employeeId,         // employeeId to fetch employee name
+    string additionalNotes
+);
+
     }
 }
