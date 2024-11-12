@@ -91,7 +91,7 @@ public async Task<Booking> CreateBooking(Booking booking)
 		{
 			 try
 			 {
-				 return await _context.Bookings.FindAsync(BookingId);
+				  return await _context.Bookings.FindAsync(BookingId);
 			 }
 			  catch (Exception ex)
 				{
@@ -102,36 +102,47 @@ public async Task<Booking> CreateBooking(Booking booking)
 
 		// METHOD TO DELETE A BOOKING 
 
-		public async Task<bool> DeleteBookingByIdAsync( int BookingId)
-		{
-			   try 
-				 {
-					 var booking = await _context.Bookings.FindAsync(BookingId);
-					 if (booking == null)
-					 {
-						 _logger.LogWarning($"Attempted to delete a non-existing booking with ID {BookingId}");
-						 return false; //when booking is not found 
-					 }
+	public async Task<(bool Success, string Message)> DeleteBookingByIdAsync(int bookingId)
+{
+    try
+    {
+        // Fetch the booking by ID
+        var booking = await _context.Bookings.FindAsync(bookingId);
+        if (booking == null)
+        {
+            _logger.LogWarning($"Attempted to delete a non-existing booking with ID {bookingId}");
+            return (false, "Booking not found.");
+        }
 
-					 // business logic to check and ensure the booking is complete or not canceled 
-					 if (booking.BookingStatus == "Completed" || booking.BookingStatus == "Canceled")
-					 {
-						 _logger.LogWarning($"Attempted to delete a booking with ID {BookingId} that is {booking.BookingStatus}");
-						 return false; //if booking is not completed
+        // Check if the booking can be deleted (e.g., within a cancelation window)
+        var timeUntilBooking = booking.DesiredDateTime - DateTime.UtcNow;
+        if (timeUntilBooking < TimeSpan.FromHours(12))
+        {
+            _logger.LogWarning($"Attempted to delete a booking with ID {bookingId} less than 12 hours before the scheduled time.");
+            return (false, "Bookings can only be canceled up to 12 hours before the scheduled time.");
+        }
 
-					 }
+        // Additional check for status (optional, based on your business logic)
+        if (booking.BookingStatus == "Completed" || booking.BookingStatus == "Canceled")
+        {
+            _logger.LogWarning($"Attempted to delete a booking with ID {bookingId} that is {booking.BookingStatus}");
+            return (false, $"Cannot delete a booking that is {booking.BookingStatus}.");
+        }
 
-					 _context.Bookings.Remove(booking);
-					 await _context.SaveChangesAsync();
+        // Delete the booking
+        _context.Bookings.Remove(booking);
+        await _context.SaveChangesAsync();
 
-					 return true; //booking canceled
-				 }
-				  catch (Exception ex)
-					{
-						 _logger.LogError(ex, $"Error deleting booking with ID {BookingId}");
-						 throw;
-					}
-		}
+        _logger.LogInformation($"Booking with ID {bookingId} deleted successfully.");
+        return (true, "Booking deleted successfully.");
+    }
+    catch (Exception ex)
+    {
+        _logger.LogError(ex, $"Error deleting booking with ID {bookingId}");
+        return (false, "An error occurred while attempting to delete the booking.");
+    }
+}
+
 		 public async Task<Employee> GetEmployeeByIdAsync(int employeeId)
     {
         return await _context.Employee.FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
