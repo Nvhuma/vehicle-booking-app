@@ -2,7 +2,66 @@
   "hash": "bb39e23f",
   "configHash": "608b0152",
   "lockfileHash": "56f936f9",
-  "browserHash": "b23f37f4",
-  "optimized": {},
-  "chunks": {}
+  "browserHash": "3cb27e31",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "b4649831",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "c5f0312b",
+      "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.js",
+      "file": "react-router-dom.js",
+      "fileHash": "8e43ba03",
+      "needsInterop": false
+    },
+    "react-toastify": {
+      "src": "../../node_modules/react-toastify/dist/react-toastify.esm.mjs",
+      "file": "react-toastify.js",
+      "fileHash": "0383117e",
+      "needsInterop": false
+    },
+    "axios": {
+      "src": "../../node_modules/axios/index.js",
+      "file": "axios.js",
+      "fileHash": "7df1a4ee",
+      "needsInterop": false
+    },
+    "react-google-recaptcha": {
+      "src": "../../node_modules/react-google-recaptcha/lib/esm/index.js",
+      "file": "react-google-recaptcha.js",
+      "fileHash": "ab4c0f3a",
+      "needsInterop": false
+    },
+    "@mui/icons-material": {
+      "src": "../../node_modules/@mui/icons-material/esm/index.js",
+      "file": "@mui_icons-material.js",
+      "fileHash": "c03a83cb",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-SRG3TJ5Z": {
+      "file": "chunk-SRG3TJ5Z.js"
+    },
+    "chunk-TNTPHDQH": {
+      "file": "chunk-TNTPHDQH.js"
+    },
+    "chunk-2KHBIA62": {
+      "file": "chunk-2KHBIA62.js"
+    },
+    "chunk-32E4H3EV": {
+      "file": "chunk-32E4H3EV.js"
+    },
+    "chunk-G3PMV62Z": {
+      "file": "chunk-G3PMV62Z.js"
+    }
+  }
 }
