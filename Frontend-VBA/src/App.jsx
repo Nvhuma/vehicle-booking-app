@@ -18,6 +18,7 @@ import CardManagement from "./Components/Pages/CardManagement/CardManagement";
 import { ToastContainer } from "react-toastify";
 import SecurityPage from "./Components/Pages/Security/SecurityPage";
 import Booking from "./Components/Pages/Booking/Booking";
+import AdminPanel from "./Components/Pages/AdminPanel/AdminPanel";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
               <Route path="billing" element={<CardManagement />} />
               <Route path="security" element={<SecurityPage />} />
               <Route path="bookings" element={<Booking />} />
+							<Route path="AdminPanel" element={<AdminPanel />} />
             </Route>
           </Route>
         </Routes>

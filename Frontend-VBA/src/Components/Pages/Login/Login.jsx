@@ -53,8 +53,9 @@ const Login = () => {
       }
     )
     .then(() => {
+      // Delay redirection to allow toast success message to be seen
       setTimeout(() => {
-        navigate('/Home'); // Redirect to home page after a short delay
+        navigate('/Home'); // Redirect to home page after 2 seconds
       }, 2000);
     })
     .catch((error) => {
@@ -62,6 +63,7 @@ const Login = () => {
     });
   };
 
+  // Move the return statement outside of the handleLogin function
   return (
     <div className={styles['login-container']}>
       <div className={styles["site-image-containera"]}>
@@ -115,15 +117,15 @@ const Login = () => {
 
           <Button
             variant="social"
-            value="Sign In With Facebook"
+            value="Sign In With facebook"
             fullWidth
             icon={<Facebook />}
-            className={styles["input-button"]}
+            className={styles["input-button"]} // Add custom styles here
           />
 
           <Button
             variant="social"
-            value="Sign In with Google"
+            value="Sign In with facebook"
             fullWidth
             icon={<Google />}
             className={styles["input-button"]}
@@ -135,6 +137,7 @@ const Login = () => {
         <Link to="/register" className={styles["register-link"]}>
           Click here to <span>Register</span>
         </Link>
+
       </div>
     </div>
   );

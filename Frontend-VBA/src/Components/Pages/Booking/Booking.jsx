@@ -257,14 +257,10 @@ const Booking = () => {
         )}
       </div>
 
-      {/* Spacer between Make a Booking and Your Bookings */}
-      <div style={{ marginTop: '40px' }} />
-
       {/* User Bookings Section */}
       <div style={bookingsContainerStyle}>
         <h2 style={{ textAlign: 'center', marginTop: '40px' }}>Your Bookings</h2>
 
-        {/* Refresh Button */}
         <Button
           variant="secondary"
           value="Refresh Bookings"
@@ -279,14 +275,24 @@ const Booking = () => {
             {userBookings.map((booking) => (
               <div key={booking.bookingId} style={bookingBoxStyle}>
                 <h3>{booking.vehicle?.make} {booking.vehicle?.model} ({booking.serviceType})</h3>
-                <p>Date: {new Date(booking.desiredDateTime).toLocaleString()}</p>
-                <p>{booking.additionalNotes}</p>
                 <p>Status: {booking.bookingStatus}</p>
-                <Button
-                  variant="primary"
-                  value="Update Booking"
-                  onClick={() => handleUpdateClick(booking)}
-                />
+                <p>Date: {new Date(booking.desiredDateTime).toLocaleString()}</p>
+                <p>Notes: {booking.additionalNotes || 'None'}</p>
+                <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                  <Button
+                    variant="primary"
+                    value="Update Booking"
+                    onClick={() => handleUpdateClick(booking)}
+                    fullWidth
+                  />
+                  <Button
+                    variant="primary"
+                    value="Delete Booking"
+                    onClick={() => handleDeleteBooking(booking.bookingId)}
+                    fullWidth
+                    style={{ backgroundColor: 'red', color: 'white', border: 'none' }}
+                  />
+                </div>
               </div>
             ))}
           </div>
@@ -364,7 +370,6 @@ async function putData(url, data) {
   }
 }
 
-// Styles
 const formContainerStyle = {
   display: 'flex',
   flexDirection: 'column',
@@ -398,7 +403,6 @@ const textareaStyle = {
   borderRadius: '4px',
   flex: 1,
   height: '40px',
-  padding: '8px',
   marginTop: '10px',
 };
 

@@ -1,3 +1,4 @@
+
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import styles from "./Sidemenu.module.css";
@@ -81,6 +82,18 @@ function Sidemenu() {
           <Security className={styles["nav-link-icon"]} />
           Security
         </NavLink>
+
+
+				<NavLink
+					to="/AdminPanel"
+					className={({ isActive }) =>
+						`${styles['nav-link']} ${isActive ? styles['active'] : ''}`
+					}
+				>
+					<Payment className={styles['nav-link-icon']} />
+					Admin 
+				</NavLink>
+
       </div>
 
       <div className={styles["nav-logout-container"]}>
@@ -98,3 +111,6 @@ function Sidemenu() {
 }
 
 export default Sidemenu;
+
+
+ 

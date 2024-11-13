@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Button from '../../SubComponents/Button/Button'; // Import your custom Button component
+import Button from '../../SubComponents/Button/Button'; 
 import styles from './AdminPanel.module.css';
 
 
