@@ -72,6 +72,31 @@ const Booking = () => {
     }
   };
 
+  const handleDeleteBooking = async (bookingId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`http://localhost:5287/api/Bookings/${bookingId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        alert("Booking deleted successfully.");
+        fetchUserBookings();
+      } else {
+        const errorData = await response.json();
+        console.error("Failed to delete booking:", errorData);
+        alert(`Failed to delete booking: ${errorData.message || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error('Error deleting booking:', error);
+      alert('Failed to delete booking.');
+    }
+  };
+
   const handleUpdateClick = (booking) => {
     setIsUpdateMode(true);
     setCurrentBookingId(booking.bookingId);
