@@ -1,0 +1,140 @@
+/* General container styling */
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
+
+/* Styling for the user list */
+.usersList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px; /* Space below the user list */
+}
+
+/* User card styling */
+.userCard {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  text-align: center;
+  cursor: grab; /* Shows the grab cursor for draggable effect */
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.userCard:hover {
+  transform: translateY(-5px); /* Slight lift on hover */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
+}
+
+.userCard:active {
+  cursor: grabbing; /* Changes the cursor when dragging */
+  transform: scale(1.03); /* Adds a slight scale effect when dragging */
+}
+
+/* Styling for user details */
+.name {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.email, .phoneNumber, .userId {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.gender {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #007bff; /* Blue color for gender */
+  font-weight: bold; /* Optional: makes the text stand out */
+}
+
+
+/* Styling for the "Adjust Service Prices" card */
+.adjustPriceCard {
+  padding: 20px;
+  border-top: 2px solid #ddd; /* Horizontal line to separate */
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* Input field styling */
+.input {
+  width: 60%; /* Adjust width as needed */
+  padding: 8px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+/* Button styling */
+.adjustButton {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.adjustButton:hover {
+  background-color: #0056b3;
+}
+
+/* Status message styling */
+.statusMessage {
+  margin-top: 15px;
+  color: #333;
+  font-size: 14px;
+}
+/* Styling for the service price cards */
+.servicePriceList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.serviceCard {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  text-align: center;
+  cursor: grab;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.serviceCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.serviceCard:active {
+  cursor: grabbing;
+  transform: scale(1.03);
+}
+
+/* Title and content styling */
+.serviceCard h3 {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.serviceCard p {
+  font-size: 14px;
+  margin: 5px 0;
+}
+

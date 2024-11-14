@@ -38,9 +38,9 @@ using Microsoft.EntityFrameworkCore;
 				}
 
 				var roles = await _userManager.GetRolesAsync(user);
-				if (!roles.Contains("SuperUser")) // Replace "SuperUser" with the actual role name you want to check
+				if (!roles.Contains("SuperUser" )&& !roles.Contains("Admin")) // Replace "SuperUser" with the actual role name you want to check
 				{
-					throw new UnauthorizedAccessException("Only superusers can adjust service prices.");
+					throw new UnauthorizedAccessException("Only superusers or Admins can adjust service prices.");
 				}
 
 				var servicePrices = await _context.ServicePrices.ToListAsync(); // Ensure this accesses the correct DbSet
