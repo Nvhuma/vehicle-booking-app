@@ -153,21 +153,83 @@ namespace api.Controllers
 					.Select(sp => new ServicePriceDto
 					{
 						Id = sp.Id,
-                    VehicleModelId = sp.VehicleModelId,
-                    Make = sp.VehicleModel.Make, // Adjust field names based on your entity properties
-                    Model = sp.VehicleModel.Model,
-                    HorsepowerRange = sp.VehicleModel.HorsepowerRange,
-                    TorqueRange = sp.VehicleModel.TorqueRange,
-                    MaxTowingCapacity = sp.VehicleModel.MaxTowingCapacity,
-                    EmissionStandard = sp.VehicleModel.EmissionStandard,
-                    Year = sp.VehicleModel.Year,
-                    ServiceTypeId = sp.ServiceTypeId,
-                    Price = sp.Price
+						VehicleModelId = sp.VehicleModelId,
+						Make = sp.VehicleModel.Make, // Adjust field names based on your entity properties
+						Model = sp.VehicleModel.Model,
+						HorsepowerRange = sp.VehicleModel.HorsepowerRange,
+						TorqueRange = sp.VehicleModel.TorqueRange,
+						MaxTowingCapacity = sp.VehicleModel.MaxTowingCapacity,
+						EmissionStandard = sp.VehicleModel.EmissionStandard,
+						Year = sp.VehicleModel.Year,
+						ServiceTypeId = sp.ServiceTypeId,
+						Price = sp.Price
 					})
 					.ToListAsync();
 
 			return Ok(servicePrices);
 		}
+		
+		[HttpPut("update-price/{id}")]
+		[Authorize]
+		public async Task<IActionResult> UpdateServicePrice(int id, [FromBody] ServicePriceUpdateDto updateDto)
+		{
+			if (updateDto == null)
+			{
+				return BadRequest("Invalid request.");
+			}
+
+			// Retrieve the logged-in user's email from the token
+			var userEmail = User.FindFirstValue(ClaimTypes.Email);
+
+			// Find the user by their email
+			var currentUser = await _userManager.FindByEmailAsync(userEmail);
+
+			if (currentUser == null)
+			{
+				return StatusCode(500, "Internal Server Error: Unable to find user.");
+			}
+
+			// Ensure the user is an Admin or SuperUser
+			var isAdmin = await _userManager.IsInRoleAsync(currentUser, "Admin");
+			var isSuperuser = await _userManager.IsInRoleAsync(currentUser, "SuperUser");
+
+			if (!isAdmin && !isSuperuser)
+			{
+				return Forbid("Only Superusers or Admins can update service prices.");
+			}
+
+			try
+			{
+				// Find the service price record by Id
+				var servicePrice = await _context.ServicePrices.FindAsync(id);
+
+				if (servicePrice == null)
+				{
+					return NotFound("Service price not found.");
+				}
+
+				// Adjust the price based on the percentage
+				servicePrice.AdjustPrice(updateDto.Price);  // Use AdjustPrice method
+
+				// Save the changes
+				await _context.SaveChangesAsync();
+
+				return Ok("Service price updated successfully.");
+			}
+			catch (ArgumentOutOfRangeException ex)
+			{
+				return BadRequest(ex.Message);
+			}
+			catch (InvalidOperationException ex)
+			{
+				return StatusCode(500, ex.Message);
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, "An unexpected error occurred: " + ex.Message);
+			}
+		}
+
 
 	}
 }
