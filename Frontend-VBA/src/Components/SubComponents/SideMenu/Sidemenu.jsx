@@ -10,9 +10,12 @@ import {
   Payment,
   Person,
   Security,
+
 } from "@mui/icons-material";
 import CustomLogo from "../CustomLogo/CustomLogo";
 import { RemoveUser } from "../../../utils/Auth/Auth";
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+
 
 function Sidemenu() {
   const navigate = useNavigate();
@@ -87,14 +90,14 @@ function Sidemenu() {
         </NavLink>
 
 				<NavLink
-					to="/AdminPanel"
-					className={({ isActive }) =>
-						`${styles['nav-link']} ${isActive ? styles['active'] : ''}`
-					}
-				>
-					<Payment className={styles['nav-link-icon']} />
-					Admin 
-				</NavLink>
+  to="/AdminPanel"
+  className={({ isActive }) =>
+    `${styles['nav-link']} ${isActive ? styles['active'] : ''}`
+  }
+>
+  <AdminPanelSettingsIcon className={styles['nav-link-icon']} />
+  Admin
+</NavLink>	
 
       </div>
 

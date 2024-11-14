@@ -2,12 +2,12 @@ namespace api.Controllers
 
 {
 
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using api.Models;
-using api.Services;
-using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
+	using Microsoft.AspNetCore.Authorization;
+	using Microsoft.AspNetCore.Mvc;
+	using api.Models;
+	using api.Services;
+	using Microsoft.AspNetCore.Identity;
+	using System.Security.Claims;
 
 
 	[ApiController]
@@ -27,6 +27,7 @@ using System.Security.Claims;
 		}
 
 		[HttpPost("adjust-prices")]
+		[Authorize]
 		public async Task<IActionResult> AdjustPrices([FromBody] PriceAdjustmentRequest request)
 		{
 			if (request == null)
@@ -66,6 +67,7 @@ using System.Security.Claims;
 		}
 
 		[HttpPost("change-role")]
+		[Authorize]
 		public async Task<IActionResult> ChangeUserRole([FromBody] DTOs.AdminDtos.RoleChangeRequest request)
 		{
 			if (request == null)
@@ -102,6 +104,7 @@ using System.Security.Claims;
 
 		//get api/admin/roles
 		[HttpGet("Roles")]
+		[Authorize]
 		public async Task<IActionResult> GetRolesAsync()
 		{
 			// Retrieve the logged-in user's ID and verify their role

@@ -8,7 +8,6 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import { Facebook, Google, MailOutline, LockOutlined } from "@mui/icons-material";
-import Validation from "../../SubComponents/Validations/Validation";
 import CustomLogo from "../../SubComponents/CustomLogo/CustomLogo";
 import { BASE_URL } from "../../../../config";
 import { SetUser } from "../../../utils/Auth/Auth";
@@ -32,12 +31,15 @@ const Login = () => {
         pending: 'Validating Credentials...',
         success: {
           render({ data }) {
-            const user = data.data; // Assume this contains userName, email, fullName, token, and roles
-            const { token } = user; // Extract token from user data
-            
+            const user = data.data; // Assuming the response structure contains `user` and `token`
+            const { token, roles } = user;
+
             if (token) {
-              localStorage.setItem("token", token); // Save token to localStorage
-              SetUser(user); // Store other user details if needed
+              // Save the token and user details (including roles) to localStorage
+              localStorage.setItem("token", token);
+              SetUser({ ...user, roles }); // Include roles when setting the user
+
+              console.log("Token and roles saved in localStorage:", token, roles);
               return 'Login Successful! 🎉';
             } else {
               throw new Error("Token not found in response");
@@ -63,7 +65,6 @@ const Login = () => {
     });
   };
 
-  // Move the return statement outside of the handleLogin function
   return (
     <div className={styles['login-container']}>
       <div className={styles["site-image-containera"]}>
@@ -117,15 +118,15 @@ const Login = () => {
 
           <Button
             variant="social"
-            value="Sign In With facebook"
+            value="Sign In With Facebook"
             fullWidth
             icon={<Facebook />}
-            className={styles["input-button"]} // Add custom styles here
+            className={styles["input-button"]}
           />
 
           <Button
             variant="social"
-            value="Sign In with facebook"
+            value="Sign In With Google"
             fullWidth
             icon={<Google />}
             className={styles["input-button"]}
