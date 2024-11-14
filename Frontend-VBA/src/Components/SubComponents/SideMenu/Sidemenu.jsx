@@ -19,8 +19,11 @@ function Sidemenu() {
 
   const handleLogout = () => {
     console.log("Logout clicked");
-    RemoveUser(); // Ensure this function is defined and removes user data
-    navigate("/login"); // Navigate to home page
+    RemoveUser();  
+		
+    navigate("/login"); 
+	
+
   };
 
   return (
@@ -82,7 +85,6 @@ function Sidemenu() {
           <Security className={styles["nav-link-icon"]} />
           Security
         </NavLink>
-
 
 				<NavLink
 					to="/AdminPanel"

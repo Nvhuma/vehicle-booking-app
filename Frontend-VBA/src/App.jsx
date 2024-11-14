@@ -33,7 +33,7 @@ function App() {
           <Route element={<ProtectedRoutes />}>
             <Route path="/home" element={<Navigate to="/" />} />
 
-            {/* Home Route with Nested Routes */}
+            {}
             <Route path="/" element={<Home />}>
               <Route path="/profile" element={<Profile />} />
               <Route path="/dashboard" element={<Navigate to="/" />} />

@@ -1,47 +1,50 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-}
-
-.vehicle-list {
+.formContainer {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  padding: 30px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.inputRow {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  flex: 1;
+}
+
+.textarea {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  min-height: 80px;
+}
+
+.bookingsContainer {
+  margin-top: 40px;
+}
+
+.refreshButton {
   margin-top: 20px;
 }
 
-.vehicle-item {
-  background-color: white;
-  border: 1px solid #ccc;
+.bookingBox {
   padding: 15px;
-  margin: 10px;
-  width: 250px;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out;
-}
-
-.vehicle-item:hover {
-  transform: scale(1.05);
-}
-
-.vehicle-detail {
-  margin-top: 20px;
-  padding: 20px;
-  background-color: white;
-  border: 1px solid #ccc;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-button {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-button:hover {
-  background-color: #0056b3;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  background-color: #fff;
 }

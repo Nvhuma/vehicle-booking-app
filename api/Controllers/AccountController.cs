@@ -117,7 +117,7 @@ using api.Extensions;
 
                     try
                     {
-                        var roleResult = await _userManager.AddToRoleAsync(appUser, "SuperUser");
+                        var roleResult = await _userManager.AddToRoleAsync(appUser, "Admin");
 
                         if (roleResult.Succeeded)
                         {
@@ -172,7 +172,7 @@ using api.Extensions;
                         userName = user.UserName,
                         email = user.Email,
                         fullName = $"{_titleCaseService.ToTitleCase(user.Name).Trim()} {_titleCaseService.ToTitleCase(user.Surname).Trim()}",
-                        token = _tokenService.CreateToken(user),
+                        token = _tokenService.CreateToken(user, roles),
                         roles = roles
                         
                     }

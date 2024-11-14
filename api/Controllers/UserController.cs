@@ -12,10 +12,9 @@ using api.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+	using Microsoft.EntityFrameworkCore;
 
-
-
-    [ApiController]
+	[ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
@@ -169,6 +168,59 @@ using Microsoft.AspNetCore.Mvc;
                 return StatusCode(500, $"An error occurred while processing your request. {ex.Message}");
             }
         }
+
+		
+
+[HttpGet("all")]
+[Authorize(Roles = "Admin")]
+public async Task<IActionResult> GetAllUsers()
+{
+    try
+    {
+        // Retrieve all users from the database
+        var users = await _context.Users.ToListAsync();
+
+        if (users == null || !users.Any())
+        {
+            return NotFound("No users found.");
+        }
+
+        // Map the user details to DTOs or return the full user data directly
+        var userDetailsList = users.Select(user => new
+        {
+            user.Id,
+            user.Name,
+            user.Surname,
+            user.DateOfBirth,
+            user.IdentityNumber,
+            user.Gender,
+            user.CitizenshipStatus,
+            user.CreatedDate,
+            user.UserName,
+            user.NormalizedUserName,
+            user.Email,
+            user.NormalizedEmail,
+            user.EmailConfirmed,
+            user.PasswordHash,
+            user.SecurityStamp,
+            user.ConcurrencyStamp,
+            user.PhoneNumber,
+            user.PhoneNumberConfirmed,
+            user.TwoFactorEnabled,
+            user.LockoutEnd,
+            user.LockoutEnabled,
+            user.AccessFailedCount
+        }).ToList();
+
+        return Ok(userDetailsList);
+    }
+    catch (Exception ex)
+    {
+        _logger.LogError(ex, "Error occurred while retrieving all users.");
+        return StatusCode(500, $"An error occurred while processing your request. {ex.Message}");
+    }
+}
+
 
 
     }

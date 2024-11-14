@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from "../../SubComponents/Button/Button";
+import styles from './Booking.module.css';
 
 const Booking = () => {
   const [vehicleModels, setVehicleModels] = useState([]);
@@ -286,7 +287,7 @@ const Booking = () => {
                     fullWidth
                   />
                   <Button
-                    variant="primary"
+                    variant="secondary"
                     value="Delete Booking"
                     onClick={() => handleDeleteBooking(booking.bookingId)}
                     fullWidth
