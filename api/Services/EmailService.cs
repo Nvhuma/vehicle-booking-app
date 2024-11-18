@@ -1,17 +1,19 @@
-using System.Net.Mail;
-using api.Data;
-using api.Interfaces;
+
 
 namespace api.Services
 {
+	using System.Net.Mail;
+	using api.Data;
+	using api.Interfaces;
+
 	public class EmailService : IEmailService
 	{
-			private readonly ApplicationDBContext _context;
+		private readonly ApplicationDBContext _context;
 
-			public EmailService(ApplicationDBContext context)
+		public EmailService(ApplicationDBContext context)
 		{
 			_context = context;
-			 
+
 
 		}
 
@@ -91,7 +93,7 @@ namespace api.Services
 
 		public async Task sendEmailDeleteAsync(string email, string subject, string nameOfUser, string maskedCardNumber, string templateName)
 		{
-			using (var client = new SmtpClient("localhost", 1025)) 
+			using (var client = new SmtpClient("localhost", 1025))
 			{
 				var template = LoadTemplate(templateName);
 				var body = PopulateTemplate(template, new (string, string)[]
@@ -117,54 +119,54 @@ namespace api.Services
 
 		public async Task SendBookingConfirmationEmailAsync(string email, string subject, string userName, string templateName, int VehicleModelId, string serviceType, string desiredDateTime, int employeeId, string additionalNotes)
 		{
-			 // Retrieve vehicle details based on modelId
-    var vehicle = await _context.VehicleModels.FindAsync(VehicleModelId);
-    if (vehicle == null)
-    {
-        throw new Exception("Vehicle not found.");
-    }
+			// Retrieve vehicle details based on modelId
+			var vehicle = await _context.VehicleModels.FindAsync(VehicleModelId);
+			if (vehicle == null)
+			{
+				throw new Exception("Vehicle not found.");
+			}
 
-    // Retrieve employee details based on employeeId
-    var employee = await _context.Employee.FindAsync(employeeId);
-    if (employee == null)
-    {
-        throw new Exception("Employee not found.");
-    }
+			// Retrieve employee details based on employeeId
+			var employee = await _context.Employee.FindAsync(employeeId);
+			if (employee == null)
+			{
+				throw new Exception("Employee not found.");
+			}
 
-    using (var client = new SmtpClient("localhost", 1025)) // MailHog SMTP server
-    {
-        // Load the email template
-        var template = LoadTemplate(templateName);
+			using (var client = new SmtpClient("localhost", 1025)) // MailHog SMTP server
+			{
+				// Load the email template
+				var template = LoadTemplate(templateName);
 
-        // Populate the template with booking details, vehicle info, and employee name
-        var body = PopulateTemplate(template, new (string, string)[]
-        {
-            ("{userName}", userName),
-            ("{vehicleMake}", vehicle.Make),
-            ("{vehicleModel}", vehicle.Model),
-            ("{vehicleYear}", vehicle.Year.ToString()),
-            ("{serviceType}", serviceType),
-            ("{desiredDateTime}", desiredDateTime),
-            ("{employeeName}", employee.Name),
-            ("{additionalNotes}", additionalNotes)
-        });
+				// Populate the template with booking details, vehicle info, and employee name
+				var body = PopulateTemplate(template, new (string, string)[]
+				{
+						("{userName}", userName),
+						("{vehicleMake}", vehicle.Make),
+						("{vehicleModel}", vehicle.Model),
+						("{vehicleYear}", vehicle.Year.ToString()),
+						("{serviceType}", serviceType),
+						("{desiredDateTime}", desiredDateTime),
+						("{employeeName}", employee.Name),
+						("{additionalNotes}", additionalNotes)
+				});
 
-        // Configure the email message
-        var mailMessage = new MailMessage
-        {
-            From = new MailAddress("VehicleBooking@example.com"),
-            Subject = subject,
-            Body = body,
-            IsBodyHtml = true
-        };
+				// Configure the email message
+				var mailMessage = new MailMessage
+				{
+					From = new MailAddress("VehicleBooking@example.com"),
+					Subject = subject,
+					Body = body,
+					IsBodyHtml = true
+				};
 
-        // Add recipient email
-        mailMessage.To.Add(email);
+				// Add recipient email
+				mailMessage.To.Add(email);
 
-        // Send the email
-        await client.SendMailAsync(mailMessage);
-    }
-	}
+				// Send the email
+				await client.SendMailAsync(mailMessage);
+			}
+		}
 	}
 }
 

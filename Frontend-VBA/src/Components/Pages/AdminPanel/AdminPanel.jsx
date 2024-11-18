@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import styles from './UsersList.Module.css'; // Importing the CSS Module
+import styles from './UsersList.Module.css'; 
+// Importing the CSS Module
 
 const UsersList = () => {
   const [users, setUsers] = useState([]);
@@ -7,7 +8,8 @@ const UsersList = () => {
   const [error, setError] = useState(null);
   const [percentage, setPercentage] = useState('');
   const [adjustPriceStatus, setAdjustPriceStatus] = useState('');
-  const [servicePrices, setServicePrices] = useState([]); // New state for service prices
+  const [servicePrices, setServicePrices] = useState([]); 
+	// New state for service prices
 
   useEffect(() => {
     // Fetch users data
@@ -103,7 +105,8 @@ const UsersList = () => {
   if (error) {
     return <p>Error: {error}</p>;
   }
-
+    
+	// consider adding/showing  roles if it is allowed
   return (
     <div className={styles.cardContainer}>
       <h1>User List</h1>
@@ -146,6 +149,7 @@ const UsersList = () => {
               <p>Service Type ID: {service.serviceTypeId}</p>
               <p>Price: <span className={styles.price}></span> ${service.price.toFixed(2)}</p>
             </div>
+						// on the Service Type ID, make it show the type of service associated with that service 
           ))}
         </div>
       </div>

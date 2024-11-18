@@ -1,11 +1,12 @@
 
-using api.Models;
+
 
 namespace api.Interfaces
 {
-    public interface IVehicleModelRepository
-    {
-        Task<List<VehicleModelDto>> GetAllAsync();
-       
-    }
+	using api.Models;
+	public interface IVehicleModelRepository
+	{
+		Task<List<VehicleModelDto>> GetAllAsync();
+
+	}
 }

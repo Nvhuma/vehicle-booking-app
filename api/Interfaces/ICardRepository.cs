@@ -1,9 +1,10 @@
-using api.DTOs.CardDtos;
-using api.Models;
-using Microsoft.AspNetCore.Mvc;
+
 
 namespace api.Interfaces
 {
+using api.DTOs.CardDtos;
+using api.Models;
+using Microsoft.AspNetCore.Mvc;
     public interface ICardRepository 
     {
         // implement the _repo in the route
