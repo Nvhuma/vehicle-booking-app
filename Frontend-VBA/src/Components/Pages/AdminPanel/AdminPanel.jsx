@@ -117,7 +117,7 @@ const UsersList = () => {
             <p className={styles.email}>{user.email}</p>
             <p className={styles.phoneNumber}>{user.phoneNumber}</p>
             <p className={styles.gender}>{user.gender}</p>
-            <p className={styles.userId}>User ID: {user.id}</p>
+          
           </div>
         ))}
       </div>
@@ -147,9 +147,10 @@ const UsersList = () => {
               <p>Max Towing Capacity: {service.maxTowingCapacity} lbs</p>
               <p>Emission Standard: {service.emissionStandard}</p>
               <p>Service Type ID: {service.serviceTypeId}</p>
+							<p>Service Name: {service.name}</p>
               <p>Price: <span className={styles.price}></span> ${service.price.toFixed(2)}</p>
             </div>
-						// on the Service Type ID, make it show the type of service associated with that service 
+						
           ))}
         </div>
       </div>

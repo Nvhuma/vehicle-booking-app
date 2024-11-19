@@ -85,17 +85,27 @@ namespace api.Data
 
 			modelBuilder.Entity<ServiceType>().HasData(
 				new ServiceType { ServiceTypeId = 1, Name = "Oil Change" },
-				new ServiceType { ServiceTypeId = 2, Name = "Tire Rotation" },
-				new ServiceType { ServiceTypeId = 3, Name = "Brake Repair" }
+				new ServiceType { ServiceTypeId = 2, Name = "Tyre Rotation" },
+				new ServiceType { ServiceTypeId = 3, Name = "Brake Repair" },
+				new ServiceType { ServiceTypeId = 4, Name = " Minor Service"},
+				new ServiceType { ServiceTypeId = 5, Name = "Major Service"},
+				new ServiceType { ServiceTypeId = 6, Name = "Windscreen Change"}
 			);
 
 			modelBuilder.Entity<ServicePrice>().HasData(
-				new ServicePrice { Id = 1, VehicleModelId = 1, ServiceTypeId = 1, Price = 29.99m },
-				new ServicePrice { Id = 2, VehicleModelId = 1, ServiceTypeId = 2, Price = 19.99m },
-				new ServicePrice { Id = 3, VehicleModelId = 2, ServiceTypeId = 1, Price = 31.99m },
-				new ServicePrice { Id = 4, VehicleModelId = 4, ServiceTypeId = 1, Price = 29.99m },
-				new ServicePrice { Id = 5, VehicleModelId = 4, ServiceTypeId = 3, Price = 99.99m },
-				new ServicePrice { Id = 6, VehicleModelId = 9, ServiceTypeId = 3, Price = 99.99m }
+				new ServicePrice { Id = 1, VehicleModelId = 1, ServiceTypeId = 1, Price = 29.99m , Name = "Oil change"},
+				new ServicePrice { Id = 2, VehicleModelId = 1, ServiceTypeId = 2, Price = 19.99m ,  Name = "Tyre Rotation"},
+				new ServicePrice { Id = 3, VehicleModelId = 2, ServiceTypeId = 1, Price = 31.99m ,  Name = "Oil change"},
+				new ServicePrice { Id = 4, VehicleModelId = 4, ServiceTypeId = 1, Price = 29.99m ,  Name = "Oil change"},
+				new ServicePrice { Id = 5, VehicleModelId = 4, ServiceTypeId = 3, Price = 99.99m ,  Name = "Break Repair"},
+				new ServicePrice { Id = 6, VehicleModelId = 9, ServiceTypeId = 3, Price = 99.99m,  Name = "Break Repair"},
+				//
+					new ServicePrice { Id = 7, VehicleModelId = 4, ServiceTypeId = 6, Price = 49.99m, Name = "Windscreen Change" },
+				new ServicePrice { Id = 8, VehicleModelId = 4, ServiceTypeId = 5, Price = 11199.99m,  Name = "Major Service"},
+				new ServicePrice { Id = 9, VehicleModelId = 9, ServiceTypeId = 4, Price = 1199.99m ,  Name = "Minor Service"}
+				
+
+
 			);
 			modelBuilder.Entity<VehicleModel>().HasData(
 

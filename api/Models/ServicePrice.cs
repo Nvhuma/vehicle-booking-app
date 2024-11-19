@@ -9,6 +9,7 @@ namespace api.Models
        public int Id { get; set; }
     public int VehicleModelId { get; set; }
     public int ServiceTypeId { get; set; }
+		public string Name {get; set;}
    
 
 		   [Required]

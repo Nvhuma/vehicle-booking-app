@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using api.Data;
 
@@ -11,9 +12,11 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241118103133_SeedingPrices")]
+    partial class SeedingPrices
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,31 +54,31 @@ namespace api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a7117b61-50aa-4c13-8577-22cd325c8292",
+                            Id = "ee9b7f85-52cc-4c82-9cd0-7f5a4182c37a",
                             Name = "SuperUser",
                             NormalizedName = "SUPERUSER"
                         },
                         new
                         {
-                            Id = "db88b273-de80-4c42-bd03-0c3b681eadc2",
+                            Id = "ddf24b72-6283-4a1d-a94c-95d9208ee900",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "5068c0c3-6027-4136-b0c8-df210166782c",
+                            Id = "67090a36-c2b3-442a-bc09-a4cb33f25a67",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "8967d982-0037-4ee4-a108-47bc5ddda258",
+                            Id = "c970cc8b-8396-4373-a16c-096e79675d4f",
                             Name = "Executive",
                             NormalizedName = "EXECUTIVE"
                         },
                         new
                         {
-                            Id = "b8012b4e-15b8-411d-ab97-4c2f775901d5",
+                            Id = "d5265308-cde2-4b09-974e-59cd5d843ba1",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -604,10 +607,6 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18, 2)");
 
@@ -629,7 +628,6 @@ namespace api.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Oil change",
                             Price = 29.99m,
                             ServiceTypeId = 1,
                             VehicleModelId = 1
@@ -637,7 +635,6 @@ namespace api.Migrations
                         new
                         {
                             Id = 2,
-                            Name = "Tyre Rotation",
                             Price = 19.99m,
                             ServiceTypeId = 2,
                             VehicleModelId = 1
@@ -645,7 +642,6 @@ namespace api.Migrations
                         new
                         {
                             Id = 3,
-                            Name = "Oil change",
                             Price = 31.99m,
                             ServiceTypeId = 1,
                             VehicleModelId = 2
@@ -653,7 +649,6 @@ namespace api.Migrations
                         new
                         {
                             Id = 4,
-                            Name = "Oil change",
                             Price = 29.99m,
                             ServiceTypeId = 1,
                             VehicleModelId = 4
@@ -661,7 +656,6 @@ namespace api.Migrations
                         new
                         {
                             Id = 5,
-                            Name = "Break Repair",
                             Price = 99.99m,
                             ServiceTypeId = 3,
                             VehicleModelId = 4
@@ -669,7 +663,6 @@ namespace api.Migrations
                         new
                         {
                             Id = 6,
-                            Name = "Break Repair",
                             Price = 99.99m,
                             ServiceTypeId = 3,
                             VehicleModelId = 9
@@ -677,7 +670,6 @@ namespace api.Migrations
                         new
                         {
                             Id = 7,
-                            Name = "Windscreen Change",
                             Price = 49.99m,
                             ServiceTypeId = 6,
                             VehicleModelId = 4
@@ -685,7 +677,6 @@ namespace api.Migrations
                         new
                         {
                             Id = 8,
-                            Name = "Major Service",
                             Price = 11199.99m,
                             ServiceTypeId = 5,
                             VehicleModelId = 4
@@ -693,7 +684,6 @@ namespace api.Migrations
                         new
                         {
                             Id = 9,
-                            Name = "Minor Service",
                             Price = 1199.99m,
                             ServiceTypeId = 4,
                             VehicleModelId = 9

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Button from "../../SubComponents/Button/Button";
-import styles from './Booking.module.css';
 
 const Booking = () => {
   const [vehicleModels, setVehicleModels] = useState([]);
@@ -31,6 +30,7 @@ const Booking = () => {
       if (response) setVehicleModels(response);
     } catch (error) {
       console.error('Error fetching vehicle models:', error);
+			alert('Vehicle Models are not available at the moment. Please Try again later')
     } finally {
       setIsLoading(false);
     }
@@ -64,10 +64,12 @@ const Booking = () => {
         const bookings = await response.json();
         setUserBookings(bookings);
       } else {
-        console.error('Failed to fetch bookings');
+        console.error('Failed to fetch bookings: ', errorData);
+				alert(`Error: Unable to fetch bookings. ${errorData.message || 'Please try again later.'}`);
       }
     } catch (error) {
       console.error('Error fetching user bookings:', error);
+			alert('Error: Unable to fetch bookings. Please check your connection and try again.')
     } finally {
       setIsBookingsLoading(false);
     }
@@ -332,14 +334,15 @@ async function postData(url, data) {
     if (!response.ok) {
       const errorData = await response.json();
       console.error("Server responded with:", errorData);
-      throw new Error(`Error: ${response.status} - ${errorData.message || response.statusText}`);
+      alert(`  ${errorData.message || response.statusText}`);
+			
     }
 
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    console.error(error);
-    alert("Failed to submit booking.");
+  
+  
   }
 }
 

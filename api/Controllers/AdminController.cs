@@ -153,6 +153,7 @@ namespace api.Controllers
 					.Select(sp => new ServicePriceDto
 					{
 						Id = sp.Id,
+						Name = sp.Name,
 						VehicleModelId = sp.VehicleModelId,
 						Make = sp.VehicleModel.Make, // Adjust field names based on your entity properties
 						Model = sp.VehicleModel.Model,
@@ -163,6 +164,7 @@ namespace api.Controllers
 						Year = sp.VehicleModel.Year,
 						ServiceTypeId = sp.ServiceTypeId,
 						Price = sp.Price
+
 					})
 					.ToListAsync();
 

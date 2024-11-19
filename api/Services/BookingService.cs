@@ -6,6 +6,7 @@ namespace api.Services
 	using api.DTOs.BookingsDtos;
 	using api.Models;
 	using Microsoft.EntityFrameworkCore;
+	
 	public class BookingService
 	{
 		private readonly ApplicationDBContext _context;
@@ -26,7 +27,7 @@ namespace api.Services
 
 			if (conflictingServiceBooking)
 			{
-				return (false, "Time slot is unavailable for the selected service.");
+				return (false, "Time slot is unavailable for the selected service, Please select a different time");
 			}
 
 			// Check for conflicts with the specific employee
@@ -153,8 +154,8 @@ namespace api.Services
 		public async Task<IEnumerable<Booking>> GetAllBookingsForUserAsync(string UserId)
 		{
 			return await _context.Bookings
-				.Where(b => b.UserId == UserId) // filter by user ID
-						 .ToListAsync(); // retrieve asynchronously
+				.Where(b => b.UserId == UserId) 
+						 .ToListAsync(); 
 
 		}
 

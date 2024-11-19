@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 	public class ServicePriceDto
 	{
 		public int Id { get; set; }
+		public string Name {get; set;}
 		public int VehicleModelId { get; set; }
 		public required string Make { get; set; }
 		public required string Model { get; set; }
