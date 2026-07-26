@@ -1,0 +1,68 @@
+.side-menu {
+	background-color: var(--grey);
+	height: 100svh;
+	max-width: 350px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding: var(--spacing-n);
+	/* currently controlling the overall pading */
+	color: var(--text-50);
+}
+
+.nav-logo-container{
+	margin-bottom: 32px;
+}
+
+.logo {
+	width: 75px;
+}
+
+.logo-text {
+	color: var(--text);
+}
+
+
+.nav-links-container {
+	margin-bottom: auto;
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-xs);
+}
+
+.nav-link {
+	color: inherit;
+	display: flex;
+	gap: var(--spacing-xs);
+	align-items: center;
+	padding: var(--spacing-s);
+	text-decoration: none;
+}
+
+.nav-link.active{
+	background-color: var(--light-secondary-30);
+	border-radius: var(--spacing-l);
+}
+
+.nav-link:hover {
+	color: var(--text);
+	transition: 0.5s;
+}
+
+.nav-link-icon {
+	color: var(--primary);
+}
+
+.nav-logout-container{
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-xs);
+}
+
+.logout-button{
+	border: none;
+	outline: none;
+	background-color: inherit;
+	font-family: inherit;
+	font-size: var(--font-size-normal);
+}

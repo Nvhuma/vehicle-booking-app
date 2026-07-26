@@ -1,0 +1,68 @@
+.checkbox_container {
+	display: inline-flex;
+	align-items: center;
+	cursor: pointer;
+	margin-right: var(--spacing-s);
+}
+
+.checkbox_input {
+	display: none;
+	/* Hide the default checkbox input */
+}
+
+.checkbox {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	border: 2px solid var(--text-50);
+	border-radius: 4px;
+	/* Optional: Rounded corners */
+	position: relative;
+	transition: border-color 0.3s ease, background-color 0.3s ease;
+	background-color: var(--light-white);
+	/* Default background color */
+}
+
+.checkbox_checked {
+	border-color: var(--button-primary-hover);
+	/* Match border color to variant */
+	background-color: var(--button-primary-hover);
+	/* Background color when checked */
+}
+
+/* Checkmark style */
+.checkmark {
+	color: var(--light-white);
+	/* White checkmark color */
+	font-size: 12px;
+	/* Adjust size as needed */
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+/* Primary Checkbox */
+.checkbox_primary {
+	border-color: var(--button-primary-default);
+}
+
+.checkbox_primary.checkbox_checked {
+	border-color: var(--button-primary-hover);
+	background-color: var(--button-primary-hover);
+}
+
+/* Secondary Checkbox */
+.checkbox_secondary {
+	border-color: var(--button-secondary-default);
+}
+
+.checkbox_secondary.checkbox_checked {
+	border-color: var(--button-secondary-hover);
+	background-color: var(--button-secondary-hover);
+}
+
+.checkbox_secondary .checkmark {
+	color: var(--light-white);
+	/* Ensure checkmark color is white */
+}

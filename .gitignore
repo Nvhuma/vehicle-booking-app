@@ -92,3 +92,5 @@ storybook-static/
 # Ignore generated files like service worker cache (if using)
 sw.js
 workbox-*.js
+
+.fake

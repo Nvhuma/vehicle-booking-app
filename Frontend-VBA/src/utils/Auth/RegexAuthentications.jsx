@@ -1,0 +1,6 @@
+passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&])[A-Za-z0-9@$!%*?&]{8,}$"
+emailRegex = "[a-zA-z0-9]+@+[a-zA-z0-9]+\.+[a-zA-z0-9]{2,}(?:\.[a-zA-z0-9]{2,})?"
+idNumberRegex = "[0-9]{13}"
+cvvRegex = "[0-9]{3}"
+phoneNumberRegex = "[0-9]{10,11}"
+cardNumberRegex = "^4[0-9]{12}(?:[0-9]{3})?$"

@@ -1,0 +1,76 @@
+/* General Button Styles */
+.button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 10px 20px; /* Padding for dynamic width */
+	border: none;
+	border-radius: 4px; /* Adjust as needed */
+	font-size: var(--font-size-normal);
+	font-weight: 700;
+	font-family: var(--UI-font);
+	text-align: center;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+  }
+  
+  /* Icon Styles */
+  .button_icon {
+	margin-right: var(--spacing-xs); /* Space between icon and text */
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+  }
+  
+  /* Dynamic Width Button */
+  .button_dynamic {
+	width: auto; /* Button will hug its content */
+  }
+  
+  /* Full Width Button */
+  .button_full_width {
+	width: 100%; /* Button spans the full width of its container */
+  }
+  
+  /* Primary Button Types */
+  .button_primary {
+	background-color: var(--button-primary-default);
+	color: var(--text-on-primary);
+  }
+  
+  .button_primary:hover {
+	background-color: var(--button-primary-hover);
+  }
+  
+  .button_primary:focus {
+	background-color: var(--button-primary-focused);
+  }
+  
+  /* Secondary Button Types */
+  .button_secondary {
+	background-color: var(--button-secondary-default);
+	color: var(--text-on-secondary);
+  }
+  
+  .button_secondary:hover {
+	background-color: var(--button-secondary-hover);
+  }
+  
+  .button_secondary:focus {
+	background-color: var(--button-secondary-focused);
+  }
+
+  /* Social Button Types */
+  .button_social {
+	background-color: var(--white);
+	color: var(--text);
+	box-shadow: 2px 3px 4px var(--grey);
+  }
+  
+  .button_social:hover {
+	background-color: var(--lite-grey);
+  }
+  
+  .button_social:focus {
+	background-color: var(--lite-grey);
+  }

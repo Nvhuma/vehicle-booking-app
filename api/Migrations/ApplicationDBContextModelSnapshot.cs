@@ -51,31 +51,31 @@ namespace api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8bceadc5-b56b-49f4-b900-0d327b7e3d91",
+                            Id = "cb0d7c36-c7db-4763-8efb-aa4def45c526",
                             Name = "SuperUser",
                             NormalizedName = "SUPERUSER"
                         },
                         new
                         {
-                            Id = "077bdbd4-57fb-46f8-9c8d-63cfe4c7843f",
+                            Id = "3c9db58b-f9d2-4ecb-8aa5-ba28061c25ee",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "41a8ccab-732f-4fd8-b2ab-009a0791519b",
+                            Id = "7347d4ef-91a0-4324-8c68-47c346b0754b",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "50e93ef3-d2c0-4a94-947d-c20902b9f7ba",
+                            Id = "bc0483ed-98d8-4356-b6bc-ec109270dac0",
                             Name = "Executive",
                             NormalizedName = "EXECUTIVE"
                         },
                         new
                         {
-                            Id = "df371f23-346a-4a7a-88a0-dda71f33e232",
+                            Id = "57592596-0c39-41c4-8481-bf4d88292d9a",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -196,6 +196,10 @@ namespace api.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("CitizenshipStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -212,6 +216,10 @@ namespace api.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IdentityNumber")
                         .IsRequired()
@@ -271,6 +279,58 @@ namespace api.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("api.Models.Booking", b =>
+                {
+                    b.Property<int>("BookingId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookingId"));
+
+                    b.Property<string>("AdditionalNotes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("BookingStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DesiredDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ServiceType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ServiceTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("VehicleModelId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BookingId");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("ServiceTypeId");
+
+                    b.HasIndex("VehicleModelId");
+
+                    b.ToTable("Bookings");
+                });
+
             modelBuilder.Entity("api.Models.CardDetails", b =>
                 {
                     b.Property<int>("Id")
@@ -278,6 +338,9 @@ namespace api.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("BankName")
                         .IsRequired()
@@ -309,6 +372,383 @@ namespace api.Migrations
                     b.ToTable("CardDetails");
                 });
 
+            modelBuilder.Entity("api.Models.DriveTrain", b =>
+                {
+                    b.Property<int>("DriveTrainId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DriveTrainId"));
+
+                    b.Property<string>("DriveTrainName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("DriveTrainId");
+
+                    b.ToTable("DriveTrains");
+
+                    b.HasData(
+                        new
+                        {
+                            DriveTrainId = 1,
+                            DriveTrainName = "FWD"
+                        },
+                        new
+                        {
+                            DriveTrainId = 2,
+                            DriveTrainName = "RWD"
+                        },
+                        new
+                        {
+                            DriveTrainId = 3,
+                            DriveTrainName = "AWD"
+                        },
+                        new
+                        {
+                            DriveTrainId = 4,
+                            DriveTrainName = "4WD"
+                        },
+                        new
+                        {
+                            DriveTrainId = 5,
+                            DriveTrainName = "2WD"
+                        });
+                });
+
+            modelBuilder.Entity("api.Models.Employee", b =>
+                {
+                    b.Property<int>("EmployeeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeId"));
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ServiceSpecialty")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ServiceTypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("EmployeeId");
+
+                    b.HasIndex("ServiceTypeId");
+
+                    b.ToTable("Employee");
+
+                    b.HasData(
+                        new
+                        {
+                            EmployeeId = 1,
+                            IsAvailable = true,
+                            Name = "Vusi Vusimusi",
+                            ServiceSpecialty = "Oil Change"
+                        },
+                        new
+                        {
+                            EmployeeId = 2,
+                            IsAvailable = true,
+                            Name = "Jane Smith",
+                            ServiceSpecialty = "Tire Rotation"
+                        },
+                        new
+                        {
+                            EmployeeId = 3,
+                            IsAvailable = true,
+                            Name = "Bob Johnson",
+                            ServiceSpecialty = "Break pads"
+                        });
+                });
+
+            modelBuilder.Entity("api.Models.EngineType", b =>
+                {
+                    b.Property<int>("EngineTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EngineTypeId"));
+
+                    b.Property<string>("EngineTypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("EngineTypeId");
+
+                    b.ToTable("EngineTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            EngineTypeId = 1,
+                            EngineTypeName = "V6"
+                        },
+                        new
+                        {
+                            EngineTypeId = 2,
+                            EngineTypeName = "V8"
+                        },
+                        new
+                        {
+                            EngineTypeId = 3,
+                            EngineTypeName = "Inline-4"
+                        },
+                        new
+                        {
+                            EngineTypeId = 4,
+                            EngineTypeName = "Electric"
+                        },
+                        new
+                        {
+                            EngineTypeId = 5,
+                            EngineTypeName = "Hybrid"
+                        });
+                });
+
+            modelBuilder.Entity("api.Models.FuelType", b =>
+                {
+                    b.Property<int>("FuelTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FuelTypeId"));
+
+                    b.Property<string>("FuelTypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("FuelTypeId");
+
+                    b.ToTable("FuelTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            FuelTypeId = 1,
+                            FuelTypeName = "Petrol"
+                        },
+                        new
+                        {
+                            FuelTypeId = 2,
+                            FuelTypeName = "Diesel"
+                        },
+                        new
+                        {
+                            FuelTypeId = 3,
+                            FuelTypeName = "Electric"
+                        },
+                        new
+                        {
+                            FuelTypeId = 4,
+                            FuelTypeName = "Hybrid"
+                        },
+                        new
+                        {
+                            FuelTypeId = 5,
+                            FuelTypeName = "Hydrogen"
+                        });
+                });
+
+            modelBuilder.Entity("api.Models.ServicePrice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<int>("ServiceTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VehicleModelId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ServiceTypeId");
+
+                    b.HasIndex("VehicleModelId");
+
+                    b.ToTable("ServicePrices");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Price = 29.99m,
+                            ServiceTypeId = 1,
+                            VehicleModelId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Price = 19.99m,
+                            ServiceTypeId = 2,
+                            VehicleModelId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Price = 31.99m,
+                            ServiceTypeId = 1,
+                            VehicleModelId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Price = 29.99m,
+                            ServiceTypeId = 1,
+                            VehicleModelId = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Price = 99.99m,
+                            ServiceTypeId = 3,
+                            VehicleModelId = 4
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Price = 99.99m,
+                            ServiceTypeId = 3,
+                            VehicleModelId = 9
+                        });
+                });
+
+            modelBuilder.Entity("api.Models.ServiceType", b =>
+                {
+                    b.Property<int>("ServiceTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ServiceTypeId"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ServiceTypeId");
+
+                    b.ToTable("ServiceTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            ServiceTypeId = 1,
+                            Name = "Oil Change"
+                        },
+                        new
+                        {
+                            ServiceTypeId = 2,
+                            Name = "Tire Rotation"
+                        },
+                        new
+                        {
+                            ServiceTypeId = 3,
+                            Name = "Brake Repair"
+                        });
+                });
+
+            modelBuilder.Entity("api.Models.TransmissionType", b =>
+                {
+                    b.Property<int>("TransmissionTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransmissionTypeId"));
+
+                    b.Property<string>("TransmissionTypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("TransmissionTypeId");
+
+                    b.ToTable("TransmissionTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            TransmissionTypeId = 1,
+                            TransmissionTypeName = "Manual"
+                        },
+                        new
+                        {
+                            TransmissionTypeId = 2,
+                            TransmissionTypeName = "Automatic"
+                        },
+                        new
+                        {
+                            TransmissionTypeId = 3,
+                            TransmissionTypeName = "CVT"
+                        },
+                        new
+                        {
+                            TransmissionTypeId = 4,
+                            TransmissionTypeName = "Dual-clutch"
+                        },
+                        new
+                        {
+                            TransmissionTypeId = 5,
+                            TransmissionTypeName = "Semi-automatic"
+                        });
+                });
+
+            modelBuilder.Entity("api.Models.TrimLevel", b =>
+                {
+                    b.Property<int>("TrimLevelId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TrimLevelId"));
+
+                    b.Property<string>("TrimLevelName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("TrimLevelId");
+
+                    b.ToTable("TrimLevels");
+
+                    b.HasData(
+                        new
+                        {
+                            TrimLevelId = 1,
+                            TrimLevelName = "Base"
+                        },
+                        new
+                        {
+                            TrimLevelId = 2,
+                            TrimLevelName = "Sport"
+                        },
+                        new
+                        {
+                            TrimLevelId = 3,
+                            TrimLevelName = "Luxury"
+                        },
+                        new
+                        {
+                            TrimLevelId = 4,
+                            TrimLevelName = "Premium"
+                        },
+                        new
+                        {
+                            TrimLevelId = 5,
+                            TrimLevelName = "Limited"
+                        });
+                });
+
             modelBuilder.Entity("api.Models.UserPasswordHistory", b =>
                 {
                     b.Property<int>("Id")
@@ -333,6 +773,602 @@ namespace api.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("PasswordHistories");
+                });
+
+            modelBuilder.Entity("api.Models.VehicleModel", b =>
+                {
+                    b.Property<int>("VehicleModelId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VehicleModelId"));
+
+                    b.Property<string>("EmissionStandard")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HorsepowerRange")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Make")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MaxTowingCapacity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Model")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TorqueRange")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("VehicleModelId");
+
+                    b.ToTable("VehicleModels");
+
+                    b.HasData(
+                        new
+                        {
+                            VehicleModelId = 1,
+                            EmissionStandard = "Euro 6",
+                            HorsepowerRange = "200-250 HP",
+                            Make = "Toyota",
+                            MaxTowingCapacity = 0,
+                            Model = "Camry",
+                            TorqueRange = "180-220 lb-ft",
+                            Year = 2023
+                        },
+                        new
+                        {
+                            VehicleModelId = 2,
+                            EmissionStandard = "Euro 6",
+                            HorsepowerRange = "168-200 HP",
+                            Make = "Toyota",
+                            MaxTowingCapacity = 0,
+                            Model = "Corolla",
+                            TorqueRange = "151-177 lb-ft",
+                            Year = 2023
+                        },
+                        new
+                        {
+                            VehicleModelId = 3,
+                            EmissionStandard = "BS-VI",
+                            HorsepowerRange = "290-400 HP",
+                            Make = "Ford",
+                            MaxTowingCapacity = 13000,
+                            Model = "F-150",
+                            TorqueRange = "265-400 lb-ft",
+                            Year = 2024
+                        },
+                        new
+                        {
+                            VehicleModelId = 4,
+                            EmissionStandard = "Euro 6",
+                            HorsepowerRange = "450-700 HP",
+                            Make = "Ford",
+                            MaxTowingCapacity = 0,
+                            Model = "Mustang",
+                            TorqueRange = "420-550 lb-ft",
+                            Year = 2024
+                        },
+                        new
+                        {
+                            VehicleModelId = 5,
+                            EmissionStandard = "Zero Emissions",
+                            HorsepowerRange = "670-1020 HP",
+                            Make = "Tesla",
+                            MaxTowingCapacity = 5000,
+                            Model = "Model X",
+                            TorqueRange = "713 lb-ft",
+                            Year = 2024
+                        },
+                        new
+                        {
+                            VehicleModelId = 6,
+                            EmissionStandard = "Zero Emissions",
+                            HorsepowerRange = "258-310 HP",
+                            Make = "Tesla",
+                            MaxTowingCapacity = 1500,
+                            Model = "Model 3",
+                            TorqueRange = "339-347 lb-ft",
+                            Year = 2024
+                        },
+                        new
+                        {
+                            VehicleModelId = 7,
+                            EmissionStandard = "Euro 6",
+                            HorsepowerRange = "150-180 HP",
+                            Make = "Honda",
+                            MaxTowingCapacity = 0,
+                            Model = "Civic",
+                            TorqueRange = "160-177 lb-ft",
+                            Year = 2023
+                        },
+                        new
+                        {
+                            VehicleModelId = 8,
+                            EmissionStandard = "Euro 6",
+                            HorsepowerRange = "190-240 HP",
+                            Make = "Honda",
+                            MaxTowingCapacity = 1500,
+                            Model = "CR-V",
+                            TorqueRange = "177-221 lb-ft",
+                            Year = 2024
+                        },
+                        new
+                        {
+                            VehicleModelId = 9,
+                            EmissionStandard = "Euro 6",
+                            HorsepowerRange = "147-200 HP",
+                            Make = "Hyundai",
+                            MaxTowingCapacity = 0,
+                            Model = "Elantra",
+                            TorqueRange = "139-186 lb-ft",
+                            Year = 2023
+                        },
+                        new
+                        {
+                            VehicleModelId = 10,
+                            EmissionStandard = "Euro 6",
+                            HorsepowerRange = "191-281 HP",
+                            Make = "Hyundai",
+                            MaxTowingCapacity = 5000,
+                            Model = "Santa Fe",
+                            TorqueRange = "185-261 lb-ft",
+                            Year = 2024
+                        },
+                        new
+                        {
+                            VehicleModelId = 11,
+                            EmissionStandard = "Euro 6",
+                            HorsepowerRange = "182-248 HP",
+                            Make = "Nissan",
+                            MaxTowingCapacity = 0,
+                            Model = "Altima",
+                            TorqueRange = "178-236 lb-ft",
+                            Year = 2023
+                        },
+                        new
+                        {
+                            VehicleModelId = 12,
+                            EmissionStandard = "Euro 6",
+                            HorsepowerRange = "170-240 HP",
+                            Make = "Nissan",
+                            MaxTowingCapacity = 1500,
+                            Model = "Rogue",
+                            TorqueRange = "175-221 lb-ft",
+                            Year = 2024
+                        },
+                        new
+                        {
+                            VehicleModelId = 13,
+                            EmissionStandard = "Euro 6",
+                            HorsepowerRange = "182-248 HP",
+                            Make = "Kia",
+                            MaxTowingCapacity = 0,
+                            Model = "Optima",
+                            TorqueRange = "178-236 lb-ft",
+                            Year = 2023
+                        },
+                        new
+                        {
+                            VehicleModelId = 14,
+                            EmissionStandard = "Euro 6",
+                            HorsepowerRange = "191-281 HP",
+                            Make = "Kia",
+                            MaxTowingCapacity = 5000,
+                            Model = "Sorento",
+                            TorqueRange = "185-261 lb-ft",
+                            Year = 2024
+                        },
+                        new
+                        {
+                            VehicleModelId = 15,
+                            EmissionStandard = "Euro 6",
+                            HorsepowerRange = "160-200 HP",
+                            Make = "Chevrolet",
+                            MaxTowingCapacity = 0,
+                            Model = "Malibu",
+                            TorqueRange = "155-184 lb-ft",
+                            Year = 2023
+                        },
+                        new
+                        {
+                            VehicleModelId = 16,
+                            EmissionStandard = "Euro 6",
+                            HorsepowerRange = "355-420 HP",
+                            Make = "Chevrolet",
+                            MaxTowingCapacity = 8900,
+                            Model = "Tahoe",
+                            TorqueRange = "383-460 lb-ft",
+                            Year = 2024
+                        },
+                        new
+                        {
+                            VehicleModelId = 17,
+                            EmissionStandard = "Euro 6",
+                            HorsepowerRange = "182-260 HP",
+                            Make = "Subaru",
+                            MaxTowingCapacity = 3500,
+                            Model = "Outback",
+                            TorqueRange = "176-244 lb-ft",
+                            Year = 2024
+                        },
+                        new
+                        {
+                            VehicleModelId = 18,
+                            EmissionStandard = "Euro 6",
+                            HorsepowerRange = "182-260 HP",
+                            Make = "Subaru",
+                            MaxTowingCapacity = 3500,
+                            Model = "Forester",
+                            TorqueRange = "176-244 lb-ft",
+                            Year = 2024
+                        },
+                        new
+                        {
+                            VehicleModelId = 19,
+                            EmissionStandard = "Euro 6",
+                            HorsepowerRange = "187-250 HP",
+                            Make = "Mazda",
+                            MaxTowingCapacity = 2000,
+                            Model = "CX-5",
+                            TorqueRange = "186-258 lb-ft",
+                            Year = 2024
+                        },
+                        new
+                        {
+                            VehicleModelId = 20,
+                            EmissionStandard = "Euro 6",
+                            HorsepowerRange = "186-227 HP",
+                            Make = "Mazda",
+                            MaxTowingCapacity = 1500,
+                            Model = "3",
+                            TorqueRange = "186-250 lb-ft",
+                            Year = 2023
+                        });
+                });
+
+            modelBuilder.Entity("api.Models.VehicleModelDriveTrain", b =>
+                {
+                    b.Property<int>("VehicleModelId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DriveTrainId")
+                        .HasColumnType("int");
+
+                    b.HasKey("VehicleModelId", "DriveTrainId");
+
+                    b.HasIndex("DriveTrainId");
+
+                    b.ToTable("VehicleModelDriveTrains");
+
+                    b.HasData(
+                        new
+                        {
+                            VehicleModelId = 1,
+                            DriveTrainId = 1
+                        },
+                        new
+                        {
+                            VehicleModelId = 2,
+                            DriveTrainId = 1
+                        },
+                        new
+                        {
+                            VehicleModelId = 3,
+                            DriveTrainId = 4
+                        },
+                        new
+                        {
+                            VehicleModelId = 4,
+                            DriveTrainId = 2
+                        },
+                        new
+                        {
+                            VehicleModelId = 5,
+                            DriveTrainId = 3
+                        },
+                        new
+                        {
+                            VehicleModelId = 6,
+                            DriveTrainId = 3
+                        },
+                        new
+                        {
+                            VehicleModelId = 7,
+                            DriveTrainId = 1
+                        },
+                        new
+                        {
+                            VehicleModelId = 8,
+                            DriveTrainId = 3
+                        },
+                        new
+                        {
+                            VehicleModelId = 9,
+                            DriveTrainId = 1
+                        },
+                        new
+                        {
+                            VehicleModelId = 10,
+                            DriveTrainId = 3
+                        });
+                });
+
+            modelBuilder.Entity("api.Models.VehicleModelEngineType", b =>
+                {
+                    b.Property<int>("VehicleModelId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EngineTypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("VehicleModelId", "EngineTypeId");
+
+                    b.HasIndex("EngineTypeId");
+
+                    b.ToTable("VehicleModelEngineTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            VehicleModelId = 1,
+                            EngineTypeId = 3
+                        },
+                        new
+                        {
+                            VehicleModelId = 2,
+                            EngineTypeId = 3
+                        },
+                        new
+                        {
+                            VehicleModelId = 3,
+                            EngineTypeId = 2
+                        },
+                        new
+                        {
+                            VehicleModelId = 4,
+                            EngineTypeId = 2
+                        },
+                        new
+                        {
+                            VehicleModelId = 5,
+                            EngineTypeId = 4
+                        },
+                        new
+                        {
+                            VehicleModelId = 6,
+                            EngineTypeId = 4
+                        },
+                        new
+                        {
+                            VehicleModelId = 7,
+                            EngineTypeId = 3
+                        },
+                        new
+                        {
+                            VehicleModelId = 8,
+                            EngineTypeId = 5
+                        },
+                        new
+                        {
+                            VehicleModelId = 9,
+                            EngineTypeId = 3
+                        },
+                        new
+                        {
+                            VehicleModelId = 10,
+                            EngineTypeId = 5
+                        });
+                });
+
+            modelBuilder.Entity("api.Models.VehicleModelFuelType", b =>
+                {
+                    b.Property<int>("VehicleModelId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FuelTypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("VehicleModelId", "FuelTypeId");
+
+                    b.HasIndex("FuelTypeId");
+
+                    b.ToTable("VehicleModelFuelTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            VehicleModelId = 1,
+                            FuelTypeId = 1
+                        },
+                        new
+                        {
+                            VehicleModelId = 2,
+                            FuelTypeId = 1
+                        },
+                        new
+                        {
+                            VehicleModelId = 3,
+                            FuelTypeId = 1
+                        },
+                        new
+                        {
+                            VehicleModelId = 4,
+                            FuelTypeId = 1
+                        },
+                        new
+                        {
+                            VehicleModelId = 5,
+                            FuelTypeId = 3
+                        },
+                        new
+                        {
+                            VehicleModelId = 6,
+                            FuelTypeId = 3
+                        },
+                        new
+                        {
+                            VehicleModelId = 7,
+                            FuelTypeId = 1
+                        },
+                        new
+                        {
+                            VehicleModelId = 8,
+                            FuelTypeId = 4
+                        },
+                        new
+                        {
+                            VehicleModelId = 9,
+                            FuelTypeId = 1
+                        },
+                        new
+                        {
+                            VehicleModelId = 10,
+                            FuelTypeId = 4
+                        });
+                });
+
+            modelBuilder.Entity("api.Models.VehicleModelTransmissionType", b =>
+                {
+                    b.Property<int>("VehicleModelId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TransmissionTypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("VehicleModelId", "TransmissionTypeId");
+
+                    b.HasIndex("TransmissionTypeId");
+
+                    b.ToTable("VehicleModelTransmissionTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            VehicleModelId = 1,
+                            TransmissionTypeId = 2
+                        },
+                        new
+                        {
+                            VehicleModelId = 2,
+                            TransmissionTypeId = 3
+                        },
+                        new
+                        {
+                            VehicleModelId = 3,
+                            TransmissionTypeId = 2
+                        },
+                        new
+                        {
+                            VehicleModelId = 4,
+                            TransmissionTypeId = 2
+                        },
+                        new
+                        {
+                            VehicleModelId = 5,
+                            TransmissionTypeId = 4
+                        },
+                        new
+                        {
+                            VehicleModelId = 6,
+                            TransmissionTypeId = 4
+                        },
+                        new
+                        {
+                            VehicleModelId = 7,
+                            TransmissionTypeId = 1
+                        },
+                        new
+                        {
+                            VehicleModelId = 8,
+                            TransmissionTypeId = 2
+                        },
+                        new
+                        {
+                            VehicleModelId = 9,
+                            TransmissionTypeId = 3
+                        },
+                        new
+                        {
+                            VehicleModelId = 10,
+                            TransmissionTypeId = 2
+                        });
+                });
+
+            modelBuilder.Entity("api.Models.VehicleModelTrimLevel", b =>
+                {
+                    b.Property<int>("VehicleModelId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TrimLevelId")
+                        .HasColumnType("int");
+
+                    b.HasKey("VehicleModelId", "TrimLevelId");
+
+                    b.HasIndex("TrimLevelId");
+
+                    b.ToTable("VehicleModelTrimLevels");
+
+                    b.HasData(
+                        new
+                        {
+                            VehicleModelId = 1,
+                            TrimLevelId = 1
+                        },
+                        new
+                        {
+                            VehicleModelId = 2,
+                            TrimLevelId = 2
+                        },
+                        new
+                        {
+                            VehicleModelId = 3,
+                            TrimLevelId = 4
+                        },
+                        new
+                        {
+                            VehicleModelId = 4,
+                            TrimLevelId = 3
+                        },
+                        new
+                        {
+                            VehicleModelId = 5,
+                            TrimLevelId = 5
+                        },
+                        new
+                        {
+                            VehicleModelId = 6,
+                            TrimLevelId = 4
+                        },
+                        new
+                        {
+                            VehicleModelId = 7,
+                            TrimLevelId = 1
+                        },
+                        new
+                        {
+                            VehicleModelId = 8,
+                            TrimLevelId = 3
+                        },
+                        new
+                        {
+                            VehicleModelId = 9,
+                            TrimLevelId = 1
+                        },
+                        new
+                        {
+                            VehicleModelId = 10,
+                            TrimLevelId = 5
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -386,6 +1422,27 @@ namespace api.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("api.Models.Booking", b =>
+                {
+                    b.HasOne("api.Models.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId");
+
+                    b.HasOne("api.Models.ServiceType", null)
+                        .WithMany("Bookings")
+                        .HasForeignKey("ServiceTypeId");
+
+                    b.HasOne("api.Models.VehicleModel", "Vehicle")
+                        .WithMany()
+                        .HasForeignKey("VehicleModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Vehicle");
+                });
+
             modelBuilder.Entity("api.Models.CardDetails", b =>
                 {
                     b.HasOne("api.Models.AppUser", "AppUser")
@@ -395,6 +1452,32 @@ namespace api.Migrations
                         .IsRequired();
 
                     b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("api.Models.Employee", b =>
+                {
+                    b.HasOne("api.Models.ServiceType", null)
+                        .WithMany("Employees")
+                        .HasForeignKey("ServiceTypeId");
+                });
+
+            modelBuilder.Entity("api.Models.ServicePrice", b =>
+                {
+                    b.HasOne("api.Models.ServiceType", "ServiceType")
+                        .WithMany("ServicePrice")
+                        .HasForeignKey("ServiceTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("api.Models.VehicleModel", "VehicleModel")
+                        .WithMany("ServicePrice")
+                        .HasForeignKey("VehicleModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ServiceType");
+
+                    b.Navigation("VehicleModel");
                 });
 
             modelBuilder.Entity("api.Models.UserPasswordHistory", b =>
@@ -408,11 +1491,155 @@ namespace api.Migrations
                     b.Navigation("AppUser");
                 });
 
+            modelBuilder.Entity("api.Models.VehicleModelDriveTrain", b =>
+                {
+                    b.HasOne("api.Models.DriveTrain", "DriveTrain")
+                        .WithMany("VehicleModelDriveTrains")
+                        .HasForeignKey("DriveTrainId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("api.Models.VehicleModel", "VehicleModel")
+                        .WithMany("VehicleModelDriveTrains")
+                        .HasForeignKey("VehicleModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DriveTrain");
+
+                    b.Navigation("VehicleModel");
+                });
+
+            modelBuilder.Entity("api.Models.VehicleModelEngineType", b =>
+                {
+                    b.HasOne("api.Models.EngineType", "EngineType")
+                        .WithMany("VehicleModelEngineTypes")
+                        .HasForeignKey("EngineTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("api.Models.VehicleModel", "VehicleModel")
+                        .WithMany("VehicleModelEngineTypes")
+                        .HasForeignKey("VehicleModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EngineType");
+
+                    b.Navigation("VehicleModel");
+                });
+
+            modelBuilder.Entity("api.Models.VehicleModelFuelType", b =>
+                {
+                    b.HasOne("api.Models.FuelType", "FuelType")
+                        .WithMany("VehicleModelFuelTypes")
+                        .HasForeignKey("FuelTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("api.Models.VehicleModel", "VehicleModel")
+                        .WithMany("VehicleModelFuelTypes")
+                        .HasForeignKey("VehicleModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FuelType");
+
+                    b.Navigation("VehicleModel");
+                });
+
+            modelBuilder.Entity("api.Models.VehicleModelTransmissionType", b =>
+                {
+                    b.HasOne("api.Models.TransmissionType", "TransmissionType")
+                        .WithMany("VehicleModelTransmissionTypes")
+                        .HasForeignKey("TransmissionTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("api.Models.VehicleModel", "VehicleModel")
+                        .WithMany("VehicleModelTransmissionTypes")
+                        .HasForeignKey("VehicleModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TransmissionType");
+
+                    b.Navigation("VehicleModel");
+                });
+
+            modelBuilder.Entity("api.Models.VehicleModelTrimLevel", b =>
+                {
+                    b.HasOne("api.Models.TrimLevel", "TrimLevel")
+                        .WithMany("VehicleModelTrimLevels")
+                        .HasForeignKey("TrimLevelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("api.Models.VehicleModel", "VehicleModel")
+                        .WithMany("VehicleModelTrimLevels")
+                        .HasForeignKey("VehicleModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TrimLevel");
+
+                    b.Navigation("VehicleModel");
+                });
+
             modelBuilder.Entity("api.Models.AppUser", b =>
                 {
                     b.Navigation("Cards");
 
                     b.Navigation("UserPasswordHistories");
+                });
+
+            modelBuilder.Entity("api.Models.DriveTrain", b =>
+                {
+                    b.Navigation("VehicleModelDriveTrains");
+                });
+
+            modelBuilder.Entity("api.Models.EngineType", b =>
+                {
+                    b.Navigation("VehicleModelEngineTypes");
+                });
+
+            modelBuilder.Entity("api.Models.FuelType", b =>
+                {
+                    b.Navigation("VehicleModelFuelTypes");
+                });
+
+            modelBuilder.Entity("api.Models.ServiceType", b =>
+                {
+                    b.Navigation("Bookings");
+
+                    b.Navigation("Employees");
+
+                    b.Navigation("ServicePrice");
+                });
+
+            modelBuilder.Entity("api.Models.TransmissionType", b =>
+                {
+                    b.Navigation("VehicleModelTransmissionTypes");
+                });
+
+            modelBuilder.Entity("api.Models.TrimLevel", b =>
+                {
+                    b.Navigation("VehicleModelTrimLevels");
+                });
+
+            modelBuilder.Entity("api.Models.VehicleModel", b =>
+                {
+                    b.Navigation("ServicePrice");
+
+                    b.Navigation("VehicleModelDriveTrains");
+
+                    b.Navigation("VehicleModelEngineTypes");
+
+                    b.Navigation("VehicleModelFuelTypes");
+
+                    b.Navigation("VehicleModelTransmissionTypes");
+
+                    b.Navigation("VehicleModelTrimLevels");
                 });
 #pragma warning restore 612, 618
         }

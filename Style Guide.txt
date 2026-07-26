@@ -1,0 +1,24 @@
+Fonts {
+	Headings : Orbitron
+	Body : Roboto Slab
+}
+
+Font Sizes{
+	h1 : 2.5rem 	/* 40px */
+	h2 : 2.25rem 	/* 36px */
+	h3 : 2.0rem 	/* 32px */
+	h4 : 1.75rem 	/* 28px */
+	h5 : 1.5rem 	/* 24px */
+	h6 : 1.25rem 	/* 20px */
+	p : 1rem 		/* 16px */
+	small : 0.75rem	/* 12px */
+	tiny : 0.50rem 	/* 08px */
+}
+
+Bottons			| [x]
+Radio Buttons	| [x]
+CheckBoxes		| [x]
+Input Fields 	| [x]
+Textareas		| [x]
+Elevation		| [x]
+
