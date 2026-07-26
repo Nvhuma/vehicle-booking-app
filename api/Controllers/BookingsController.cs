@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize]
+[Authorize] // you need permission to access this controller
 public class BookingsController : ControllerBase
 {
 	private readonly BookingService _bookingService;
