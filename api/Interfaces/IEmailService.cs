@@ -8,7 +8,7 @@ namespace api.Interfaces
 
         Task sendEmailDeleteAsync(string email, string subject, string nameOfUser, string maskedCardNumber, string templateName);
 
-
+        Task SendEmailBookingAsync(string email, string subject, string nameOfUser, string serviceType, DateTime desiredDateTime, string templateName);
         
     }
 }
